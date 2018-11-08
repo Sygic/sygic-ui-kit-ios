@@ -1,7 +1,5 @@
 import CoreGraphics
 import UIKit
-import RxSwift
-import RxCocoa
 
 public class PathProgressView: UIView {
     

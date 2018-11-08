@@ -1,4 +1,4 @@
-import RxSwift
+import UIKit
 
 public extension UIView {
     
@@ -15,14 +15,10 @@ public extension UIView {
         return effectView
     }
     
-    public func addBlurViewWithMapControlsBlurStyle(margin: CGFloat = 0.0, disposedBy disposeBag: DisposeBag) -> UIVisualEffectView? {
+    public func addBlurViewWithMapControlsBlurStyle(margin: CGFloat = 0.0) -> UIVisualEffectView? {
         let effectView = blur(with: nil, style: .light, margin: margin)
         let colorOverlayView = self.colorOverlayView(with: .mapInfoBackground)
-        
-        ColorSchemeManager.sharedInstance.currentColorScheme.asDriver().drive(onNext: { _ in
-            colorOverlayView.backgroundColor = .mapInfoBackground
-        }).disposed(by: disposeBag)
-        
+        colorOverlayView.backgroundColor = .mapInfoBackground
         effectView.contentView.addSubview(colorOverlayView)
         colorOverlayView.coverWholeSuperview()
         return effectView

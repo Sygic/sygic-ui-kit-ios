@@ -1,5 +1,5 @@
 import Foundation
-import RxSwift
+//import RxSwift
 //import SygicNavi
 //import RxSygic
 
@@ -20,11 +20,15 @@ public class ColorSchemeManager: NSObject {
     public static let sharedInstance = ColorSchemeManager()
     
     public var currentColorPalette: ColorPalette = DefaultColorPalette()
-    public let currentColorScheme = Variable<ColorScheme>(.day)
+    public var currentColorScheme: ColorScheme = .day {
+        didSet {
+            // TODO: notify color scheme change
+        }
+    }
     public let brightnessMultiplier: (lighter: CGFloat, darker: CGFloat) = (lighter: 1.25, darker: 0.9)
     public let highlightedNavigationBarButtonAlpha: CGFloat = 0.3
     public var isNight: Bool {
-        return currentColorScheme.value == .night
+        return currentColorScheme == .night
     }
     
     public var colorSchemeSetting: ColorSchemeSetting = .day {
@@ -65,7 +69,7 @@ public class ColorSchemeManager: NSObject {
         self.dayColorPalette = dayColorPalette
         self.nightColorPalette = nightColorPalette
         
-        setNewColorScheme(currentColorScheme.value)
+        setNewColorScheme(currentColorScheme)
     }
     
     // MARK: - Brightness
@@ -119,8 +123,8 @@ public class ColorSchemeManager: NSObject {
     private func setNewColorScheme(_ colorScheme: ColorScheme) {
         setCurrentColorPalette(for: colorScheme)
         
-        if colorScheme != currentColorScheme.value {
-            currentColorScheme.value = colorScheme
+        if colorScheme != currentColorScheme {
+            currentColorScheme = colorScheme
         }
     }
     

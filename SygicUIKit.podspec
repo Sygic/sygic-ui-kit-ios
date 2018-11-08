@@ -30,8 +30,6 @@ TODO: Add long description of the pod here.
 
   s.source_files = 'SygicUIKit/Classes/**/*'
   s.resources = 'SygicKit/Resources/**/*.{xib,ttf,svg,jpg,png}'
-  s.dependency 'RxSwift'
-  s.dependency 'RxCocoa'
   s.frameworks = 'UIKit'
   # s.resource_bundles = {
   #   'SygicUIKit' => ['SygicUIKit/Assets/*.png']

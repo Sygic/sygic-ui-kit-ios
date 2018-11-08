@@ -1,35 +1,15 @@
 import CoreGraphics
 import UIKit
-import RxSwift
-import RxCocoa
-
-public protocol CircularProgressViewDataSource {
-    var progress: Observable<CGFloat?> { get }
-}
 
 public class CircularProgressView: UIView {
-//    MARK: Public properties
-    /// Reactive button of the view
-    public var buttonRx: Reactive<UIButton> {
-        return button.rx
-    }
     
-    /// public override of isHidden property for views internal purposes
-    public override var isHidden: Bool {
-        didSet {
-            setNeedsDisplay()
-            progress == nil || progress == 0.0 ? startInfiniteAnimation() : stopInfiniteAnimation()
-        }
-    }
-
+    public let button = UIButton()
+    
 //    MARK: - Private properties
     private let color = UIColor.action
-    private let button = UIButton()
-    private var disposeBag = DisposeBag()
-    private var viewModel: CircularProgressViewDataSource?
     private let animationKey = "rotationAnimation"
     
-    private var progress: CGFloat? = nil {
+    public var progress: CGFloat? = nil {
         willSet {
             guard var newValue = newValue else { return }
             if !newValue.isLess(than: 1.0) {
@@ -45,7 +25,14 @@ public class CircularProgressView: UIView {
         }
     }
     
-//    MARK: - Public methods
+    /// public override of isHidden property for views internal purposes
+    public override var isHidden: Bool {
+        didSet {
+            setNeedsDisplay()
+            progress == nil || progress == 0.0 ? startInfiniteAnimation() : stopInfiniteAnimation()
+        }
+    }
+    
     /// Regular UIView init
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,17 +43,6 @@ public class CircularProgressView: UIView {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupUI()
-    }
-    
-    /// Use to setup view with its viewModel that conforms CircularProgressViewDataSource protocol
-    public func setup(with viewModel: CircularProgressViewDataSource) {
-        self.disposeBag = DisposeBag()
-        self.viewModel = viewModel
-        
-        viewModel.progress.observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] progress in
-                self?.progress = progress
-            }).disposed(by: disposeBag)
     }
 
     /// Hit test fails whether the view is hidden or point is outside its UIButton
@@ -138,8 +114,5 @@ public class CircularProgressView: UIView {
         guard layer.animation(forKey: animationKey) is CABasicAnimation else { return }
         layer.removeAnimation(forKey: animationKey)
     }
-
-    
-
    
 }

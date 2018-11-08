@@ -1,5 +1,4 @@
 import UIKit
-import RxSwift
 
 @objc public enum ActionButtonStyle: Int {
     /// Primary action.
@@ -98,7 +97,7 @@ public class ActionButton: UIButton {
                 rightIcon.textColor = .textInvert
                 borderView.isHidden = true
                 rightAccessoryView = nil
-                blur = addBlurViewWithMapControlsBlurStyle(disposedBy: disposeBag)
+                blur = addBlurViewWithMapControlsBlurStyle()
             }
             
             borderView.backgroundColor = .iconBackground
@@ -197,7 +196,6 @@ public class ActionButton: UIButton {
     private let backgroundView = FadingHighlightedBackgroundView(frame: .zero)
     private let rightAccessoryPlaceholder = UIView()
     private let borderView = UIView()
-    private let disposeBag = DisposeBag()
     private var blur: UIView?
     private var countdownRoundView: CirclePathCountdownView?
     private var countdownBarView: BarPathCountdownView?
@@ -294,15 +292,10 @@ public class ActionButton: UIButton {
         rightMarginConstraint?.constant = -insets.right
         setNeedsLayout()
     }
-
+    
     // MARK: - Default UI
     
     private func createDefaultUI() {
-        ColorSchemeManager.sharedInstance.currentColorScheme.asDriver()
-            .drive(onNext: { [unowned self] _ in
-                self.style = self.style
-            }).disposed(by: disposeBag)
-        
         setupBorder()
         setupBackgroundView()
         rightIcon.font = SygicFonts.with(SygicFonts.iconFont, size: rightIconFontSize)
