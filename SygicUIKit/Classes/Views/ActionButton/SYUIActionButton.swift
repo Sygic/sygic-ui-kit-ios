@@ -1,6 +1,21 @@
 import UIKit
 
-@objc public enum ActionButtonStyle: Int {
+public protocol SYUIActionButtonProperties {
+    var title: String? { get }
+    var subtitle: String? { get }
+    var icon: String? { get }
+    var style: SYUIActionButtonStyle { get }
+    var height: CGFloat { get }
+    var titleSize: CGFloat? { get }
+    var subtitleSize: CGFloat? { get }
+    var iconSize: CGFloat { get }
+    var iconAlignment: NSTextAlignment { get }
+    var isEnabled: Bool { get }
+    var countdown: TimeInterval? { get }
+    var accessibilityIdentifier: String? { get }
+}
+
+@objc public enum SYUIActionButtonStyle: Int {
     /// Primary action.
     case primary
     /// Secondary action.
@@ -17,7 +32,7 @@ import UIKit
     case alert
 }
 
-public enum ActionButtonSize: CGFloat {
+public enum SYUIActionButtonSize: CGFloat {
     case normal = 56.0
     case compact = 40.0
     
@@ -33,6 +48,24 @@ public class SYUIActionButton: UIButton {
     public var title = UILabel()
     public var subtitle = UILabel()
     public var rightIcon = UILabel()
+    
+    private var viewModel: SYUIActionButtonProperties?
+    private var originalBackgroundColor: UIColor?
+    private var leftMarginConstraint: NSLayoutConstraint?
+    private var rightMarginConstraint: NSLayoutConstraint?
+    private var iconCenterXConstraint: NSLayoutConstraint?
+    private var heightConstraint: NSLayoutConstraint?
+    private var widthConstraint: NSLayoutConstraint?
+    private var rightIconFontSize: CGFloat = 24.0
+    private let backgroundView = FadingHighlightedBackgroundView(frame: .zero)
+    private let rightAccessoryPlaceholder = UIView()
+    private let borderView = UIView()
+    private var blur: UIView?
+    private var countdownRoundView: CirclePathCountdownView?
+    private var countdownBarView: BarPathCountdownView?
+    private let stackView = UIStackView()
+    private let labelsStackView = UIStackView()
+    
     public var countdown: TimeInterval? = nil {
         didSet {
             addCountdownViewsIfNeeded()
@@ -55,7 +88,7 @@ public class SYUIActionButton: UIButton {
         }
     }
     
-    public var style = ActionButtonStyle.primary {
+    public var style = SYUIActionButtonStyle.primary {
         didSet {
             blur?.removeFromSuperview()
             var textColor: UIColor = .textInvert
@@ -185,23 +218,6 @@ public class SYUIActionButton: UIButton {
         }
     }
     
-    private var viewModel: ActionButtonViewModel?
-    private var originalBackgroundColor: UIColor?
-    private var leftMarginConstraint: NSLayoutConstraint?
-    private var rightMarginConstraint: NSLayoutConstraint?
-    private var iconCenterXConstraint: NSLayoutConstraint?
-    private var heightConstraint: NSLayoutConstraint?
-    private var widthConstraint: NSLayoutConstraint?
-    private var rightIconFontSize: CGFloat = 24.0
-    private let backgroundView = FadingHighlightedBackgroundView(frame: .zero)
-    private let rightAccessoryPlaceholder = UIView()
-    private let borderView = UIView()
-    private var blur: UIView?
-    private var countdownRoundView: CirclePathCountdownView?
-    private var countdownBarView: BarPathCountdownView?
-    private let stackView = UIStackView()
-    private let labelsStackView = UIStackView()
-    
     // MARK: - Overrides
     
     override public init(frame: CGRect) {
@@ -257,7 +273,7 @@ public class SYUIActionButton: UIButton {
     
     // MARK: - Public
     
-    public func setup(with viewModel: ActionButtonViewModel) {
+    public func setup(with viewModel: SYUIActionButtonProperties) {
         self.viewModel = viewModel
         
         title.text = viewModel.title
@@ -362,7 +378,7 @@ public class SYUIActionButton: UIButton {
         borderView.coverWholeSuperview(withMargin: -1.0)
     }
     
-    private func setShadow(for style: ActionButtonStyle) {
+    private func setShadow(for style: SYUIActionButtonStyle) {
         switch style {
         case .plain, .loading:
             layer.shadowOpacity = 0.0
@@ -384,12 +400,12 @@ public class SYUIActionButton: UIButton {
         }
     }
     
-    private func setTitleLabelFont(for style: ActionButtonStyle) {
+    private func setTitleLabelFont(for style: SYUIActionButtonStyle) {
         let titleSize = viewModel?.titleSize ?? SygicFontSize.heading
         title.font = SygicFonts.with(SygicFonts.semiBold, size: titleSize)
     }
     
-    private func setSubtitleLabelFont(for style: ActionButtonStyle) {
+    private func setSubtitleLabelFont(for style: SYUIActionButtonStyle) {
         let subtitleSize = viewModel?.subtitleSize ?? SygicFontSize.body
         subtitle.font = SygicFonts.with(SygicFonts.semiBold, size: subtitleSize)
     }

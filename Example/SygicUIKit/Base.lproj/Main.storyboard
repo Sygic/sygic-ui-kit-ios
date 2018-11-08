@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Sygic UI Kit-->
         <scene sceneID="nyC-BM-fUt">
             <objects>
                 <tableViewController id="zHm-mg-Ybn" customClass="RootTableViewController" customModule="SygicUIKit_Example" customModuleProvider="target" sceneMemberID="viewController">
@@ -41,7 +41,7 @@
                             <outlet property="delegate" destination="zHm-mg-Ybn" id="i9z-ZK-EJ6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="xcb-zb-Odw"/>
+                    <navigationItem key="navigationItem" title="Sygic UI Kit" id="xcb-zb-Odw"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zDQ-pg-lHR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

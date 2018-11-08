@@ -1,4 +1,4 @@
-public struct ConstantsUI {
+public struct SYUIConstants {
     /**
      Duration of map properties animation (lock to vehicle...)
      */

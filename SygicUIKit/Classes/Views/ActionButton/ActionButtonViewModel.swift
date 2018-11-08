@@ -1,10 +1,10 @@
 import Foundation
 
-public struct ActionButtonViewModel {
+public struct ActionButtonViewModel: SYUIActionButtonProperties {
     public var title: String?
     public var subtitle: String?
     public var icon: String?
-    public var style: ActionButtonStyle
+    public var style: SYUIActionButtonStyle
     public var height: CGFloat
     public var titleSize: CGFloat?
     public var subtitleSize: CGFloat?
@@ -17,8 +17,8 @@ public struct ActionButtonViewModel {
     public init(title: String? = nil,
                 subtitle: String? = nil,
                 icon: String? = nil,
-                style: ActionButtonStyle = .primary,
-                height: CGFloat = ActionButtonSize.normal.height,
+                style: SYUIActionButtonStyle = .primary,
+                height: CGFloat = SYUIActionButtonSize.normal.height,
                 titleSize: CGFloat? = nil,
                 subtitleSize: CGFloat? = nil,
                 iconSize: CGFloat = 24.0,

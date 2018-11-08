@@ -82,7 +82,7 @@ class ButtonTestViewController: UIViewController {
     private var primaryButtonViewModel: ActionButtonViewModel {
         let icon = ""
         let title = "primary"
-        let style = ActionButtonStyle.primary
+        let style = SYUIActionButtonStyle.primary
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -93,7 +93,7 @@ class ButtonTestViewController: UIViewController {
         let icon = ""
         let title = "primary"
         let subtitle = "Subtitle"
-        let style = ActionButtonStyle.primary
+        let style = SYUIActionButtonStyle.primary
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, subtitle: subtitle, icon: icon, style: style, isEnabled: isEnabled)
@@ -103,7 +103,7 @@ class ButtonTestViewController: UIViewController {
     private var secondaryButtonViewModel: ActionButtonViewModel {
         let icon = ""
         let title = "secondary"
-        let style = ActionButtonStyle.secondary
+        let style = SYUIActionButtonStyle.secondary
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -113,7 +113,7 @@ class ButtonTestViewController: UIViewController {
     private var primaryButtonViewModel2: ActionButtonViewModel {
         let icon = "K"//"K"//SygicIcon.directionsAction
         let title = "Get directions Get directions"
-        let style = ActionButtonStyle.primary
+        let style = SYUIActionButtonStyle.primary
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -123,7 +123,7 @@ class ButtonTestViewController: UIViewController {
     private var secondaryButtonViewModel2: ActionButtonViewModel {
         let icon = "K"//"K"//SygicIcon.pinPlace
         let title = "Add waypoint"
-        let style = ActionButtonStyle.secondary
+        let style = SYUIActionButtonStyle.secondary
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -133,7 +133,7 @@ class ButtonTestViewController: UIViewController {
     private var blurredButtonViewModel: ActionButtonViewModel {
         let icon = "K"//SygicIcon.close
         let title = ""
-        let style = ActionButtonStyle.blurred
+        let style = SYUIActionButtonStyle.blurred
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -143,7 +143,7 @@ class ButtonTestViewController: UIViewController {
     private var primaryButtonViewModel3: ActionButtonViewModel {
         let icon = "K"//SygicIcon.directionsAction
         let title = "Done"
-        let style = ActionButtonStyle.primary
+        let style = SYUIActionButtonStyle.primary
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, height: 40, isEnabled: isEnabled)
@@ -153,7 +153,7 @@ class ButtonTestViewController: UIViewController {
     private var secondaryButtonViewModel3: ActionButtonViewModel {
         let icon = "K"//SygicIcon.pinPlace
         let title = "Add waypoint"
-        let style = ActionButtonStyle.secondary
+        let style = SYUIActionButtonStyle.secondary
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, height: 40, isEnabled: isEnabled)
@@ -163,7 +163,7 @@ class ButtonTestViewController: UIViewController {
     private var primaryButtonViewModel4: ActionButtonViewModel {
         let icon = ""
         let title = "Label"
-        let style = ActionButtonStyle.primary
+        let style = SYUIActionButtonStyle.primary
         let isEnabled = false
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -173,7 +173,7 @@ class ButtonTestViewController: UIViewController {
     private var secondaryButtonViewModel4: ActionButtonViewModel {
         let icon = "K"//SygicIcon.directionsAction
         let title = "Label"
-        let style = ActionButtonStyle.secondary
+        let style = SYUIActionButtonStyle.secondary
         let isEnabled = false
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -183,7 +183,7 @@ class ButtonTestViewController: UIViewController {
     private var loadingButtonViewModel: ActionButtonViewModel {
         let icon = ""
         let title = "Calculating route"
-        let style = ActionButtonStyle.loading
+        let style = SYUIActionButtonStyle.loading
         let isEnabled = false
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -193,7 +193,7 @@ class ButtonTestViewController: UIViewController {
     private var primaryButtonViewModel5: ActionButtonViewModel {
         let icon = "K"//SygicIcon.directionsAction
         let title = ""
-        let style = ActionButtonStyle.primary
+        let style = SYUIActionButtonStyle.primary
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -203,7 +203,7 @@ class ButtonTestViewController: UIViewController {
     private var secondaryButtonViewModel5: ActionButtonViewModel {
         let icon = "K"//SygicIcon.directionsAction
         let title = ""
-        let style = ActionButtonStyle.secondary
+        let style = SYUIActionButtonStyle.secondary
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -213,7 +213,7 @@ class ButtonTestViewController: UIViewController {
     private var primaryButtonViewModel6: ActionButtonViewModel {
         let icon = ""
         let title = "Error"
-        let style = ActionButtonStyle.error
+        let style = SYUIActionButtonStyle.error
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -223,7 +223,7 @@ class ButtonTestViewController: UIViewController {
     private var secondaryButtonViewModel6: ActionButtonViewModel {
         let icon = ""
         let title = "Alert"
-        let style = ActionButtonStyle.alert
+        let style = SYUIActionButtonStyle.alert
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
@@ -233,7 +233,7 @@ class ButtonTestViewController: UIViewController {
     private var progressRoundButtonViewModel: ActionButtonViewModel {
         let icon = "K"//"K"//SygicIcon.close
         let title = ""
-        let style = ActionButtonStyle.secondary
+        let style = SYUIActionButtonStyle.secondary
         let isEnabled = true
         let duration = 9.0
 
@@ -245,7 +245,7 @@ class ButtonTestViewController: UIViewController {
     private var primaryProgressBarButtonViewModel: ActionButtonViewModel {
         let icon = ""
         let title = "Start"
-        let style = ActionButtonStyle.primary
+        let style = SYUIActionButtonStyle.primary
         let isEnabled = true
         let duration = 9.0
 
@@ -256,7 +256,7 @@ class ButtonTestViewController: UIViewController {
     private var secondaryProgressBarButtonViewModel: ActionButtonViewModel {
         let icon = ""
         let title = "Resume"
-        let style = ActionButtonStyle.secondary
+        let style = SYUIActionButtonStyle.secondary
         let isEnabled = true
         let duration = 9.0
 
@@ -267,7 +267,7 @@ class ButtonTestViewController: UIViewController {
     private var plainButtonViewModel: ActionButtonViewModel {
         let icon = ""
         let title = "Forgot password"
-        let style = ActionButtonStyle.plain
+        let style = SYUIActionButtonStyle.plain
         let isEnabled = true
 
         let buttonViewModel = ActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)

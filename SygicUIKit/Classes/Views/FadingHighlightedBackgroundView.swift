@@ -15,7 +15,7 @@ public class FadingHighlightedBackgroundView: UIView {
     public func showHighlight(_ show: Bool, animated: Bool = true) {
         let color = show ? highlightColor : .clear
         if animated {
-            UIView.animate(withDuration: ConstantsUI.highlightDuration) {
+            UIView.animate(withDuration: SYUIConstants.highlightDuration) {
                 self.backgroundColor = color
             }
         } else {
