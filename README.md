@@ -1,10 +1,5 @@
 # SygicUIKit
 
-[![CI Status](https://img.shields.io/travis/Jakub Cali­k/SygicUIKit.svg?style=flat)](https://travis-ci.org/Jakub Cali­k/SygicUIKit)
-[![Version](https://img.shields.io/cocoapods/v/SygicUIKit.svg?style=flat)](https://cocoapods.org/pods/SygicUIKit)
-[![License](https://img.shields.io/cocoapods/l/SygicUIKit.svg?style=flat)](https://cocoapods.org/pods/SygicUIKit)
-[![Platform](https://img.shields.io/cocoapods/p/SygicUIKit.svg?style=flat)](https://cocoapods.org/pods/SygicUIKit)
-
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
@@ -22,7 +17,7 @@ pod 'SygicUIKit'
 
 ## Author
 
-Jakub Cali­k, jcalik@sygic.com
+Sygic a.s., info@sygic.com
 
 ## License
 
