@@ -1,7 +1,7 @@
 import UIKit
 
 public protocol ActionButtonsDelegate: class {
-    func actionButtonPressed(_ button:ActionButton, at index:Int)
+    func actionButtonPressed(_ button:SYUIActionButton, at index:Int)
 }
 
 public class ActionButtonsView: UIView {
@@ -9,9 +9,9 @@ public class ActionButtonsView: UIView {
     public weak var delegate: ActionButtonsDelegate?
     public private(set) var buttonsStack = UIStackView()
     
-    public var buttons: [ActionButton] {
-        let buttons = buttonsStack.arrangedSubviews.filter { $0 is ActionButton } as? [ActionButton]
-        return buttons ?? [ActionButton]()
+    public var buttons: [SYUIActionButton] {
+        let buttons = buttonsStack.arrangedSubviews.filter { $0 is SYUIActionButton } as? [SYUIActionButton]
+        return buttons ?? [SYUIActionButton]()
     }
     
     private var topConstraint: NSLayoutConstraint?
@@ -58,15 +58,15 @@ public class ActionButtonsView: UIView {
         superview?.layoutIfNeeded()
     }
     
-    private func actionButton(with viewModel: ActionButtonViewModel) -> ActionButton {
-        let button = ActionButton()
+    private func actionButton(with viewModel: ActionButtonViewModel) -> SYUIActionButton {
+        let button = SYUIActionButton()
         button.setup(with: viewModel)
         button.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
         button.accessibilityIdentifier = viewModel.accessibilityIdentifier ?? "actionButton"
         return button
     }
     
-    @objc private func buttonPressed(sender:ActionButton) {
+    @objc private func buttonPressed(sender:SYUIActionButton) {
         if let index = buttonsStack.arrangedSubviews.index(of: sender) {
             delegate?.actionButtonPressed(sender, at: index)
         }

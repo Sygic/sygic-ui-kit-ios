@@ -27,7 +27,7 @@ public enum ActionButtonSize: CGFloat {
 }
 
 ///General purpose action button. Configurable with `ActionButtonViewModel`.
-public class ActionButton: UIButton {
+public class SYUIActionButton: UIButton {
     
     public var action: (() -> Void)?
     public var title = UILabel()
@@ -434,7 +434,7 @@ public class ActionButton: UIButton {
 }
 
 // MARK: - Optional subviews
-extension ActionButton {
+extension SYUIActionButton {
     
     public func setupCountdownActivityIndicator(size: CGSize) -> InfiniteCountdownActivityIndicator {
         let activityIndicator = InfiniteCountdownActivityIndicator()
