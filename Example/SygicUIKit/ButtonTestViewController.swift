@@ -111,7 +111,7 @@ class ButtonTestViewController: UIViewController {
     }
 
     private var primaryButtonViewModel2: ActionButtonViewModel {
-        let icon = "K"//"K"//SygicIcon.directionsAction
+        let icon = SygicIcon.directionsAction
         let title = "Get directions Get directions"
         let style = SYUIActionButtonStyle.primary
         let isEnabled = true
@@ -121,7 +121,7 @@ class ButtonTestViewController: UIViewController {
     }
 
     private var secondaryButtonViewModel2: ActionButtonViewModel {
-        let icon = "K"//"K"//SygicIcon.pinPlace
+        let icon = SygicIcon.pinPlace
         let title = "Add waypoint"
         let style = SYUIActionButtonStyle.secondary
         let isEnabled = true
@@ -131,7 +131,7 @@ class ButtonTestViewController: UIViewController {
     }
 
     private var blurredButtonViewModel: ActionButtonViewModel {
-        let icon = "K"//SygicIcon.close
+        let icon = SygicIcon.close
         let title = ""
         let style = SYUIActionButtonStyle.blurred
         let isEnabled = true
@@ -141,7 +141,7 @@ class ButtonTestViewController: UIViewController {
     }
 
     private var primaryButtonViewModel3: ActionButtonViewModel {
-        let icon = "K"//SygicIcon.directionsAction
+        let icon = SygicIcon.directionsAction
         let title = "Done"
         let style = SYUIActionButtonStyle.primary
         let isEnabled = true
@@ -151,7 +151,7 @@ class ButtonTestViewController: UIViewController {
     }
 
     private var secondaryButtonViewModel3: ActionButtonViewModel {
-        let icon = "K"//SygicIcon.pinPlace
+        let icon = SygicIcon.pinPlace
         let title = "Add waypoint"
         let style = SYUIActionButtonStyle.secondary
         let isEnabled = true
@@ -171,7 +171,7 @@ class ButtonTestViewController: UIViewController {
     }
 
     private var secondaryButtonViewModel4: ActionButtonViewModel {
-        let icon = "K"//SygicIcon.directionsAction
+        let icon = SygicIcon.directionsAction
         let title = "Label"
         let style = SYUIActionButtonStyle.secondary
         let isEnabled = false
@@ -191,7 +191,7 @@ class ButtonTestViewController: UIViewController {
     }
 
     private var primaryButtonViewModel5: ActionButtonViewModel {
-        let icon = "K"//SygicIcon.directionsAction
+        let icon = SygicIcon.directionsAction
         let title = ""
         let style = SYUIActionButtonStyle.primary
         let isEnabled = true
@@ -201,7 +201,7 @@ class ButtonTestViewController: UIViewController {
     }
 
     private var secondaryButtonViewModel5: ActionButtonViewModel {
-        let icon = "K"//SygicIcon.directionsAction
+        let icon = SygicIcon.directionsAction
         let title = ""
         let style = SYUIActionButtonStyle.secondary
         let isEnabled = true
@@ -231,7 +231,7 @@ class ButtonTestViewController: UIViewController {
     }
 
     private var progressRoundButtonViewModel: ActionButtonViewModel {
-        let icon = "K"//"K"//SygicIcon.close
+        let icon = SygicIcon.close
         let title = ""
         let style = SYUIActionButtonStyle.secondary
         let isEnabled = true
