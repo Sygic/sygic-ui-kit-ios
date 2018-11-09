@@ -12,4 +12,3 @@ fastlane/report.xml
 .scannerwork/
 sonar-reports/
 *.bak
-SygicUIKit/Classes/SYUIConstants.swift
