@@ -3,7 +3,7 @@ import UIKit
 class RootTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -13,8 +13,10 @@ class RootTableViewController: UITableViewController {
             cell.textLabel?.text = "Action buttons"
 //        case 1:
 //            cell.textLabel?.text = "Compass"
+        case 1:
+            cell.textLabel?.text = "Bottom sheet"
         default:
-            assertionFailure("unhandled row")
+            break
         }
         return cell
     }
@@ -25,8 +27,10 @@ class RootTableViewController: UITableViewController {
             navigationController?.pushViewController(ButtonTestViewController(), animated: true)
 //        case 1:
 //            compass demonstration
+        case 1:
+            navigationController?.pushViewController(BottomSheetTestViewController(), animated: true)
         default:
-            assertionFailure("unhandled row")
+            break
         }
     }
 }
