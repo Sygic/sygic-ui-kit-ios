@@ -1,30 +1,44 @@
 import UIKit
 import QuartzCore
 
-public protocol SYUIPinViewProperties {
-    var icon: String? { get }
-    var color: UIColor? { get }
-    var isSelected: Bool { get }
-    var animated: Bool { get }
-}
-
 public protocol SYUIPinViewDelegate: class {
     func pinStateHasChanged(_ pin: SYUIPinView, isSelected: Bool)
     func pinWasTapped(_ pin: SYUIPinView)
 }
 
 public class SYUIPinView: UIView {
-
+    public var viewModel = SYUIPinViewViewModel() {
+        didSet {
+            if let iconString = viewModel.icon, iconString.isLetterAtoZ, !iconView.isKind(of: SYUIPinViewLetter.self) {
+                iconView.removeFromSuperview()
+                iconView = SYUIPinViewLetter()
+                addIconView()
+            }
+            
+            if viewModel.icon != oldValue.icon {
+                iconView.icon = viewModel.icon
+            }
+            
+            if viewModel.color != oldValue.color {
+                backgroundView.pinColor = viewModel.color
+                iconView.iconColor = viewModel.color
+            }
+            
+            if viewModel.isSelected != oldValue.isSelected {
+                setSelected(viewModel.isSelected, animated: viewModel.animated)
+            }
+        }
+    }
+    
     private static let pinSize = CGSize(width: 48.0, height: 48.0)
     
     private var backgroundView = SYUIPinViewBackground()
     private var iconView = SYUIPinViewIcon()
     private var actionButton = UIButton()
-    private var viewModel: SYUIPinViewProperties?
     
     override public var frame: CGRect {
         get {
-            if let _ = self.viewModel?.isSelected {
+            if self.viewModel.isSelected {
                 var selectedFrame = backgroundView.frame.union(iconView.frame)
                 selectedFrame.origin = CGPoint(x: super.frame.origin.x + selectedFrame.origin.x, y: super.frame.origin.y + selectedFrame.origin.y)
                 
@@ -65,22 +79,6 @@ public class SYUIPinView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setup(with viewModel: SYUIPinViewProperties) {
-        self.viewModel = viewModel
-        
-        if let iconString = viewModel.icon, iconString.isLetterAtoZ, !iconView.isKind(of: SYUIPinViewLetter.self) {
-            iconView.removeFromSuperview()
-            iconView = SYUIPinViewLetter()
-            addIconView()
-        }
-        
-        iconView.icon = viewModel.icon
-        backgroundView.pinColor = viewModel.color
-        iconView.iconColor = viewModel.color
-        
-        setSelected(viewModel.isSelected, animated: viewModel.animated)
-    }
-    
     private func addIconView() {
         iconView.center = CGPoint(x: bounds.width/2.0, y: bounds.height/2.0)
         addSubview(iconView)
@@ -99,7 +97,7 @@ public class SYUIPinView: UIView {
     // MARK: - Selection handling
 
     override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let _ = self.viewModel?.isSelected, backgroundView.frame.contains(point) {
+        if self.viewModel.isSelected, backgroundView.frame.contains(point) {
             return actionButton
         }
         

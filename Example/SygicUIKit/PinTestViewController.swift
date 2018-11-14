@@ -41,27 +41,38 @@ class PinTestViewController: UIViewController {
     
     private func addPins() {
         let (cont1, pin1) = createPinView()
-        pin1.setup(with: SYUIPinViewViewModel(icon: SygicIcon.accomodation, color: .red, selected: false))
+        pin1.viewModel = SYUIPinViewViewModel(icon: SygicIcon.accomodation, color: .red, selected: false, animated: true)
         pinStack.addArrangedSubview(cont1)
+        pin1.delegate = self
         
         let (cont2, pin2) = createPinView()
-        pin2.setup(with: SYUIPinViewViewModel(icon: SygicIcon.restaurant, color: .blue, selected: true))
+        pin2.viewModel = SYUIPinViewViewModel(icon: SygicIcon.restaurant, color: .blue, selected: true, animated: false)
         pinStack.addArrangedSubview(cont2)
-        
-        var selected = true
-        
+        pin2.delegate = self
+
         let (cont3, pin3) = createPinView()
-        pin3.setup(with: SYUIPinViewViewModel(icon: SygicIcon.stationPetrol, color: .gray, selected: selected, animated: true))
+        pin3.viewModel = SYUIPinViewViewModel(icon: SygicIcon.stationPetrol, color: .gray, selected: true, animated: true)
         pinStack.addArrangedSubview(cont3)
-        
+
         let (cont4, pin4) = createPinView()
-        pin4.setup(with: SYUIPinViewViewModel(icon: SygicIcon.restingArea, color: .brown, selected: selected, animated: false))
+        pin4.viewModel = SYUIPinViewViewModel(icon: SygicIcon.restingArea, color: .brown, selected: true, animated: false)
         pinStack.addArrangedSubview(cont4)
-        
+
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (t: Timer) in
-            selected = !selected
-            pin3.setup(with: SYUIPinViewViewModel(icon: SygicIcon.stationPetrol, color: .gray, selected: selected, animated: true))
-            pin4.setup(with: SYUIPinViewViewModel(icon: SygicIcon.restingArea, color: .brown, selected: selected, animated: false))
+            pin3.viewModel.isSelected = !pin3.viewModel.isSelected
+            pin4.viewModel.isSelected = !pin4.viewModel.isSelected
         })
     }
 }
+
+// MARK: - SYUIPinViewDelegate
+extension PinTestViewController : SYUIPinViewDelegate {
+    func pinWasTapped(_ pin: SYUIPinView) {
+        pin.viewModel.isSelected = !pin.viewModel.isSelected
+    }
+    
+    func pinStateHasChanged(_ pin: SYUIPinView, isSelected: Bool) {
+        
+    }
+}
+
