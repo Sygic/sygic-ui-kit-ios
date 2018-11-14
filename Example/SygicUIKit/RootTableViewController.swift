@@ -3,7 +3,7 @@ import UIKit
 class RootTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -15,6 +15,8 @@ class RootTableViewController: UITableViewController {
             cell.textLabel?.text = "Bottom sheet"
         case 2:
             cell.textLabel?.text = "Pin"
+        case 3:
+            cell.textLabel?.text = "Compass"
         default:
             break
         }
@@ -29,6 +31,8 @@ class RootTableViewController: UITableViewController {
             navigationController?.pushViewController(BottomSheetTestViewController(), animated: true)
         case 2:
             navigationController?.pushViewController(PinTestViewController(), animated: true)
+        case 3:
+            navigationController?.pushViewController(CompassTestViewController(), animated: true)
         default:
             break
         }

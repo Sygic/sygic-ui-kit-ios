@@ -16,6 +16,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		CC9742C2219C49EF009C8AB7 /* CompassTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9742C1219C49EF009C8AB7 /* CompassTestViewController.swift */; };
 		CCA40B16219ABAC900514067 /* PinTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA40B15219ABAC900514067 /* PinTestViewController.swift */; };
 		D8AC0A26E158D57223434FDF /* Pods_SygicUIKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13020C89EA263BA493961572 /* Pods_SygicUIKit_Example.framework */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,7 @@
 		639ECD697B9462E043315025 /* Pods-SygicUIKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicUIKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicUIKit_Tests/Pods-SygicUIKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		7E9EE2FD125B20E2C21310EB /* Pods_SygicUIKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicUIKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7220A5351A522CF27A8A98 /* Pods-SygicUIKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicUIKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SygicUIKit_Example/Pods-SygicUIKit_Example.release.xcconfig"; sourceTree = "<group>"; };
+		CC9742C1219C49EF009C8AB7 /* CompassTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassTestViewController.swift; sourceTree = "<group>"; };
 		CCA40B15219ABAC900514067 /* PinTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinTestViewController.swift; sourceTree = "<group>"; };
 		DCADC361F153C67071F87533 /* Pods-SygicUIKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicUIKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SygicUIKit_Tests/Pods-SygicUIKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		EA4C2EBD1B15C57A30D861ED /* Pods-SygicUIKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SygicUIKit_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SygicUIKit_Example/Pods-SygicUIKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				58A9636D21947D4E001015CC /* RootTableViewController.swift */,
 				58A963742195D70D001015CC /* BottomSheetTestViewController.swift */,
 				58A9636F219480A9001015CC /* ButtonTestViewController.swift */,
+				CC9742C1219C49EF009C8AB7 /* CompassTestViewController.swift */,
 				CCA40B15219ABAC900514067 /* PinTestViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
@@ -373,6 +376,7 @@
 				58A96370219480A9001015CC /* ButtonTestViewController.swift in Sources */,
 				58A9636E21947D4E001015CC /* RootTableViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				CC9742C2219C49EF009C8AB7 /* CompassTestViewController.swift in Sources */,
 				CCA40B16219ABAC900514067 /* PinTestViewController.swift in Sources */,
 				58A963752195D70D001015CC /* BottomSheetTestViewController.swift in Sources */,
 			);
