@@ -1,13 +1,20 @@
 import UIKit
 import QuartzCore
 
+public protocol SYUIPinViewProperties {
+    var icon: String? { get set }
+    var color: UIColor? { get set }
+    var isSelected: Bool { get set }
+    var animated: Bool { get set}
+}
+
 public protocol SYUIPinViewDelegate: class {
     func pinStateHasChanged(_ pin: SYUIPinView, isSelected: Bool)
     func pinWasTapped(_ pin: SYUIPinView)
 }
 
 public class SYUIPinView: UIView {
-    public var viewModel = SYUIPinViewViewModel() {
+    public var viewModel: SYUIPinViewProperties! {
         didSet {
             if let iconString = viewModel.icon, iconString.isLetterAtoZ, !iconView.isKind(of: SYUIPinViewLetter.self) {
                 iconView.removeFromSuperview()
@@ -38,7 +45,7 @@ public class SYUIPinView: UIView {
     
     override public var frame: CGRect {
         get {
-            if self.viewModel.isSelected {
+            if let model = self.viewModel, model.isSelected {
                 var selectedFrame = backgroundView.frame.union(iconView.frame)
                 selectedFrame.origin = CGPoint(x: super.frame.origin.x + selectedFrame.origin.x, y: super.frame.origin.y + selectedFrame.origin.y)
                 
@@ -73,6 +80,7 @@ public class SYUIPinView: UIView {
         addSubview(actionButton)
         
         backgroundView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+        viewModel = SYUIPinViewViewModel()
     }
     
     required public init?(coder aDecoder: NSCoder) {
