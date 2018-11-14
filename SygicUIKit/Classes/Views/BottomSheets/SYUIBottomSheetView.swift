@@ -10,10 +10,11 @@ public protocol BottomSheetViewDelegate: class {
 }
 
 public extension BottomSheetViewDelegate {
-    func bottomSheetDidSwipe(_ bottomSheetView: SYUIBottomSheetView, withDelta delta: CGFloat, toOffset offset: CGFloat) {}
-    func bottomSheetWillAnimate(_ bottomSheetView: SYUIBottomSheetView, toOffset offset: CGFloat, withDuration duration: TimeInterval) {}
+    func bottomSheetDidSwipe(_ bottomSheetView: SYUIBottomSheetView, with delta: CGFloat, to offset: CGFloat) {}
+    func bottomSheetWillAnimate(_ bottomSheetView: SYUIBottomSheetView, to offset: CGFloat, with duration: TimeInterval) {}
     func bottomSheetWillAppear(_ bottomSheetView: SYUIBottomSheetView) {}
     func bottomSheetWillDisappear(_ bottomSheetView: SYUIBottomSheetView) {}
+    func bottomSheetDidSwipeOut(_ bottomSheetView: SYUIBottomSheetView) {}
     func bottomSheetDidAnimate(_ bottomSheetView: SYUIBottomSheetView, to offset: CGFloat) {}
 }
 
