@@ -59,8 +59,13 @@ class PinTestViewController: UIViewController {
         pinStack.addArrangedSubview(cont4)
 
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (t: Timer) in
-            pin3.viewModel.isSelected = !pin3.viewModel.isSelected
-            pin4.viewModel.isSelected = !pin4.viewModel.isSelected
+            var newModel3 = SYUIPinViewViewModel(with: pin3.viewModel)
+            newModel3.isSelected = !newModel3.isSelected
+            pin3.viewModel = newModel3
+
+            var newModel4 = SYUIPinViewViewModel(with: pin4.viewModel)
+            newModel4.isSelected = !newModel4.isSelected
+            pin4.viewModel = newModel4
         })
     }
 }
@@ -68,7 +73,9 @@ class PinTestViewController: UIViewController {
 // MARK: - SYUIPinViewDelegate
 extension PinTestViewController : SYUIPinViewDelegate {
     func pinWasTapped(_ pin: SYUIPinView) {
-        pin.viewModel.isSelected = !pin.viewModel.isSelected
+        var newModel = SYUIPinViewViewModel(with: pin.viewModel)
+        newModel.isSelected = !newModel.isSelected
+        pin.viewModel = newModel
     }
     
     func pinStateHasChanged(_ pin: SYUIPinView, isSelected: Bool) {

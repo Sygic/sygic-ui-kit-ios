@@ -24,13 +24,24 @@ class CompassTestViewController: UIViewController {
         compass.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -16).isActive = true
         compass.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 16).isActive = true
         
-        compass.viewModel.compassAutoHide = false
+        compass.viewModel = SYUICompassViewModel(course: 0, autoHide: false)
+        compass.delegate = self
     }
 }
 
 extension CompassTestViewController: MKMapViewDelegate {
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-        compass.viewModel.compassCourse = mapView.camera.heading
-        //print("map rotation = \(mapView.camera.heading)")
+        var newModel = SYUICompassViewModel(with: compass.viewModel)
+        newModel.compassCourse = 360 - mapView.camera.heading
+        compass.viewModel = newModel
+    }
+}
+
+extension CompassTestViewController: SYUICompassDelegate {
+    func compassDidTap(_ compass: SYUICompass) {
+        if let camera = mapView.camera.copy() as? MKMapCamera {
+            camera.heading = 0
+            mapView.setCamera(camera, animated: true)
+        }
     }
 }

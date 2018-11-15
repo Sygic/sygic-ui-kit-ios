@@ -9,4 +9,9 @@ public struct SYUICompassViewModel: SYUICompassProperties {
         compassCourse = course
         compassAutoHide = autoHide
     }
+    
+    public init(with: SYUICompassProperties) {
+        compassCourse = with.compassCourse
+        compassAutoHide = with.compassAutoHide
+    }
 }

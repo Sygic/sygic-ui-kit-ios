@@ -2,10 +2,10 @@ import UIKit
 import QuartzCore
 
 public protocol SYUIPinViewProperties {
-    var icon: String? { get set }
-    var color: UIColor? { get set }
-    var isSelected: Bool { get set }
-    var animated: Bool { get set}
+    var icon: String? { get }
+    var color: UIColor? { get }
+    var isSelected: Bool { get }
+    var animated: Bool { get }
 }
 
 public protocol SYUIPinViewDelegate: class {

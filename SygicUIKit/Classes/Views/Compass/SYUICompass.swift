@@ -2,8 +2,8 @@ import Foundation
 import UIKit
 
 public protocol SYUICompassProperties {
-    var compassCourse: Double { get set }
-    var compassAutoHide: Bool { get set }
+    var compassCourse: Double { get }
+    var compassAutoHide: Bool { get }
 }
 
 public protocol SYUICompassDelegate: class {
@@ -29,14 +29,6 @@ public class SYUICompass: UIView {
                     handleViewAlpha()
                 }
             }
-            //
-            //    private var orientationMode: OrientationMode = .free {
-            //        didSet {
-            //            if orientationMode != oldValue {
-            //                handleViewAlpha()
-            //            }
-            //        }
-            //    }
         }
     }
     
@@ -50,9 +42,6 @@ public class SYUICompass: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    deinit {
-//        NotificationCenter.default.removeObserver(self)
-//    }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
@@ -60,27 +49,6 @@ public class SYUICompass: UIView {
         borderView.fullRoundCorners()
     }
     
-//    public func setupRx(with mapViewModel: MapViewModel) {
-//        mapViewModel.rotation.asDriver()
-//            .distinctUntilChanged()
-//            .drive(onNext: { [unowned self] rotation in
-//                //some imprecision in SYMapView rotation
-//                if self.deltaRotation(rotation: rotation) < 0.01 || self.deltaRotation(rotation: rotation) > 359.5 {
-//                    self.viewRotation = 0.0
-//                } else {
-//                    self.viewRotation = rotation
-//                }
-//            })
-//            .disposed(by: disposeBag)
-//
-//        mapViewModel.orientationMode.asDriver()
-//            .distinctUntilChanged()
-//            .drive(onNext: { [unowned self] orientationMode in
-//                self.orientationMode = orientationMode
-//            })
-//            .disposed(by: disposeBag)
-//    }
-//
     private func shouldBeVisible() -> Bool {
         return viewModel.compassCourse != 0 && !viewModel.compassAutoHide
     }
@@ -164,9 +132,3 @@ public class SYUICompass: UIView {
         return delta
     }
 }
-
-//extension Compass: Animating {
-//    public func shouldAnimateAlpha() -> Bool {
-//        return shouldBeVisible()
-//    }
-//}

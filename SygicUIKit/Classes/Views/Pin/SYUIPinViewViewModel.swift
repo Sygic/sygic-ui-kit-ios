@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SYUIPinViewViewModel : SYUIPinViewProperties {
+public struct SYUIPinViewViewModel: SYUIPinViewProperties {
     public var icon: String?
     public var color: UIColor?
     public var isSelected: Bool
@@ -14,5 +14,12 @@ public struct SYUIPinViewViewModel : SYUIPinViewProperties {
         self.color = color
         self.isSelected = selected
         self.animated = animated
+        }
+    
+    public init(with: SYUIPinViewProperties) {
+        self.icon = with.icon
+        self.color = with.color
+        self.isSelected = with.isSelected
+        self.animated = with.animated
     }
 }
