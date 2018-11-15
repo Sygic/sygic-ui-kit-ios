@@ -1,12 +1,12 @@
 import UIKit
 
-public protocol ActionButtonsDelegate: class {
+public protocol SYUIActionButtonsDelegate: class {
     func actionButtonPressed(_ button:SYUIActionButton, at index:Int)
 }
 
-public class ActionButtonsView: UIView {
+public class SYUIActionButtonsView: UIView {
 
-    public weak var delegate: ActionButtonsDelegate?
+    public weak var delegate: SYUIActionButtonsDelegate?
     public private(set) var buttonsStack = UIStackView()
     
     public var buttons: [SYUIActionButton] {
@@ -45,7 +45,7 @@ public class ActionButtonsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func update(with viewModel: ActionButtonsViewModel) {
+    public func update(with viewModel: SYUIActionButtonsViewModel) {
         buttonsStack.removeAll()
         buttonsStack.spacing = viewModel.buttonsMargin
         
@@ -58,7 +58,7 @@ public class ActionButtonsView: UIView {
         superview?.layoutIfNeeded()
     }
     
-    private func actionButton(with viewModel: ActionButtonViewModel) -> SYUIActionButton {
+    private func actionButton(with viewModel: SYUIActionButtonProperties) -> SYUIActionButton {
         let button = SYUIActionButton()
         button.setup(with: viewModel)
         button.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)

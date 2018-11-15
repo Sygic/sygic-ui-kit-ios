@@ -30,12 +30,12 @@ class BottomSheetTestViewController: UIViewController {
     private func setupHelperButtons() {
         let buttonShow = SYUIActionButton()
         buttonShow.translatesAutoresizingMaskIntoConstraints = false
-        buttonShow.setup(with: ActionButtonViewModel(title: "Show bottom sheet"))
+        buttonShow.setup(with: SYUIActionButtonViewModel(title: "Show bottom sheet"))
         buttonShow.addTarget(self, action: #selector(showBottomSheet), for: .touchUpInside)
         
         let buttonHide = SYUIActionButton()
         buttonHide.translatesAutoresizingMaskIntoConstraints = false
-        buttonHide.setup(with: ActionButtonViewModel(title: "Hide bottom sheet", style: .error))
+        buttonHide.setup(with: SYUIActionButtonViewModel(title: "Hide bottom sheet", style: .error))
         buttonHide.addTarget(self, action: #selector(hideBottomSheet), for: .touchUpInside)
         
         view.addSubview(buttonShow)

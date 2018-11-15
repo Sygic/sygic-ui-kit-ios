@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ActionButtonViewModel: SYUIActionButtonProperties {
+public struct SYUIActionButtonViewModel: SYUIActionButtonProperties {
     public var title: String?
     public var subtitle: String?
     public var icon: String?
@@ -38,5 +38,20 @@ public struct ActionButtonViewModel: SYUIActionButtonProperties {
         self.isEnabled = isEnabled
         self.countdown = countdown
         self.accessibilityIdentifier = accessibilityIdentifier
+    }
+    
+    public init(with properties: SYUIActionButtonProperties) {
+        self.title = properties.title
+        self.subtitle = properties.subtitle
+        self.icon = properties.icon
+        self.style = properties.style
+        self.height = properties.height
+        self.titleSize = properties.titleSize
+        self.subtitleSize = properties.subtitleSize
+        self.iconSize = properties.iconSize
+        self.iconAlignment = properties.iconAlignment
+        self.isEnabled = properties.isEnabled
+        self.countdown = properties.countdown
+        self.accessibilityIdentifier = properties.accessibilityIdentifier
     }
 }
