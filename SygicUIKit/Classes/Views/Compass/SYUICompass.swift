@@ -25,7 +25,7 @@ public class SYUICompass: UIView {
                 let rotation = CGFloat(viewModel.compassCourse) * .pi / halfRotation
                 compassArrow.layer.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(rotation)))
                 
-                if viewModel.compassCourse != oldValue.compassCourse && !isHidden {
+                if viewModel.compassCourse != oldValue.compassCourse {
                     handleViewAlpha()
                 }
             }
@@ -50,7 +50,7 @@ public class SYUICompass: UIView {
     }
     
     private func shouldBeVisible() -> Bool {
-        return viewModel.compassCourse != 0 && !viewModel.compassAutoHide
+        return viewModel.compassCourse != 0 || !viewModel.compassAutoHide
     }
     
     //MARK: - UI
