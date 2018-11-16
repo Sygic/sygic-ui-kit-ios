@@ -59,7 +59,7 @@ public extension UIView {
         return image
     }
     
-    func imageFromView() -> UIImage? {
+    @objc func imageFromView() -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0.0)
         if let aContext = UIGraphicsGetCurrentContext() {
             layer.render(in: aContext)
