@@ -30,18 +30,24 @@ class CompassTestViewController: UIViewController {
 }
 
 extension CompassTestViewController: MKMapViewDelegate {
+    
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-        var newModel = SYUICompassViewModel(with: compass.viewModel)
-        newModel.compassCourse = 360 - mapView.camera.heading
-        compass.viewModel = newModel
+        if let compassViewModel = compass.viewModel {
+            var newModel = SYUICompassViewModel(with: compassViewModel)
+            newModel.compassCourse = 360 - mapView.camera.heading
+            compass.viewModel = newModel
+        }
     }
+    
 }
 
 extension CompassTestViewController: SYUICompassDelegate {
+    
     func compassDidTap(_ compass: SYUICompass) {
         if let camera = mapView.camera.copy() as? MKMapCamera {
             camera.heading = 0
             mapView.setCamera(camera, animated: true)
         }
     }
+    
 }

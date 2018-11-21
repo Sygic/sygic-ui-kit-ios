@@ -19,22 +19,17 @@ public class SYUICompass: UIView {
     private let backgroundView = UIView()
     private let borderView = UIView()
     
-    public var viewModel: SYUICompassProperties! {
+    public var viewModel: SYUICompassProperties? {
         didSet {
-            if oldValue.compassCourse != viewModel.compassCourse {
-                let rotation = CGFloat(viewModel.compassCourse) * .pi / halfRotation
-                compassArrow.layer.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(rotation)))
-                
-                if viewModel.compassCourse != oldValue.compassCourse {
-                    handleViewAlpha()
-                }
-            }
+            guard let viewModel = viewModel else { return }
+            let rotation = CGFloat(viewModel.compassCourse) * .pi / halfRotation
+            compassArrow.layer.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(rotation)))
+            handleViewAlpha()
         }
     }
     
     public init() {
         super.init(frame: CGRect.zero)
-        viewModel = SYUICompassViewModel(course: 0, autoHide: false)
         initDefault()
     }
     
@@ -50,6 +45,7 @@ public class SYUICompass: UIView {
     }
     
     private func shouldBeVisible() -> Bool {
+        guard let viewModel = viewModel else { return false }
         return viewModel.compassCourse != 0 || !viewModel.compassAutoHide
     }
     
