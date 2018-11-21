@@ -13,6 +13,7 @@ public struct ActionButtonViewModel: SYUIActionButtonProperties {
     public var isEnabled: Bool
     public var countdown: TimeInterval?
     public var accessibilityIdentifier: String?
+    public var isHidden: Bool
     
     public init(title: String? = nil,
                 subtitle: String? = nil,
@@ -25,7 +26,8 @@ public struct ActionButtonViewModel: SYUIActionButtonProperties {
                 iconAlignment: NSTextAlignment = .right,
                 accessibilityIdentifier: String? = nil,
                 isEnabled: Bool = true,
-                countdown: TimeInterval? = nil) {
+                countdown: TimeInterval? = nil,
+                isHidden: Bool = false) {
         self.title = title
         self.subtitle = subtitle
         self.icon = icon
@@ -38,5 +40,6 @@ public struct ActionButtonViewModel: SYUIActionButtonProperties {
         self.isEnabled = isEnabled
         self.countdown = countdown
         self.accessibilityIdentifier = accessibilityIdentifier
+        self.isHidden = isHidden
     }
 }
