@@ -56,5 +56,6 @@ public struct SYUIActionButtonViewModel: SYUIActionButtonProperties {
         self.isEnabled = properties.isEnabled
         self.countdown = properties.countdown
         self.accessibilityIdentifier = properties.accessibilityIdentifier
+        self.isHidden = properties.isHidden
     }
 }

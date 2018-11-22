@@ -6,6 +6,11 @@ public protocol SYUIPoiDetailAddressDataSource {
 //    var rating: Double { get }
 }
 
+public struct SYUIPoiDetailAddressViewModel: SYUIPoiDetailAddressDataSource {
+    public var title: String
+    public var subtitle: String?
+}
+
 public class PoiDetailAddressCell: UITableViewCell {
     
     public static let verticalFrameOffset: CGFloat = 13.0

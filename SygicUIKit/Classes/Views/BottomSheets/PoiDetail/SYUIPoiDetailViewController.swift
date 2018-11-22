@@ -4,8 +4,11 @@ public protocol SYUIPoiDetailDataSource: class {
     var poiDetailMaxTopOffset: CGFloat { get }
     var poiDetailTitle: String { get }
     var poiDetailSubtitle: String? { get }
+    
     var poiDetailNumberOfActionButtons: Int { get }
     func poiDetailActionButtonProperties(at index: Int) -> SYUIActionButtonProperties?
+    func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int
+    func poiDetailCellViewModel(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource
 }
 
 public extension SYUIPoiDetailDataSource {
@@ -14,8 +17,9 @@ public extension SYUIPoiDetailDataSource {
     }
 }
 
-public protocol SYUIPoiDetailDelegate {
-    
+public protocol SYUIPoiDetailDelegate: class {
+    func poiDetailDidPressActionButton(at index: Int)
+    func poiDetailDidSelectCell(at indexPath: IndexPath)
 }
 
 public class SYUIPoiDetailViewController: UIViewController {
@@ -32,6 +36,7 @@ public class SYUIPoiDetailViewController: UIViewController {
             }
         }
     }
+    public weak var delegate: SYUIPoiDetailDelegate?
     
     override public func loadView() {
         bottomSheetView = SYUIBottomSheetView()
@@ -82,12 +87,12 @@ public class SYUIPoiDetailViewController: UIViewController {
 extension SYUIPoiDetailViewController: BottomSheetViewDelegate {
     
     public func bottomSheetDidSwipe(_ bottomSheetView: SYUIBottomSheetView, with delta: CGFloat, to offset: CGFloat) {
-        if offset != bottomSheetView.minOffset {
-            if poiDetailView.tableView.panGestureRecognizer.isEnabled {
-                poiDetailView.tableView.panGestureRecognizer.isEnabled = false
-                poiDetailView.tableView.contentOffset = .zero
-            }
-        }
+//        if offset != bottomSheetView.minOffset {
+//            if poiDetailView.tableView.panGestureRecognizer.isEnabled {
+//                poiDetailView.tableView.panGestureRecognizer.isEnabled = false
+//                poiDetailView.tableView.contentOffset = .zero
+//            }
+//        }
         
 //        if poiDetailView.tableView.contentOffset.y <= 0 {
 //            if poiDetailView.tableView.panGestureRecognizer.isEnabled {
@@ -95,54 +100,46 @@ extension SYUIPoiDetailViewController: BottomSheetViewDelegate {
 //                poiDetailView.tableView.contentOffset = .zero
 //            }
 //        }
-        poiDetailView.tableView.showsVerticalScrollIndicator = !poiDetailView.tableView.contentOffset.y.isZero
+        
+//        poiDetailView.tableView.showsVerticalScrollIndicator = !poiDetailView.tableView.contentOffset.y.isZero
     }
     
     public func bottomSheetWillAnimate(_ bottomSheetView: SYUIBottomSheetView, to offset: CGFloat, with duration: TimeInterval) {
-        print("to offset \(offset)")
+        
     }
 }
 
 extension SYUIPoiDetailViewController: SYUIPoiDetailViewProtocol {
+    public func numberOfRows(in section: SYUIPoiDetailSectionType) -> Int {
+        return dataSource?.poiDetailNumberOfRows(in: section) ?? 0
+    }
+    
+    public func poiDetailCellViewModel(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource {
+        return dataSource?.poiDetailCellViewModel(for: indexPath) ?? SYUIPoiDetailCellViewModel(title: "")
+    }
+    
     
     public var addressCellViewModel: SYUIPoiDetailAddressDataSource {
         guard let dataSource = dataSource else { return SYUIPoiDetailAddressViewModel(title: "", subtitle: nil) }
         return SYUIPoiDetailAddressViewModel(title: dataSource.poiDetailTitle, subtitle: dataSource.poiDetailSubtitle)
     }
     
-    public var contactInfosViewModels: [PoiDetailCellDataSource] {
-        return []
-    }
-    
-    public var actionCellsViewModels: [PoiDetailCellDataSource] {
-        return []
-    }
-    
     public var buttonsViewModel: SYUIActionButtonsViewModel {
-        let buttonsCount = dataSource?.poiDetailNumberOfActionButtons ?? 0
-        var buttonsProperties: [SYUIActionButtonProperties] = []
-        for index in 0..<buttonsCount {
+        let count = dataSource?.poiDetailNumberOfActionButtons ?? 0
+        var buttons: [SYUIActionButtonProperties] = []
+        for index in 0..<count {
             guard let properties = dataSource?.poiDetailActionButtonProperties(at: index) else { continue }
-            buttonsProperties.append(properties)
+            buttons.append(properties)
         }
-        return SYUIActionButtonsViewModel(with: buttonsProperties)
+        return SYUIActionButtonsViewModel(with: buttons)
     }
     
     public func didPressActionButton(at index: Int) {
-        
+        delegate?.poiDetailDidPressActionButton(at: index)
     }
     
     public func didSelectRow(at indexPath: IndexPath) {
-        
+        delegate?.poiDetailDidSelectCell(at: indexPath)
     }
     
-}
-
-struct SYUIPoiDetailAddressViewModel: SYUIPoiDetailAddressDataSource {
-    public var title: String
-    public var subtitle: String?
-    
-//    public var rating: Double {
-//        return 2.5
-//    }
 }

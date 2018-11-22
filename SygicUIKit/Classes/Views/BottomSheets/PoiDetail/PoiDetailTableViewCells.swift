@@ -6,12 +6,28 @@ import UIKit
     case disabled
 }
 
-public protocol PoiDetailCellDataSource {
+public struct SYUIPoiDetailCellViewModel: SYUIPoiDetailCellDataSource {
+    public var title: String
+    public var subtitle: String?
+    public var icon: String?
+    public var actionType: PoiDetailCellActionType = .action
+    public var stringToCopy: String?
+    
+    public init(title: String, subtitle: String? = nil, icon: String? = nil, actionType: PoiDetailCellActionType = .action, stringToCopy: String? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.icon = icon
+        self.actionType = actionType
+        self.stringToCopy = stringToCopy
+    }
+}
+
+public protocol SYUIPoiDetailCellDataSource {
     var title: String { get }
-    var subtitle: String { get }
-    var icon: String { get }
+    var subtitle: String? { get }
+    var icon: String? { get }
     var actionType: PoiDetailCellActionType { get }
-    var stringToCopy: String { get }
+    var stringToCopy: String? { get }
 }
 
 class PoiDetailTableViewCell: UITableViewCell {
@@ -50,7 +66,7 @@ class PoiDetailTableViewCell: UITableViewCell {
         highlightCell(highlighted, backgroundColor: backgroundColor, foregroundColor: titleLabel.textColor)
     }
     
-    public func update(with viewModel: PoiDetailCellDataSource) {
+    public func update(with viewModel: SYUIPoiDetailCellDataSource) {
         backgroundColor = .background
         
         switch (viewModel.actionType) {
@@ -63,7 +79,7 @@ class PoiDetailTableViewCell: UITableViewCell {
         }
         titleLabel.text = viewModel.title
         iconLabel.text = viewModel.icon
-        stringToCopy = viewModel.stringToCopy
+        stringToCopy = viewModel.stringToCopy ?? ""
     }
     
     fileprivate func createLayout() {
@@ -157,7 +173,7 @@ class PoiDetailSubtitleTableViewCell: PoiDetailTableViewCell {
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(13)-[title]-(2)-[subtitle]-(11)-|", options: [], metrics: nil, views: ["title": titleLabel, "subtitle": subtitleLabel]))
     }
     
-    override public func update(with viewModel: PoiDetailCellDataSource) {
+    override public func update(with viewModel: SYUIPoiDetailCellDataSource) {
         super.update(with: viewModel)
         subtitleLabel.text = viewModel.subtitle
         subtitleLabel.textColor = .textBody

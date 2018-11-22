@@ -1,39 +1,19 @@
 import UIKit
 import GradientView
 
-///Button types of poiDetailView's main buttons
-public enum SYUIPoiDetailActionButtonType {
-    /// start route compute
-    case getDirection
-    /// adds waypoint to computet route
-    case addWaypoint
-    /// removes waypoint from route
-    case removeWaypoint
-    /// adds favorite of injected favoriteType
-    case addFavorite
-    /// updates HomeWork address
-    case updateHomeWork
-    /// adds waypoint to route planner
-    case addToRoute
-    /// replace waypoint to route planner
-    case selectPoi
-    case none
-}
 
 public protocol SYUIPoiDetailViewProtocol: class {
-    var addressCellViewModel: SYUIPoiDetailAddressDataSource { get }
-    var contactInfosViewModels: [PoiDetailCellDataSource] { get }
-    var actionCellsViewModels: [PoiDetailCellDataSource] { get }
     var buttonsViewModel: SYUIActionButtonsViewModel { get }
+    var addressCellViewModel: SYUIPoiDetailAddressDataSource { get }
     
+    func numberOfRows(in section: SYUIPoiDetailSectionType) -> Int
+    func poiDetailCellViewModel(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource
     func didPressActionButton(at index: Int)
     func didSelectRow(at indexPath: IndexPath)
 }
 
 public enum SYUIPoiDetailSectionType: Int {
     case address
-//    case parking
-//    case openingHours
     case contactInfo
     case actions
     
@@ -158,16 +138,10 @@ extension SYUIPoiDetailView: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel, let section = SYUIPoiDetailSectionType(rawValue: section) else { return 0 }
-        switch section {
-        case .address:
+        if section == .address {
             return 1
-//        case .parking, .openingHours:
-//            return 0
-        case .contactInfo:
-            return viewModel.contactInfosViewModels.count
-        case .actions:
-            return viewModel.actionCellsViewModels.count
         }
+        return viewModel.numberOfRows(in: section)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -179,34 +153,28 @@ extension SYUIPoiDetailView: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(PoiDetailAddressCell.self)) as! PoiDetailAddressCell
             cell.update(with: viewModel.addressCellViewModel)
             return cell
-//        case .parking:
-//            let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(PoiDetailTableViewCell.self)) as! PoiDetailTableViewCell
-////            cell.update(with: viewModel.addressCellViewModel())
-//            return cell
-//        case .openingHours:
-//            let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(PoiDetailTableViewCell.self)) as! PoiDetailTableViewCell
-////            cell.update(with: viewModel.addressCellViewModel())
-//            return cell
-        case .contactInfo:
-            let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(PoiDetailSubtitleTableViewCell.self)) as! PoiDetailSubtitleTableViewCell
-            cell.update(with: viewModel.contactInfosViewModels[indexPath.row])
-            return cell
-        case .actions:
-            var cell: PoiDetailTableViewCell
-            if !viewModel.actionCellsViewModels[indexPath.row].subtitle.isEmpty {
-                let copyGPSCoordinatesRecognizer = UILongPressGestureRecognizer.init(target: self, action: #selector(copyCoordinatesLongRecognized(recognizer:)))
+        case .contactInfo, .actions:
+            let cellViewModel = viewModel.poiDetailCellViewModel(for: indexPath)
+            
+            let cell: PoiDetailTableViewCell
+            if let subtitle = cellViewModel.subtitle, !subtitle.isEmpty {
                 cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(PoiDetailSubtitleTableViewCell.self)) as! PoiDetailSubtitleTableViewCell
-                cell.addGestureRecognizer(copyGPSCoordinatesRecognizer)
             } else {
                 cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(PoiDetailTableViewCell.self)) as! PoiDetailTableViewCell
             }
-            cell.update(with: viewModel.actionCellsViewModels[indexPath.row])
+            cell.update(with: cellViewModel)
+            
+            if let copyString = cellViewModel.stringToCopy, !copyString.isEmpty {
+                let copyRecognizer = UILongPressGestureRecognizer.init(target: self, action: #selector(copyLongpressRecognized(recognizer:)))
+                cell.addGestureRecognizer(copyRecognizer)
+            }
+            
             return cell
         }
     }
     
-    @objc private func copyCoordinatesLongRecognized(recognizer: UILongPressGestureRecognizer){
-        showCopyGpsContextMenu()
+    @objc private func copyLongpressRecognized(recognizer: UILongPressGestureRecognizer){
+        showCopyContextMenu()
     }
 }
 
@@ -221,8 +189,6 @@ extension SYUIPoiDetailView: UITableViewDelegate {
             return 0
         case .contactInfo, .actions:
             return 20.0
-//        case .parking, .openingHours:
-//            return 20.0
         }
     }
     
@@ -255,47 +221,10 @@ extension SYUIPoiDetailView: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        guard let viewModel = viewModel, let section = PoiDetailSectionType(rawValue: indexPath.section) else { return }
-//
-//        switch section {
-//        case .address:
-//            tapAddressAction?()
-////        case .parking:
-////            viewModel.parkingTapped()
-//        case .actions:
-//            guard let action = PoiDetailRowAction(rawValue: indexPath.row) else { return }
-//            didSelectAction(action)
-//        case .contactInfo:
-//            if indexPath.row == 0 && viewModel.isContactPhoneAvailable() {
-//                viewModel.call()
-//            } else if (0...1).contains(indexPath.row) && viewModel.isContactMailAvailable() {
-//                viewModel.sendMail()
-//            } else if viewModel.isContactWebAvailable() {
-//                viewModel.openWebpage()
-//            }
-//        default:
-//            break
-//        }
         viewModel?.didSelectRow(at: indexPath)
     }
     
-//    func didSelectAction(_ action: PoiDetailRowAction) {
-//        switch action {
-//        case .favorite:
-//            viewModel?.favoriteTapped()
-//            tableView.reloadData()
-////        case .shareLocation:
-////            viewModel.shareLocation()
-////        case .streetView:
-////            viewModel.showStreetView()
-//        case .copyGpsCoordinates:
-//            if let formatedCoordinates = viewModel?.coordinates.formattedString {
-//                viewModel?.delegate?.showShareCoordinatesDialog(textToShare: formatedCoordinates)
-//            }
-//        }
-//    }
-//
-    func showCopyGpsContextMenu() {
+    func showCopyContextMenu() {
 //        let indexPath = IndexPath(row: PoiDetailRowAction.copyGpsCoordinates.rawValue, section: PoiDetailSectionType.actions.rawValue)
 //        guard let gpsCell = tableView.cellForRow(at: indexPath), !UIMenuController.shared.isMenuVisible else { return }
 //        let menu = UIMenuController.shared
