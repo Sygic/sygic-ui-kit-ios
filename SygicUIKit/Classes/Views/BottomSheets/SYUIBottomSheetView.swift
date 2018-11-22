@@ -23,24 +23,26 @@ open class SYUIBottomSheetView: UIView {
     
     private static let dragIndicatorViewTopMargin: CGFloat   = 7.0
     private static let minVisibleHeight: CGFloat             = 100
-    private static let minTopMargin: CGFloat                 = 68
     private static let maxSlideAnimationDuration: TimeInterval = 0.8
     
     public weak var sheetDelegate: BottomSheetViewDelegate?
+    public var minTopMargin: CGFloat = 68
+    public var minimizedHeight: CGFloat = SYUIBottomSheetView.minVisibleHeight
+    public var canSwipeToHide: Bool = false
+    public var translationOffset: CGFloat = 0
     public let panGesture = UIPanGestureRecognizer()
     public let dragIndicatorView = UIView()
-    open var canSwipeToHide: Bool {
-        return false
-    }
     
     private var heightConstraint = NSLayoutConstraint()
     private var animationToCount: Int = 0
+    private var dragIndicatorViewTopConstraint = NSLayoutConstraint()
+    private var topConstraint = NSLayoutConstraint()
     
     open var startingOffset: CGFloat {
         return minimizedHeight
     }
     open var minOffset: CGFloat {
-        return SYUIBottomSheetView.minTopMargin
+        return minTopMargin
     }
     open var maxOffset: CGFloat {
         return minimizedPosition
@@ -53,9 +55,7 @@ open class SYUIBottomSheetView: UIView {
     public var contentHeight: CGFloat {
         return superviewHeight() - minOffset
     }
-    open var minimizedHeight: CGFloat {
-        return SYUIBottomSheetView.minVisibleHeight
-    }
+    
     public var minimizedPosition: CGFloat {
         return superviewHeight() - minimizedHeight
     }
@@ -69,11 +69,6 @@ open class SYUIBottomSheetView: UIView {
     public var isCollapsed: Bool {
         return frame.origin.y.rounded(.toNearestOrEven) == minimizedPosition.rounded(.toNearestOrEven)
     }
-    
-    private var dragIndicatorViewTopConstraint = NSLayoutConstraint()
-    private var topConstraint = NSLayoutConstraint()
-    
-    public var translationOffset: CGFloat = 0
     
     public init() {
         super.init(frame: CGRect.zero)
@@ -138,6 +133,9 @@ open class SYUIBottomSheetView: UIView {
     
     private func createLayoutConstraintsForSuperview() {
         guard let superview = superview else { return }
+        
+        frame =  superview.frame // fix constraints broke after content setup before view was layout
+        translatesAutoresizingMaskIntoConstraints = false
         
         let layoutDictionary = ["view": self]
 

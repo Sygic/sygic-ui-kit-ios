@@ -4,7 +4,7 @@ import UIKit
 
 public extension UITableViewCell {
     
-    public var highlightingView: FadingHighlightedBackgroundView? {
+    internal var highlightingView: FadingHighlightedBackgroundView? {
         for subview in subviews {
             if let highView = subview as? FadingHighlightedBackgroundView {
                 return highView

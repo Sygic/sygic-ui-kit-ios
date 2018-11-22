@@ -1,6 +1,6 @@
 import UIKit
 
-public class FadingHighlightedBackgroundView: UIView {
+internal class FadingHighlightedBackgroundView: UIView {
     public var highlightColor: UIColor?
     
     override public init(frame: CGRect) {
