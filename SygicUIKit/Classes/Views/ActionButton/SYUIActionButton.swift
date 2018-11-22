@@ -13,6 +13,7 @@ public protocol SYUIActionButtonProperties {
     var isEnabled: Bool { get }
     var countdown: TimeInterval? { get }
     var accessibilityIdentifier: String? { get }
+    var isHidden: Bool { get set }
 }
 
 @objc public enum SYUIActionButtonStyle: Int {
@@ -285,6 +286,7 @@ public class SYUIActionButton: UIButton {
         rightIcon.textAlignment = viewModel.iconAlignment
         isEnabled = viewModel.isEnabled
         countdown = viewModel.countdown
+        isHidden = viewModel.isHidden
         
         capitalizeTitleIfNeeded()
         

@@ -172,4 +172,30 @@ public class SYUIPinView: UIView {
     @objc private func handleTap(_ sender: UIButton) {
         delegate?.pinWasTapped(self)
     }
+    
+    public override func imageFromView() -> UIImage? {
+        var size = frame.size
+        //shadows
+        
+        size.height += 8.0
+        if !viewModel.isSelected {
+            size.width += 10.0
+            size.height += 6.0
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        var image: UIImage? = nil
+        if let context = UIGraphicsGetCurrentContext() {
+            if viewModel.isSelected {
+                context.translateBy(x: 16.0, y: 48.0)
+            } else {
+                context.translateBy(x: 5.0, y: 7.0)
+            }
+            layer.render(in: context)
+            image = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        
+        UIGraphicsEndImageContext()
+        return image
+    }
 }
