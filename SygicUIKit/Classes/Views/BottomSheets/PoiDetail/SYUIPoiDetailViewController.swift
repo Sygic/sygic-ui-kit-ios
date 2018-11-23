@@ -24,9 +24,6 @@ public protocol SYUIPoiDetailDelegate: class {
 
 public class SYUIPoiDetailViewController: UIViewController {
     
-    private var bottomSheetView: SYUIBottomSheetView!
-    private let poiDetailView = SYUIPoiDetailView()
-    
     public weak var dataSource: SYUIPoiDetailDataSource? {
         didSet {
             if let dataSource = dataSource {
@@ -37,6 +34,9 @@ public class SYUIPoiDetailViewController: UIViewController {
         }
     }
     public weak var delegate: SYUIPoiDetailDelegate?
+    
+    private var bottomSheetView: SYUIBottomSheetView!
+    private let poiDetailView = SYUIPoiDetailView()
     
     override public func loadView() {
         bottomSheetView = SYUIBottomSheetView()
