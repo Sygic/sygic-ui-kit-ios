@@ -12,6 +12,7 @@
 		58A9636E21947D4E001015CC /* RootTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A9636D21947D4E001015CC /* RootTableViewController.swift */; };
 		58A96370219480A9001015CC /* ButtonTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A9636F219480A9001015CC /* ButtonTestViewController.swift */; };
 		58A963752195D70D001015CC /* BottomSheetTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A963742195D70D001015CC /* BottomSheetTestViewController.swift */; };
+		5CD0CB2D219F271B00343790 /* ZoomTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD0CB2C219F271B00343790 /* ZoomTestViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
@@ -41,6 +42,7 @@
 		58A9636D21947D4E001015CC /* RootTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTableViewController.swift; sourceTree = "<group>"; };
 		58A9636F219480A9001015CC /* ButtonTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTestViewController.swift; sourceTree = "<group>"; };
 		58A963742195D70D001015CC /* BottomSheetTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTestViewController.swift; sourceTree = "<group>"; };
+		5CD0CB2C219F271B00343790 /* ZoomTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomTestViewController.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SygicUIKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SygicUIKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				58A963742195D70D001015CC /* BottomSheetTestViewController.swift */,
 				58A9636F219480A9001015CC /* ButtonTestViewController.swift */,
 				CC9742C1219C49EF009C8AB7 /* CompassTestViewController.swift */,
+				5CD0CB2C219F271B00343790 /* ZoomTestViewController.swift */,
 				CCA40B15219ABAC900514067 /* PinTestViewController.swift */,
 				586437A5219DD25D00C160C2 /* PoiDetailTestViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -383,6 +386,7 @@
 				586437A6219DD25D00C160C2 /* PoiDetailTestViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				CC9742C2219C49EF009C8AB7 /* CompassTestViewController.swift in Sources */,
+				5CD0CB2D219F271B00343790 /* ZoomTestViewController.swift in Sources */,
 				CCA40B16219ABAC900514067 /* PinTestViewController.swift in Sources */,
 				58A963752195D70D001015CC /* BottomSheetTestViewController.swift in Sources */,
 			);

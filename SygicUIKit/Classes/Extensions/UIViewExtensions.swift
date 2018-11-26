@@ -217,3 +217,20 @@ public extension UIView {
         layer.shadowOffset = CGSize(width: 1, height: -1)
     }
 }
+
+// MARK: - Constraints
+public extension UIView {
+    
+    func removeConstraintsRelated(toSubview subView: UIView) {
+        var arrRemoveConstraints = [NSLayoutConstraint]()
+        for constraint in constraints {
+            if let firstItem = constraint.firstItem as? UIView,
+                let secondItem = constraint.secondItem as? UIView,
+                firstItem == subView || secondItem == subView {
+                arrRemoveConstraints.append(constraint)
+            }
+        }
+        removeConstraints(arrRemoveConstraints)
+    }
+    
+}
