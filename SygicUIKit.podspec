@@ -29,11 +29,11 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '10.0'
 
   s.source_files = 'SygicUIKit/Classes/**/*'
-  s.resources = 'SygicUIKit/Resources/**/*.{xib,ttf,svg,jpg,png}'
+  s.resources = 'SygicUIKit/Resources/**/*.{xib,svg,jpg,png}'
   s.frameworks = 'UIKit'
-  # s.resource_bundles = {
-  #   'SygicUIKit' => ['SygicUIKit/Assets/*.png']
-  # }
+  s.resource_bundle = {
+	'SygicUIKit' => ['SygicUIKit/Resources/**/*.{ttf}']
+  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   

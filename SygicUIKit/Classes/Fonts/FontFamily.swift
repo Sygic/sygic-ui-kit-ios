@@ -30,5 +30,26 @@ public extension FontFamily {
 }
 
 public struct DefaultFontFamily: FontFamily {
-    public init() {}
+    public init() {
+        guard let fontBundle = Bundle.fontBundle else { return }
+        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.bold, fontExtension: "ttf")
+        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.boldItalic, fontExtension: "ttf")
+        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.extraBold, fontExtension: "ttf")
+        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.extraBoldItalic, fontExtension: "ttf")
+        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.italic, fontExtension: "ttf")
+        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.regular, fontExtension: "ttf")
+        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.semiBold, fontExtension: "ttf")
+        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.semiBoldItalic, fontExtension: "ttf")
+        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.iconFont, fontExtension: "ttf")
+    }
+}
+
+extension Bundle {
+    static var fontBundle: Bundle? {
+        let podBundle = Bundle(for: SygicFonts.self)
+        if let resourcesBundleUrl = podBundle.url(forResource: "SygicUIKit", withExtension: "bundle") {
+            return Bundle(url: resourcesBundleUrl)
+        }
+        return nil
+    }
 }
