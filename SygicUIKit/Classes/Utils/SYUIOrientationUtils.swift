@@ -1,5 +1,5 @@
 
-public enum Orientation {
+public enum SYUIDeviceOrientation {
     case portrait
     case landscape
     
@@ -12,9 +12,9 @@ public enum Orientation {
     }
 }
 
-public class OrientationUtils {
+public class SYUIDeviceOrientationUtils {
     
-    public static func orientation(for size: CGSize) -> Orientation {
+    public static func orientation(for size: CGSize) -> SYUIDeviceOrientation {
         return size.height > size.width ? .portrait : .landscape
     }
     

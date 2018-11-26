@@ -17,10 +17,10 @@ public class SYUIExpandableButton: UIButton {
     private static let iconSizePortrait: CGFloat = 36.0
     private static let iconSizeLandscape: CGFloat = 30.0
     public static var iconSize: CGFloat {
-        return OrientationUtils.orientationSize(for: SYUIExpandableButton.iconSizePortrait, landscape: SYUIExpandableButton.iconSizeLandscape)
+        return SYUIDeviceOrientationUtils.orientationSize(for: SYUIExpandableButton.iconSizePortrait, landscape: SYUIExpandableButton.iconSizeLandscape)
     }
     public static var size: CGFloat {
-        return OrientationUtils.orientationSize(for: SYUIExpandableButton.sizePortrait, landscape: SYUIExpandableButton.sizeLandscape)
+        return SYUIDeviceOrientationUtils.orientationSize(for: SYUIExpandableButton.sizePortrait, landscape: SYUIExpandableButton.sizeLandscape)
     }
     
     var widthConstrait = NSLayoutConstraint()
