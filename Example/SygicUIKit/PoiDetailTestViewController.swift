@@ -15,7 +15,7 @@ class PoiDetailTestViewController: UIViewController {
         poiDetailViewController = SYUIPoiDetailViewController()
         poiDetailViewController?.dataSource = self
         poiDetailViewController?.delegate = self
-        poiDetailViewController?.presentPoiDetail(to: self) { (finished) in
+        poiDetailViewController?.presentPoiDetailAsChildViewController(to: self) { (finished) in
             print("poi detail presented as child")
         }
     }
@@ -83,24 +83,24 @@ extension PoiDetailTestViewController: SYUIPoiDetailDataSource {
         }
     }
     
-    func poiDetailCellViewModel(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource {
-        guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section) else { return SYUIPoiDetailCellViewModel(title: "") }
+    func poiDetailCellData(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource {
+        guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section) else { return SYUIPoiDetailCellData(title: "") }
         switch section {
         case .actions:
-            return SYUIPoiDetailCellViewModel(title: "GPS", subtitle: "48.1450996,17.1069041", icon: SygicIcon.streetView)
+            return SYUIPoiDetailCellData(title: "GPS", subtitle: "48.1450996,17.1069041", icon: SygicIcon.streetView)
         case .contactInfo:
             switch indexPath.row {
             case 0:
-                return SYUIPoiDetailCellViewModel(title: "Phone", subtitle: "+421 987 123 456", icon: SygicIcon.call)
+                return SYUIPoiDetailCellData(title: "Phone", subtitle: "+421 987 123 456", icon: SygicIcon.call)
             case 1:
-                return SYUIPoiDetailCellViewModel(title: "Email", subtitle: "info@sygic.com", icon: SygicIcon.email)
+                return SYUIPoiDetailCellData(title: "Email", subtitle: "info@sygic.com", icon: SygicIcon.email)
             case 2:
-                return SYUIPoiDetailCellViewModel(title: "Website", subtitle: "www.sygic.com", icon: SygicIcon.website)
+                return SYUIPoiDetailCellData(title: "Website", subtitle: "www.sygic.com", icon: SygicIcon.website)
             default:
-                return SYUIPoiDetailCellViewModel(title: "")
+                return SYUIPoiDetailCellData(title: "")
             }
         default:
-            return SYUIPoiDetailCellViewModel(title: "")
+            return SYUIPoiDetailCellData(title: "")
         }
     }
 }
