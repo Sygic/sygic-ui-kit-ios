@@ -30,7 +30,7 @@ public class SYUICompassController: NSObject {
     }
     
     private func shouldBeVisible() -> Bool {
-        return course != 0 || !autoHide
+        return course.rounded() != 0 || !autoHide
     }
     
     // MARK: - Actions
