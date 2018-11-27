@@ -85,27 +85,21 @@ public class SYUIPoiDetailViewController: UIViewController {
 }
 
 extension SYUIPoiDetailViewController: BottomSheetViewDelegate {
-    
-    public func bottomSheetDidSwipe(_ bottomSheetView: SYUIBottomSheetView, with delta: CGFloat, to offset: CGFloat) {
-//        if offset != bottomSheetView.minOffset {
-//            if poiDetailView.tableView.panGestureRecognizer.isEnabled {
-//                poiDetailView.tableView.panGestureRecognizer.isEnabled = false
-//                poiDetailView.tableView.contentOffset = .zero
-//            }
-//        }
-        
-//        if poiDetailView.tableView.contentOffset.y <= 0 {
-//            if poiDetailView.tableView.panGestureRecognizer.isEnabled {
-//                poiDetailView.tableView.panGestureRecognizer.isEnabled = false
-//                poiDetailView.tableView.contentOffset = .zero
-//            }
-//        }
-        
-//        poiDetailView.tableView.showsVerticalScrollIndicator = !poiDetailView.tableView.contentOffset.y.isZero
+    public func bottomSheetCanMove() -> Bool {
+        if poiDetailView.tableView.contentOffset.y <= 0 {
+            if poiDetailView.tableView.panGestureRecognizer.isEnabled {
+                poiDetailView.tableView.panGestureRecognizer.isEnabled = false
+                poiDetailView.tableView.contentOffset = .zero
+            }
+            return true
+        }
+        return false
     }
     
     public func bottomSheetWillAnimate(_ bottomSheetView: SYUIBottomSheetView, to offset: CGFloat, with duration: TimeInterval) {
-        
+        if offset == bottomSheetView.minOffset {
+            poiDetailView.tableView.panGestureRecognizer.isEnabled = true
+        }
     }
 }
 
@@ -139,6 +133,13 @@ extension SYUIPoiDetailViewController: SYUIPoiDetailViewProtocol {
     }
     
     public func didSelectRow(at indexPath: IndexPath) {
+        if indexPath.section == SYUIPoiDetailSectionType.address.rawValue {
+            if bottomSheetView.isFullViewVisible {
+                bottomSheetView.minimize()
+            } else {
+                bottomSheetView.expand()
+            }
+        }
         delegate?.poiDetailDidSelectCell(at: indexPath)
     }
     
