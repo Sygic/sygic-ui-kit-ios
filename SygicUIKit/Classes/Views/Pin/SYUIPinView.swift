@@ -189,7 +189,7 @@ public class SYUIPinView: UIView {
         var image: UIImage? = nil
         if let context = UIGraphicsGetCurrentContext() {
             if isHighlighted {
-                context.translateBy(x: 16.0, y: 48.0)
+                context.translateBy(x: 21.0, y: 53.0)
             } else {
                 context.translateBy(x: 5.0, y: 7.0)
             }
