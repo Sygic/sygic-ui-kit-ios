@@ -30,8 +30,7 @@ class ButtonTestViewController: UIViewController {
 
     private func setupButtons() {
         // BLURRED with map background
-        let blurredActionButton = SYUIActionButton()
-        blurredActionButton.setup(with: blurredButtonViewModel)
+        let blurredActionButton = blurredButton
         setConstraint(for: blurredActionButton, width: 56.0)
 
         let mapBackgroundView = MKMapView()
@@ -44,32 +43,38 @@ class ButtonTestViewController: UIViewController {
         buttonStack.addArrangedSubview(mapBackgroundView)
 
         // Primary, secondary, alert, error...
-        let array = [primaryButtonViewModel, primarySubtitledButtonViewModel, secondaryButtonViewModel, primaryButtonViewModel2, secondaryButtonViewModel2, primaryButtonViewModel3, secondaryButtonViewModel3, primaryButtonViewModel4, secondaryButtonViewModel4, loadingButtonViewModel, primaryButtonViewModel6, secondaryButtonViewModel6, primaryProgressBarButtonViewModel, secondaryProgressBarButtonViewModel, plainButtonViewModel]
+        let array = [primaryButton,
+                     primarySubtitledButton,
+                     secondaryButton,
+                     primaryButton2,
+                     secondaryButton2,
+                     primaryButton3,
+                     secondaryButton3,
+                     primaryButton4,
+                     secondaryButton4,
+                     loadingButton,
+                     primaryButton6,
+                     secondaryButton6,
+                     primaryProgressBarButton,
+                     secondaryProgressBarButton,
+                     plainButton]
 
         for button in array {
-            addButton(with: button)
+            addButton(button)
         }
 
         // Icons, progress - 56x56
-        let primaryActionButton5 = SYUIActionButton(frame: .zero)
-        primaryActionButton5.setup(with: primaryButtonViewModel5)
-        setConstraint(for: primaryActionButton5, width: 56.0)
-        buttonStack.addArrangedSubview(primaryActionButton5)
+        setConstraint(for: primaryButton5, width: 56.0)
+        buttonStack.addArrangedSubview(primaryButton5)
 
-        let secondaryActionButton5 = SYUIActionButton(frame: .zero)
-        secondaryActionButton5.setup(with: secondaryButtonViewModel5)
-        setConstraint(for: secondaryActionButton5, width: 56.0)
-        buttonStack.addArrangedSubview(secondaryActionButton5)
+        setConstraint(for: secondaryButton5, width: 56.0)
+        buttonStack.addArrangedSubview(secondaryButton5)
 
-        let progressActionButton = SYUIActionButton(frame: .zero)
-        progressActionButton.setup(with: progressRoundButtonViewModel)
-        setConstraint(for: progressActionButton, width: 56.0)
-        buttonStack.addArrangedSubview(progressActionButton)
+        setConstraint(for: progressRoundButton, width: 56.0)
+        buttonStack.addArrangedSubview(progressRoundButton)
     }
 
-    private func addButton(with viewModel: SYUIActionButtonViewModel) {
-        let actionButton = SYUIActionButton(frame: .zero)
-        actionButton.setup(with: viewModel)
+    private func addButton(_ actionButton: SYUIActionButton) {
         setConstraint(for: actionButton)
         buttonStack.addArrangedSubview(actionButton)
     }
@@ -79,198 +84,181 @@ class ButtonTestViewController: UIViewController {
         view.widthAnchor.constraint(equalToConstant: width).isActive = true
     }
 
-    private var primaryButtonViewModel: SYUIActionButtonViewModel {
-        let icon = ""
-        let title = "primary"
-        let style = SYUIActionButtonStyle.primary
-        let isEnabled = true
+    private var primaryButton: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = ""
+        button.title = "primary"
+        button.style = SYUIActionButtonStyle.primary
+        button.isEnabled = true
 
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+        return button
     }
 
-    private var primarySubtitledButtonViewModel: SYUIActionButtonViewModel {
-        let icon = ""
-        let title = "primary"
-        let subtitle = "Subtitle"
-        let style = SYUIActionButtonStyle.primary
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, subtitle: subtitle, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var primarySubtitledButton: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = ""
+        button.title = "primary"
+        button.subtitle = "Subtitle"
+        button.style = SYUIActionButtonStyle.primary
+        button.isEnabled = true
+        return button
     }
 
-    private var secondaryButtonViewModel: SYUIActionButtonViewModel {
-        let icon = ""
-        let title = "secondary"
-        let style = SYUIActionButtonStyle.secondary
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var secondaryButton: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = ""
+        button.title = "secondary"
+        button.style = SYUIActionButtonStyle.secondary
+        button.isEnabled = true
+        return button
     }
 
-    private var primaryButtonViewModel2: SYUIActionButtonViewModel {
-        let icon = SygicIcon.directionsAction
-        let title = "Get directions Get directions"
-        let style = SYUIActionButtonStyle.primary
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var primaryButton2: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = SygicIcon.directionsAction
+        button.title = "Get directions Get directions"
+        button.style = SYUIActionButtonStyle.primary
+        button.isEnabled = true
+        return button
     }
 
-    private var secondaryButtonViewModel2: SYUIActionButtonViewModel {
-        let icon = SygicIcon.pinPlace
-        let title = "Add waypoint"
-        let style = SYUIActionButtonStyle.secondary
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var secondaryButton2: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = SygicIcon.pinPlace
+        button.title = "Add waypoint"
+        button.style = SYUIActionButtonStyle.secondary
+        button.isEnabled = true
+        return button
     }
 
-    private var blurredButtonViewModel: SYUIActionButtonViewModel {
-        let icon = SygicIcon.close
-        let title = ""
-        let style = SYUIActionButtonStyle.blurred
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var blurredButton: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = SygicIcon.close
+        button.title = ""
+        button.style = SYUIActionButtonStyle.blurred
+        button.isEnabled = true
+        return button
     }
 
-    private var primaryButtonViewModel3: SYUIActionButtonViewModel {
-        let icon = SygicIcon.directionsAction
-        let title = "Done"
-        let style = SYUIActionButtonStyle.primary
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, height: 40, isEnabled: isEnabled)
-        return buttonViewModel
+    private var primaryButton3: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = SygicIcon.directionsAction
+        button.title = "Done"
+        button.style = SYUIActionButtonStyle.primary
+        button.isEnabled = true
+        button.height = 40
+        return button
     }
 
-    private var secondaryButtonViewModel3: SYUIActionButtonViewModel {
-        let icon = SygicIcon.pinPlace
-        let title = "Add waypoint"
-        let style = SYUIActionButtonStyle.secondary
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, height: 40, isEnabled: isEnabled)
-        return buttonViewModel
+    private var secondaryButton3: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = SygicIcon.pinPlace
+        button.title = "Add waypoint"
+        button.style = SYUIActionButtonStyle.secondary
+        button.isEnabled = true
+        button.height = 40
+        return button
     }
 
-    private var primaryButtonViewModel4: SYUIActionButtonViewModel {
-        let icon = ""
-        let title = "Label"
-        let style = SYUIActionButtonStyle.primary
-        let isEnabled = false
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var primaryButton4: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = ""
+        button.title = "Label"
+        button.style = SYUIActionButtonStyle.primary
+        button.isEnabled = false
+        return button
     }
 
-    private var secondaryButtonViewModel4: SYUIActionButtonViewModel {
-        let icon = SygicIcon.directionsAction
-        let title = "Label"
-        let style = SYUIActionButtonStyle.secondary
-        let isEnabled = false
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var secondaryButton4: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = SygicIcon.directionsAction
+        button.title = "Label"
+        button.style = SYUIActionButtonStyle.secondary
+        button.isEnabled = false
+        return button
     }
 
-    private var loadingButtonViewModel: SYUIActionButtonViewModel {
-        let icon = ""
-        let title = "Calculating route"
-        let style = SYUIActionButtonStyle.loading
-        let isEnabled = false
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var loadingButton: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = ""
+        button.title = "Calculating route"
+        button.style = SYUIActionButtonStyle.loading
+        button.isEnabled = false
+        return button
     }
 
-    private var primaryButtonViewModel5: SYUIActionButtonViewModel {
-        let icon = SygicIcon.directionsAction
-        let title = ""
-        let style = SYUIActionButtonStyle.primary
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var primaryButton5: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = SygicIcon.directionsAction
+        button.title = ""
+        button.style = SYUIActionButtonStyle.primary
+        button.isEnabled = true
+        return button
     }
 
-    private var secondaryButtonViewModel5: SYUIActionButtonViewModel {
-        let icon = SygicIcon.directionsAction
-        let title = ""
-        let style = SYUIActionButtonStyle.secondary
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var secondaryButton5: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = SygicIcon.directionsAction
+        button.title = ""
+        button.style = SYUIActionButtonStyle.secondary
+        button.isEnabled = true
+        return button
     }
 
-    private var primaryButtonViewModel6: SYUIActionButtonViewModel {
-        let icon = ""
-        let title = "Error"
-        let style = SYUIActionButtonStyle.error
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var primaryButton6: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = ""
+        button.title = "Error"
+        button.style = SYUIActionButtonStyle.error
+        button.isEnabled = true
+        return button
     }
 
-    private var secondaryButtonViewModel6: SYUIActionButtonViewModel {
-        let icon = ""
-        let title = "Alert"
-        let style = SYUIActionButtonStyle.alert
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var secondaryButton6: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = ""
+        button.title = "Alert"
+        button.style = SYUIActionButtonStyle.alert
+        button.isEnabled = true
+        return button
     }
 
-    private var progressRoundButtonViewModel: SYUIActionButtonViewModel {
-        let icon = SygicIcon.close
-        let title = ""
-        let style = SYUIActionButtonStyle.secondary
-        let isEnabled = true
-        let duration = 9.0
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled, countdown: duration)
-
-        return buttonViewModel
+    private var progressRoundButton: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = SygicIcon.close
+        button.title = ""
+        button.style = SYUIActionButtonStyle.secondary
+        button.isEnabled = true
+        button.countdown = 9.0
+        return button
     }
 
-    private var primaryProgressBarButtonViewModel: SYUIActionButtonViewModel {
-        let icon = ""
-        let title = "Start"
-        let style = SYUIActionButtonStyle.primary
-        let isEnabled = true
-        let duration = 9.0
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled, countdown: duration)
-        return buttonViewModel
+    private var primaryProgressBarButton: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = ""
+        button.title = "Start"
+        button.style = SYUIActionButtonStyle.primary
+        button.isEnabled = true
+        button.countdown = 9.0
+        return button
     }
 
-    private var secondaryProgressBarButtonViewModel: SYUIActionButtonViewModel {
-        let icon = ""
-        let title = "Resume"
-        let style = SYUIActionButtonStyle.secondary
-        let isEnabled = true
-        let duration = 9.0
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled, countdown: duration)
-        return buttonViewModel
+    private var secondaryProgressBarButton: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = ""
+        button.title = "Resume"
+        button.style = SYUIActionButtonStyle.secondary
+        button.isEnabled = true
+        button.countdown = 9.0
+        return button
     }
 
-    private var plainButtonViewModel: SYUIActionButtonViewModel {
-        let icon = ""
-        let title = "Forgot password"
-        let style = SYUIActionButtonStyle.plain
-        let isEnabled = true
-
-        let buttonViewModel = SYUIActionButtonViewModel(title: title, icon: icon, style: style, isEnabled: isEnabled)
-        return buttonViewModel
+    private var plainButton: SYUIActionButton {
+        let button = SYUIActionButton()
+        button.icon = ""
+        button.title = "Forgot password"
+        button.style = SYUIActionButtonStyle.plain
+        button.isEnabled = true
+        return button
     }
 }

@@ -3,7 +3,7 @@ import GradientView
 
 
 public protocol SYUIPoiDetailViewProtocol: class {
-    var poiDetailButtonsViewModel: SYUIActionButtonsViewModel { get }
+    var poiDetailButtons: [SYUIActionButton] { get }
     var poiDetailHeaderCellData: SYUIPoiDetailHeaderDataSource { get }
     
     func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int
@@ -50,8 +50,8 @@ internal class SYUIPoiDetailView: UIView {
     }
     
     public func reloadData() {
-        guard let viewModel = delegate else { return }
-        actionButtonsView.update(with: viewModel.poiDetailButtonsViewModel)
+        guard let delegate = delegate else { return }
+        actionButtonsView.buttons = delegate.poiDetailButtons
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 20))
         tableView.reloadData()
     }
@@ -136,34 +136,34 @@ extension SYUIPoiDetailView: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let viewModel = delegate, let section = SYUIPoiDetailSectionType(rawValue: section) else { return 0 }
+        guard let delegate = delegate, let section = SYUIPoiDetailSectionType(rawValue: section) else { return 0 }
         if section == .header {
             return 1
         }
-        return viewModel.poiDetailNumberOfRows(in: section)
+        return delegate.poiDetailNumberOfRows(in: section)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section), let viewModel = delegate else {
+        guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section), let delegate = delegate else {
             return PoiDetailTableViewCell()
         }
         switch section {
         case .header:
             let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(PoiDetailHeaderCell.self)) as! PoiDetailHeaderCell
-            cell.update(with: viewModel.poiDetailHeaderCellData)
+            cell.update(with: delegate.poiDetailHeaderCellData)
             return cell
         case .contactInfo, .actions:
-            let cellViewModel = viewModel.poiDetailCellData(for: indexPath)
+            let cellData = delegate.poiDetailCellData(for: indexPath)
             
             let cell: PoiDetailTableViewCell
-            if let subtitle = cellViewModel.subtitle, !subtitle.isEmpty {
+            if let subtitle = cellData.subtitle, !subtitle.isEmpty {
                 cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(PoiDetailSubtitleTableViewCell.self)) as! PoiDetailSubtitleTableViewCell
             } else {
                 cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(PoiDetailTableViewCell.self)) as! PoiDetailTableViewCell
             }
-            cell.update(with: cellViewModel)
+            cell.update(with: cellData)
             
-            if let copyString = cellViewModel.stringToCopy, !copyString.isEmpty {
+            if let copyString = cellData.stringToCopy, !copyString.isEmpty {
                 let copyRecognizer = UILongPressGestureRecognizer.init(target: self, action: #selector(copyLongpressRecognized(recognizer:)))
                 cell.addGestureRecognizer(copyRecognizer)
             }
@@ -240,8 +240,8 @@ extension SYUIPoiDetailView: UITableViewDelegate {
 // MARK: - ActionButtonsDelegate
 extension SYUIPoiDetailView: SYUIActionButtonsDelegate {
     public func actionButtonPressed(_ button: SYUIActionButton, at index: Int) {
-        if let viewModel = delegate {
-            viewModel.poiDetailDidPressActionButton(at: index)
+        if let delegate = delegate {
+            delegate.poiDetailDidPressActionButton(at: index)
         }
     }
 }

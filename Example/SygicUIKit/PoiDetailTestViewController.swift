@@ -49,6 +49,7 @@ class PoiDetailTestViewController: UIViewController {
 }
 
 extension PoiDetailTestViewController: SYUIPoiDetailDataSource {
+    
     var poiDetailMaxTopOffset: CGFloat {
         if #available(iOS 11.0, *) {
             return view.safeAreaInsets.top
@@ -68,8 +69,11 @@ extension PoiDetailTestViewController: SYUIPoiDetailDataSource {
         return 1
     }
     
-    func poiDetailActionButtonProperties(at index: Int) -> SYUIActionButtonProperties? {
-        return SYUIActionButtonViewModel(title: "Primary action button", icon: SygicIcon.routeStart)
+    func poiDetailActionButton(for index: Int) -> SYUIActionButton {
+        let button = SYUIActionButton()
+        button.title = "Primary action button"
+        button.icon = SygicIcon.routeStart
+        return button
     }
     
     func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int {
