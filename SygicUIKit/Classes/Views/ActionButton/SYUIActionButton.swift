@@ -42,15 +42,64 @@ public enum SYUIActionButtonSize: CGFloat {
     }
 }
 
-///General purpose action button. Configurable with `ActionButtonViewModel`.
-public class SYUIActionButton: UIButton {
+///General purpose action button. Configurable with `SYUIActionButtonProperties`.
+public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
+    public var title: String? {
+        didSet {
+            updateLayout()
+        }
+    }
+
+    public var subtitle: String? {
+        didSet {
+            updateLayout()
+        }
+    }
     
-    public var action: (() -> Void)?
-    public var title = UILabel()
-    public var subtitle = UILabel()
-    public var rightIcon = UILabel()
+    public var icon: String? {
+        didSet {
+            updateLayout()
+        }
+    }
     
-    private var viewModel: SYUIActionButtonProperties?
+    public var height: CGFloat = SYUIActionButtonSize.normal.height {
+        didSet {
+            updateLayout()
+        }
+    }
+    
+    public var titleSize: CGFloat? {
+        didSet {
+            updateLayout()
+        }
+    }
+    
+    public var subtitleSize: CGFloat? {
+        didSet {
+            updateLayout()
+        }
+    }
+    
+    public var iconSize: CGFloat = 24.0 {
+        didSet {
+            updateLayout()
+        }
+    }
+    
+    public var iconAlignment: NSTextAlignment = .right {
+        didSet {
+            updateLayout()
+        }
+    }
+    
+    
+    override public var titleLabel: UILabel? {
+        return customTitleLabel
+    }
+    public var subtitleLabel: UILabel {
+        return customSubtitleLabel
+    }
+    
     private var originalBackgroundColor: UIColor?
     private var leftMarginConstraint: NSLayoutConstraint?
     private var rightMarginConstraint: NSLayoutConstraint?
@@ -64,6 +113,9 @@ public class SYUIActionButton: UIButton {
     private var blur: UIView?
     private var countdownRoundView: CirclePathCountdownView?
     private var countdownBarView: BarPathCountdownView?
+    private let customTitleLabel = UILabel()
+    private let customSubtitleLabel = UILabel()
+    private let rightIcon = UILabel()
     private let stackView = UIStackView()
     private let labelsStackView = UIStackView()
     
@@ -91,56 +143,7 @@ public class SYUIActionButton: UIButton {
     
     public var style = SYUIActionButtonStyle.primary {
         didSet {
-            blur?.removeFromSuperview()
-            var textColor: UIColor = .textInvert
-            
-            switch style {
-            case .primary:
-                backgroundColor = .action
-                borderView.isHidden = true
-                rightAccessoryView = nil
-            case .secondary:
-                backgroundColor = .background
-                textColor = .action
-                borderView.isHidden = false
-                rightAccessoryView = nil
-            case .loading:
-                backgroundColor = .border
-                borderView.isHidden = true
-                let indicator = UIActivityIndicatorView()
-                indicator.startAnimating()
-                rightAccessoryView = indicator
-            case .plain:
-                backgroundColor = .clear
-                textColor = .action
-                borderView.isHidden = true
-                rightAccessoryView = nil
-            case .error:
-                backgroundColor = .error
-                borderView.isHidden = true
-                rightAccessoryView = nil
-            case .alert:
-                backgroundColor = .background
-                textColor = .error
-                borderView.isHidden = false
-                rightAccessoryView = nil
-            case .blurred:
-                backgroundColor = .clear
-                title.isHidden = true
-                subtitle.isHidden = true
-                rightIcon.textColor = .textInvert
-                borderView.isHidden = true
-                rightAccessoryView = nil
-                blur = addBlurViewWithMapControlsBlurStyle()
-            }
-            
-            borderView.backgroundColor = .iconBackground
-            title.textColor = textColor
-            subtitle.textColor = textColor
-            rightIcon.textColor = textColor
-            setTitleLabelFont(for: style)
-            setSubtitleLabelFont(for: style)
-            setShadow(for: style)
+            updateLayout()
         }
     }
     
@@ -152,13 +155,13 @@ public class SYUIActionButton: UIButton {
     }
     
     private var hasTitle: Bool {
-        guard let titleText = title.text else { return false }
+        guard let titleText = customTitleLabel.text else { return false }
         
         return !titleText.isEmpty
     }
     
     private var hasSubtitle: Bool {
-        guard let subtitleText = subtitle.text else { return false }
+        guard let subtitleText = customSubtitleLabel.text else { return false }
         
         return !subtitleText.isEmpty
     }
@@ -177,15 +180,22 @@ public class SYUIActionButton: UIButton {
         return hasTitle && !hasRightIcon && rightAccessoryView == nil && style != .plain
     }
     
+    private var horizontalMargin: CGFloat = 16.0 {
+        didSet {
+            leftMarginConstraint?.constant = horizontalMargin
+            rightMarginConstraint?.constant = -horizontalMargin
+        }
+    }
+    
     override public var isHighlighted: Bool {
         didSet {
             guard let backgroundColor = originalBackgroundColor, isHighlighted != oldValue else { return }
             if style == .plain {
-                title.textColor = isHighlighted ? UIColor.action.adjustBrightness(with: ColorSchemeManager.sharedInstance.brightnessMultiplier.lighter) : .action
+                customTitleLabel.textColor = isHighlighted ? UIColor.action.adjustBrightness(with: ColorSchemeManager.sharedInstance.brightnessMultiplier.lighter) : .action
             } else if style == .blurred {
                 rightIcon.textColor = isHighlighted ? UIColor.textInvert.adjustBrightness(with: ColorSchemeManager.sharedInstance.brightnessMultiplier.darker) : .textInvert
             } else {
-                let multiplier = ColorSchemeManager.sharedInstance.brightnessMultiplier(for: backgroundColor, foregroundColor: title.textColor)
+                let multiplier = ColorSchemeManager.sharedInstance.brightnessMultiplier(for: backgroundColor, foregroundColor: customTitleLabel.textColor)
                 let highlightedColor = isHighlighted ? backgroundColor.adjustBrightness(with: multiplier) : backgroundColor
                 
                 backgroundView.highlightColor = highlightedColor
@@ -201,7 +211,7 @@ public class SYUIActionButton: UIButton {
                 self.style = style
             } else {
                 backgroundColor = .iconBackground
-                title.textColor = .mapInfoBackground
+                customTitleLabel.textColor = .mapInfoBackground
                 rightIcon.textColor = .mapInfoBackground
                 if let activityIndicator = rightAccessoryView as? UIActivityIndicatorView {
                     activityIndicator.color = .mapInfoBackground
@@ -209,13 +219,6 @@ public class SYUIActionButton: UIButton {
                 borderView.isHidden = true
                 setShadow(for: .plain)
             }
-        }
-    }
-    
-    private var horizontalMargin: CGFloat = 16.0 {
-        didSet {
-            leftMarginConstraint?.constant = horizontalMargin
-            rightMarginConstraint?.constant = -horizontalMargin
         }
     }
     
@@ -236,16 +239,16 @@ public class SYUIActionButton: UIButton {
     override public func layoutSubviews() {
         //was not possible to change the title.isHidden value after it was set to true only with this hack
         DispatchQueue.main.async {
-            self.title.isHidden = self.title.text == nil
+            self.customTitleLabel.isHidden = self.customTitleLabel.text == nil
         }
         let alignment: NSTextAlignment = (rightIcon.text?.isEmpty ?? true && rightAccessoryView == nil) ? .center : .left
-        title.textAlignment = alignment
-        subtitle.textAlignment = alignment
+        customTitleLabel.textAlignment = alignment
+        customSubtitleLabel.textAlignment = alignment
         
         rightAccessoryPlaceholder.isHidden = rightIcon.text?.isEmpty ?? true && rightAccessoryView == nil
         rightIcon.textAlignment = .center
-        title.baselineAdjustment = .alignCenters
-        subtitle.baselineAdjustment = .alignCenters
+        customTitleLabel.baselineAdjustment = .alignCenters
+        customSubtitleLabel.baselineAdjustment = .alignCenters
         
         super.layoutSubviews()
 
@@ -265,7 +268,7 @@ public class SYUIActionButton: UIButton {
     }
     
     override public func setTitle(_ title: String?, for state: UIControlState) {
-        self.title.text = title
+        self.customTitleLabel.text = title
         
         addCountdownViewsIfNeeded()
         capitalizeTitleIfNeeded()
@@ -274,23 +277,19 @@ public class SYUIActionButton: UIButton {
     
     // MARK: - Public
     
-    public func setup(with viewModel: SYUIActionButtonProperties) {
-        self.viewModel = viewModel
-        
-        title.text = viewModel.title
-        subtitle.text = viewModel.subtitle
-        rightIcon.text = viewModel.icon
-        style = viewModel.style
-        accessibilityIdentifier = viewModel.accessibilityIdentifier ?? "actionButton"
-        rightIcon.font = SygicFonts.with(SygicFonts.iconFont, size: viewModel.iconSize)
-        rightIcon.textAlignment = viewModel.iconAlignment
-        isEnabled = viewModel.isEnabled
-        countdown = viewModel.countdown
-        isHidden = viewModel.isHidden
-        
+    public func updateLayout() {
+        customTitleLabel.text = title
+        customSubtitleLabel.text = subtitle
+        rightIcon.text = icon
+        rightIcon.font = SygicFonts.with(SygicFonts.iconFont, size: iconSize)
+        rightIcon.textAlignment = iconAlignment
+        updateStyle()
         capitalizeTitleIfNeeded()
+        if accessibilityIdentifier == nil {
+            accessibilityIdentifier = "actionButton"
+        }
         
-        heightConstraint?.constant = viewModel.height
+        heightConstraint?.constant = height
         
         let enableSideMargins = hasTitle
         leftMarginConstraint?.isActive = enableSideMargins
@@ -317,16 +316,16 @@ public class SYUIActionButton: UIButton {
         setupBorder()
         setupBackgroundView()
         rightIcon.font = SygicFonts.with(SygicFonts.iconFont, size: rightIconFontSize)
-        title.setContentCompressionResistancePriority(.required, for: .horizontal)
-        title.minimumScaleFactor = 0.6
-        title.adjustsFontSizeToFitWidth = true
+        customTitleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        customTitleLabel.minimumScaleFactor = 0.6
+        customTitleLabel.adjustsFontSizeToFitWidth = true
         
         setupConstraints()
     }
     
     private func setupConstraints() {
-        title.translatesAutoresizingMaskIntoConstraints = false
-        subtitle.translatesAutoresizingMaskIntoConstraints = false
+        customTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        customSubtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 8.0
@@ -347,8 +346,8 @@ public class SYUIActionButton: UIButton {
         labelsStackView.alignment = .fill
         labelsStackView.distribution = .fillProportionally
         
-        labelsStackView.addArrangedSubview(title)
-        labelsStackView.addArrangedSubview(subtitle)
+        labelsStackView.addArrangedSubview(customTitleLabel)
+        labelsStackView.addArrangedSubview(customSubtitleLabel)
         
         stackView.addArrangedSubview(labelsStackView)
         stackView.addArrangedSubview(rightAccessoryPlaceholder)
@@ -403,19 +402,19 @@ public class SYUIActionButton: UIButton {
     }
     
     private func setTitleLabelFont(for style: SYUIActionButtonStyle) {
-        let titleSize = viewModel?.titleSize ?? SygicFontSize.heading
-        title.font = SygicFonts.with(SygicFonts.semiBold, size: titleSize)
+        let titleSize = self.titleSize ?? SygicFontSize.heading
+        customTitleLabel.font = SygicFonts.with(SygicFonts.semiBold, size: titleSize)
     }
     
     private func setSubtitleLabelFont(for style: SYUIActionButtonStyle) {
-        let subtitleSize = viewModel?.subtitleSize ?? SygicFontSize.body
-        subtitle.font = SygicFonts.with(SygicFonts.semiBold, size: subtitleSize)
+        let subtitleSize = self.subtitleSize ?? SygicFontSize.body
+        customSubtitleLabel.font = SygicFonts.with(SygicFonts.semiBold, size: subtitleSize)
     }
     
     private func capitalizeTitleIfNeeded() {
         
         if shouldCapitalizeTitle {
-            title.text = title.text?.uppercased()
+            customTitleLabel.text = customTitleLabel.text?.uppercased()
         }
     }
     
@@ -433,10 +432,10 @@ public class SYUIActionButton: UIButton {
         
         if (hasOnlyIcon) {
             countdownRoundView = CirclePathCountdownView()
-            countdownRoundView?.setup(with: countdown, strokeColor: title.textColor)
+            countdownRoundView?.setup(with: countdown, strokeColor: customTitleLabel.textColor)
         } else {
             countdownBarView = BarPathCountdownView()
-            countdownBarView?.setup(with: countdown, strokeColor: title.textColor)
+            countdownBarView?.setup(with: countdown, strokeColor: customTitleLabel.textColor)
         }
         setNeedsLayout()
     }
@@ -448,6 +447,59 @@ public class SYUIActionButton: UIButton {
         backgroundView.layer.masksToBounds = true
         backgroundView.addSubview(view)
         view.coverWholeSuperview()
+    }
+    
+    private func updateStyle() {
+        blur?.removeFromSuperview()
+        var textColor: UIColor = .textInvert
+        
+        switch style {
+        case .primary:
+            backgroundColor = .action
+            borderView.isHidden = true
+            rightAccessoryView = nil
+        case .secondary:
+            backgroundColor = .background
+            textColor = .action
+            borderView.isHidden = false
+            rightAccessoryView = nil
+        case .loading:
+            backgroundColor = .border
+            borderView.isHidden = true
+            let indicator = UIActivityIndicatorView()
+            indicator.startAnimating()
+            rightAccessoryView = indicator
+        case .plain:
+            backgroundColor = .clear
+            textColor = .action
+            borderView.isHidden = true
+            rightAccessoryView = nil
+        case .error:
+            backgroundColor = .error
+            borderView.isHidden = true
+            rightAccessoryView = nil
+        case .alert:
+            backgroundColor = .background
+            textColor = .error
+            borderView.isHidden = false
+            rightAccessoryView = nil
+        case .blurred:
+            backgroundColor = .clear
+            customTitleLabel.isHidden = true
+            customSubtitleLabel.isHidden = true
+            rightIcon.textColor = .textInvert
+            borderView.isHidden = true
+            rightAccessoryView = nil
+            blur = addBlurViewWithMapControlsBlurStyle()
+        }
+        
+        borderView.backgroundColor = .iconBackground
+        customTitleLabel.textColor = textColor
+        customSubtitleLabel.textColor = textColor
+        rightIcon.textColor = textColor
+        setTitleLabelFont(for: style)
+        setSubtitleLabelFont(for: style)
+        setShadow(for: style)
     }
 }
 

@@ -1,17 +1,17 @@
 import UIKit
 
-public protocol SYUIPoiDetailAddressDataSource {
+public protocol SYUIPoiDetailHeaderDataSource {
     var title: String { get }
     var subtitle: String? { get }
 //    var rating: Double { get }
 }
 
-public struct SYUIPoiDetailAddressViewModel: SYUIPoiDetailAddressDataSource {
+public struct SYUIPoiDetailHeaderData: SYUIPoiDetailHeaderDataSource {
     public var title: String
     public var subtitle: String?
 }
 
-public class PoiDetailAddressCell: UITableViewCell {
+public class PoiDetailHeaderCell: UITableViewCell {
     
     public static let verticalFrameOffset: CGFloat = 13.0
     
@@ -21,7 +21,7 @@ public class PoiDetailAddressCell: UITableViewCell {
     private let ratingStarFontSize:     CGFloat  = 12
     private let fuelIconFontSize:       CGFloat  = 15
     private let horizontalFrameOffset:  CGFloat = 24
-    private var addressCellHeight: CGFloat { return 2 * PoiDetailAddressCell.verticalFrameOffset + titleLabelHeight + subtitleLabelHeight }
+    private var addressCellHeight: CGFloat { return 2 * PoiDetailHeaderCell.verticalFrameOffset + titleLabelHeight + subtitleLabelHeight }
     
     private var titleLabel: UILabel!
     private var subtitleLabel: UILabel!
@@ -55,9 +55,9 @@ public class PoiDetailAddressCell: UITableViewCell {
     }
 
  // MARK: - Public Methods
-    public func update(with viewModel: SYUIPoiDetailAddressDataSource) {
-        update(titleText: viewModel.title)
-        update(subtitleText: viewModel.subtitle)
+    public func update(with data: SYUIPoiDetailHeaderDataSource) {
+        update(titleText: data.title)
+        update(subtitleText: data.subtitle)
     }
     
     
@@ -127,7 +127,7 @@ public class PoiDetailAddressCell: UITableViewCell {
     private func createConstraints() {
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(offset)-[title][subtitle][rating]",
                                                                    options: [],
-                                                                   metrics: ["offset": PoiDetailAddressCell.verticalFrameOffset],
+                                                                   metrics: ["offset": PoiDetailHeaderCell.verticalFrameOffset],
                                                                    views: ["title": titleLabel, "subtitle": subtitleLabel, "rating": ratingLabel]))
         
         heightConstraint = contentView.heightAnchor.constraint(equalToConstant: addressCellHeight)
