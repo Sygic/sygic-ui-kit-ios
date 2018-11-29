@@ -1,32 +1,12 @@
 import Foundation
 import UIKit
 
-public protocol SYUICompassProperties {
-    var compassCourse: Double { get }
-    var compassAutoHide: Bool { get }
-}
-
-public protocol SYUICompassDelegate: class {
-    func compassDidTap(_ compass: SYUICompass)
-}
-
 public class SYUICompass: UIView {
-    public weak var delegate: SYUICompassDelegate?
-    private let halfRotation = CGFloat(180.0)
     private let COMPASS_BACKGROUND_SIZE = 44.0
     private let COMPASS_BORDER_SIZE = 46.0
     private let compassArrow = SYUICompassArrow()
     private let backgroundView = UIView()
     private let borderView = UIView()
-    
-    public var viewModel: SYUICompassProperties? {
-        didSet {
-            guard let viewModel = viewModel else { return }
-            let rotation = CGFloat(viewModel.compassCourse) * .pi / halfRotation
-            compassArrow.layer.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(rotation)))
-            handleViewAlpha()
-        }
-    }
     
     public init() {
         super.init(frame: CGRect.zero)
@@ -37,16 +17,26 @@ public class SYUICompass: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     public override func layoutSubviews() {
         super.layoutSubviews()
         backgroundView.fullRoundCorners()
         borderView.fullRoundCorners()
     }
     
-    private func shouldBeVisible() -> Bool {
-        guard let viewModel = viewModel else { return false }
-        return viewModel.compassCourse != 0 || !viewModel.compassAutoHide
+    public func rotateArrow(_ rotation: CGFloat) {
+        compassArrow.layer.setAffineTransform(CGAffineTransform(rotationAngle: rotation))
+    }
+    
+    public func animateVisibility(_ visible: Bool) {
+        if visible && alpha == 0.0  {
+            UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut, .beginFromCurrentState], animations: {
+                self.alpha = 1.0
+            })
+        } else if !visible && alpha == 1.0 {
+            UIView.animate(withDuration: 0.2, delay: 1.0, options: [.curveEaseInOut, .beginFromCurrentState], animations: {
+                self.alpha = 0.0
+            })
+        }
     }
     
     //MARK: - UI
@@ -59,7 +49,6 @@ public class SYUICompass: UIView {
         createBorderView()
         createBackgroundView()
         createCompassArrow()
-        createTapGestureRecognizer()
         
         self.borderView.backgroundColor = UIColor(red:0.09, green:0.11, blue:0.15, alpha:0.1)
         self.backgroundView.backgroundColor = .white
@@ -90,28 +79,6 @@ public class SYUICompass: UIView {
         compassArrow.coverWholeSuperview()
     }
     
-    // MARK: - Actions
-    private func createTapGestureRecognizer() {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.compassClicked))
-        addGestureRecognizer(tapRecognizer)
-    }
-    
-    @objc private func compassClicked(_ rg: UITapGestureRecognizer) {
-        delegate?.compassDidTap(self)
-    }
- 
-    private func handleViewAlpha() {
-        if shouldBeVisible() && alpha == 0.0  {
-            UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut, .beginFromCurrentState], animations: {
-                self.alpha = 1.0
-            })
-        } else if !shouldBeVisible() && alpha == 1.0 {
-            UIView.animate(withDuration: 0.2, delay: 1.0, options: [.curveEaseInOut, .beginFromCurrentState], animations: {
-                self.alpha = 0.0
-            })
-        }
-    }
-    
     // MARK: - UIViewGeometry
     public override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         if (alpha == 0) {
@@ -121,10 +88,5 @@ public class SYUICompass: UIView {
         let hitOffset = CGFloat(10.0)
         bounds = CGRect(x: CGFloat(bounds.origin.x - hitOffset), y: CGFloat(bounds.origin.y - hitOffset), width: CGFloat(bounds.size.width + 2 * hitOffset), height: CGFloat(bounds.size.height + 2 * hitOffset))
         return bounds.contains(point)
-    }
-    
-    private func deltaRotation(rotation: CGFloat) -> CGFloat{
-        let delta = halfRotation - abs(rotation - halfRotation)
-        return delta
     }
 }

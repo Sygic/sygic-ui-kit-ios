@@ -1,6 +1,9 @@
 import UIKit
 
 public protocol BottomSheetViewDelegate: class {
+    /// Tells if bottomSheetView should change position when pan gesture is recognized (default set to true)
+    func bottomSheetCanMove() -> Bool
+    
     func bottomSheetDidSwipe(_ bottomSheetView: SYUIBottomSheetView, with delta: CGFloat, to offset: CGFloat)
     func bottomSheetWillAnimate(_ bottomSheetView: SYUIBottomSheetView, to offset: CGFloat, with duration: TimeInterval)
     func bottomSheetWillAppear(_ bottomSheetView: SYUIBottomSheetView)
@@ -10,6 +13,8 @@ public protocol BottomSheetViewDelegate: class {
 }
 
 public extension BottomSheetViewDelegate {
+    func bottomSheetCanMove() -> Bool { return true }
+    
     func bottomSheetDidSwipe(_ bottomSheetView: SYUIBottomSheetView, with delta: CGFloat, to offset: CGFloat) {}
     func bottomSheetWillAnimate(_ bottomSheetView: SYUIBottomSheetView, to offset: CGFloat, with duration: TimeInterval) {}
     func bottomSheetWillAppear(_ bottomSheetView: SYUIBottomSheetView) {}
@@ -336,6 +341,10 @@ extension SYUIBottomSheetView: UIGestureRecognizerDelegate {
     }
     
     @objc open func panGestureRecognizerChanged(_ recognizer: UIPanGestureRecognizer) {
+        if let delegate = sheetDelegate, !delegate.bottomSheetCanMove() {
+            return
+        }
+        
         let currentTranslation = recognizer.location(in: self)
         let translation = currentTranslation.y - translationOffset
         
@@ -353,6 +362,10 @@ extension SYUIBottomSheetView: UIGestureRecognizerDelegate {
     }
     
     @objc open func panGestureRecognizerEnded(_ recognizer: UIPanGestureRecognizer) {
+        if let delegate = sheetDelegate, !delegate.bottomSheetCanMove() {
+            return
+        }
+        
         if canSwipeToHide && isCollapsed && (recognizer.location(in: self).y - translationOffset) > 0 {
             animateOut({
                 self.sheetDelegate?.bottomSheetDidSwipeOut(self)

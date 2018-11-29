@@ -4,7 +4,7 @@ import SygicUIKit
 
 class CompassTestViewController: UIViewController {
     private let mapView = MKMapView()
-    private let compass = SYUICompass()
+    private let compassController = SYUICompassController(course: 0, autoHide: true)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,35 +19,26 @@ class CompassTestViewController: UIViewController {
         let region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: 48.14816, longitude: 17.10674), 500, 500);
         mapView.setRegion(region, animated: true)
         
-        view.addSubview(compass)
-        view.bringSubview(toFront: compass)
-        compass.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -16).isActive = true
-        compass.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 16).isActive = true
+        view.addSubview(compassController.compass)
+        view.bringSubview(toFront: compassController.compass)
+        compassController.compass.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -16).isActive = true
+        compassController.compass.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 16).isActive = true
         
-        compass.viewModel = SYUICompassViewModel(course: 0, autoHide: false)
-        compass.delegate = self
+        compassController.delegate = self
     }
 }
 
 extension CompassTestViewController: MKMapViewDelegate {
-    
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-        if let compassViewModel = compass.viewModel {
-            var newModel = SYUICompassViewModel(with: compassViewModel)
-            newModel.compassCourse = 360 - mapView.camera.heading
-            compass.viewModel = newModel
-        }
+       compassController.course = 360 - mapView.camera.heading
     }
-    
 }
 
 extension CompassTestViewController: SYUICompassDelegate {
-    
     func compassDidTap(_ compass: SYUICompass) {
         if let camera = mapView.camera.copy() as? MKMapCamera {
             camera.heading = 0
             mapView.setCamera(camera, animated: true)
         }
     }
-    
 }
