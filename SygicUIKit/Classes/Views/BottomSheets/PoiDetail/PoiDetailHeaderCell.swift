@@ -55,9 +55,9 @@ public class PoiDetailHeaderCell: UITableViewCell {
     }
 
  // MARK: - Public Methods
-    public func update(with viewModel: SYUIPoiDetailHeaderDataSource) {
-        update(titleText: viewModel.title)
-        update(subtitleText: viewModel.subtitle)
+    public func update(with data: SYUIPoiDetailHeaderDataSource) {
+        update(titleText: data.title)
+        update(subtitleText: data.subtitle)
     }
     
     
