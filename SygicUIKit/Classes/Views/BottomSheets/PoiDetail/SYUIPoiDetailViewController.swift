@@ -6,7 +6,7 @@ public protocol SYUIPoiDetailDataSource: class {
     var poiDetailSubtitle: String? { get }
     
     var poiDetailNumberOfActionButtons: Int { get }
-    func poiDetailActionButtonProperties(at index: Int) -> SYUIActionButtonProperties?
+    func poiDetailActionButton(for index: Int) -> SYUIActionButton
     func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int
     func poiDetailCellData(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource
 }
@@ -119,14 +119,14 @@ extension SYUIPoiDetailViewController: SYUIPoiDetailViewProtocol {
         return SYUIPoiDetailHeaderData(title: dataSource.poiDetailTitle, subtitle: dataSource.poiDetailSubtitle)
     }
     
-    public var poiDetailButtonsViewModel: SYUIActionButtonsViewModel {
+    public var poiDetailButtons: [SYUIActionButton] {
         let count = dataSource?.poiDetailNumberOfActionButtons ?? 0
-        var buttons: [SYUIActionButtonProperties] = []
+        var buttons: [SYUIActionButton] = []
         for index in 0..<count {
-            guard let properties = dataSource?.poiDetailActionButtonProperties(at: index) else { continue }
-            buttons.append(properties)
+            guard let button = dataSource?.poiDetailActionButton(for: index) else { continue }
+            buttons.append(button)
         }
-        return SYUIActionButtonsViewModel(with: buttons)
+        return buttons
     }
     
     public func poiDetailDidPressActionButton(at index: Int) {
