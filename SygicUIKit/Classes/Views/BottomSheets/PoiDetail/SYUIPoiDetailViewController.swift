@@ -1,20 +1,26 @@
 import Foundation
 
 public protocol SYUIPoiDetailDataSource: class {
+    /// Returns space in points between expanded poi detail view and top of the screen (default == 0)
     var poiDetailMaxTopOffset: CGFloat { get }
+    
     var poiDetailTitle: String { get }
     var poiDetailSubtitle: String? { get }
     
+    /// Returns number of SYUIActionButtons that appears above poi detail content data (default == 0)
     var poiDetailNumberOfActionButtons: Int { get }
+    /// Implement if number of action buttons returns more than 0
     func poiDetailActionButton(for index: Int) -> SYUIActionButton
+    /// Returns number of poi detail data rows
     func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int
+    /// Custom Poi detail row data
     func poiDetailCellData(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource
 }
 
 public extension SYUIPoiDetailDataSource {
-    var poiDetailMaxTopOffset: CGFloat {
-        return 0
-    }
+    var poiDetailMaxTopOffset: CGFloat { return 0 }
+    var poiDetailNumberOfActionButtons: Int { return 0}
+    func poiDetailActionButton(for index: Int) -> SYUIActionButton { return SYUIActionButton() }
 }
 
 public protocol SYUIPoiDetailDelegate: class {
@@ -35,13 +41,18 @@ public class SYUIPoiDetailViewController: UIViewController {
     }
     public weak var delegate: SYUIPoiDetailDelegate?
     
+    /// visible height of PoiDetailView when minimized (without action buttons)
+    public var defaultMinimizedHeight: CGFloat = 122
+    
     private var bottomSheetView: SYUIBottomSheetView!
     private let poiDetailView = SYUIPoiDetailView()
     
     override public func loadView() {
         bottomSheetView = SYUIBottomSheetView()
         bottomSheetView.sheetDelegate = self
-        bottomSheetView.minimizedHeight = 184
+        if let dataSource = dataSource {
+            bottomSheetView.minimizedHeight = defaultMinimizedHeight + (SYUIActionButtonSize.normal.rawValue * CGFloat(dataSource.poiDetailNumberOfActionButtons))
+        }
         view = bottomSheetView
         
         poiDetailView.translatesAutoresizingMaskIntoConstraints = false

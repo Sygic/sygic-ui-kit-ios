@@ -85,7 +85,9 @@ internal class SYUIPoiDetailView: UIView {
     }
     
     private func setupTableView() {
-        
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        }
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorInset = UIEdgeInsetsMake(0, 24, 0, 0)
         tableView.estimatedRowHeight = 100
