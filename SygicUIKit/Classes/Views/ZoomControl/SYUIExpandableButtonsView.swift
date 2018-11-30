@@ -1,4 +1,7 @@
+
 public class SYUIExpandableButtonsView: UIView {
+    
+    // MARK: - Public Properties
     
     public static var toggleAnimationInterval: TimeInterval = 0.5
     public static var buttonAnimationInterval: TimeInterval = 0.2
@@ -86,7 +89,7 @@ public class SYUIExpandableButtonsView: UIView {
         }
     }
     
-    // MARK: - Animations
+    // MARK: Animations
     
     private func hideControlButtons(withCompletion completion: (() -> ())?) {
         isExpanded = false

@@ -1,3 +1,4 @@
+
 public enum SYUIZoomActivity {
     case zoomIn
     case zoomOut
@@ -15,25 +16,55 @@ public protocol SYUIZoomControllerDelegate: class {
 
 public class SYUIZoomController: SYUIExpandableButtonsController {
     
-    private let zoomInButton = SYUIExpandableButton(withType: .icon)
-    private let zoomOutButton = SYUIExpandableButton(withType: .icon)
-    private let toggle3DButton = SYUIExpandableButton(withType: .icon)
+    // MARK: - Public Properties
     
-    public var is3D = false
+    public var is3D = false {
+        didSet {
+            updateToggle3DButtonTitle()
+        }
+    }
     
-    public var zoomInButtonIcon = SygicIcon.zoomIn
-    public var zoomOutButtonIcon = SygicIcon.zoomOut
-    public var icon2D = SygicIcon.view2D
-    public var icon3D = SygicIcon.view3D
+    public var zoomInButtonIcon = SygicIcon.zoomIn {
+        didSet {
+            zoomInButton.setTitle(zoomInButtonIcon, for: .normal)
+        }
+    }
+    
+    public var zoomOutButtonIcon = SygicIcon.zoomOut {
+        didSet {
+            zoomOutButton.setTitle(zoomOutButtonIcon, for: .normal)
+        }
+    }
+    
+    public var icon2D = SygicIcon.view2D {
+        didSet {
+            toggle3DButton.setTitle(toggle3DButtonIcon, for: .normal)
+        }
+    }
+    
+    public var icon3D = SygicIcon.view3D {
+        didSet {
+            toggle3DButton.setTitle(toggle3DButtonIcon, for: .normal)
+        }
+    }
     
     public var toggle3DButtonIcon: String {
         return is3D ? icon3D : icon2D
     }
-
+    
+    public var zoomingTimerInterval = 0.2
+    
     public weak var delegate: SYUIZoomControllerDelegate?
     
+    // MARK: - Private Properties
+    
+    private let zoomInButton = SYUIExpandableButton(withType: .icon)
+    private let zoomOutButton = SYUIExpandableButton(withType: .icon)
+    private let toggle3DButton = SYUIExpandableButton(withType: .icon)
+    
     private var zoomingTimer: Timer?
-    public var zoomingTimerInterval = 0.2
+    
+    // MARK: - Public Methods
     
     public override init() {
         super.init()
@@ -42,10 +73,12 @@ public class SYUIZoomController: SYUIExpandableButtonsController {
         setupRecognizers()
     }
     
-    override public func expandButtons() {
+    public override func expandButtons() {
         updateToggle3DButtonTitle()
         super.expandButtons()
     }
+    
+    // MARK: - Private Methods
     
     private func updateToggle3DButtonTitle() {
         toggle3DButton.animateTitleChange(to: toggle3DButtonIcon, withDuration: SYUIExpandableButtonsView.buttonAnimationInterval, andDirection: is3D ? .left : .right)
@@ -75,7 +108,6 @@ public class SYUIZoomController: SYUIExpandableButtonsController {
     
     @objc private func toggle3DButtonPressed(button: SYUIExpandableButton) {
         delegate?.zoomController(wants: .toggle3D)
-        updateToggle3DButtonTitle()
     }
     
     @objc private func zoomInButtonPressed(button: SYUIExpandableButton) {

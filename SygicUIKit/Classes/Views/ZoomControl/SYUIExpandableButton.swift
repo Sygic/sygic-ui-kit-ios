@@ -11,11 +11,8 @@ public enum SYUIExpandableButtonType {
 
 public class SYUIExpandableButton: UIButton {
     
-    private static let animationHelpLabelTag = 34562
-    private static let sizePortrait: CGFloat = 52.0
-    private static let sizeLandscape: CGFloat = 44.0
-    private static let iconSizePortrait: CGFloat = 36.0
-    private static let iconSizeLandscape: CGFloat = 30.0
+    // MARK: - Public Properties
+    
     public static var iconSize: CGFloat {
         return SYUIDeviceOrientationUtils.orientationSize(for: SYUIExpandableButton.iconSizePortrait, landscape: SYUIExpandableButton.iconSizeLandscape)
     }
@@ -23,18 +20,28 @@ public class SYUIExpandableButton: UIButton {
         return SYUIDeviceOrientationUtils.orientationSize(for: SYUIExpandableButton.sizePortrait, landscape: SYUIExpandableButton.sizeLandscape)
     }
     
-    var widthConstrait = NSLayoutConstraint()
-    var iconColor = UIColor()
-    var iconLabel = UILabel()
-    var type: SYUIExpandableButtonType = .text
-    var blurView: UIView?
-    
     override public var isHighlighted: Bool {
         didSet {
             guard isHighlighted != oldValue else { return }
             iconLabel.textColor = isHighlighted ? iconColor.adjustBrightness(with: ColorSchemeManager.sharedInstance.brightnessMultiplier.darker) : iconColor
         }
     }
+    
+    // MARK: - Private Properties
+    
+    private static let animationHelpLabelTag = 34562
+    private static let sizePortrait: CGFloat = 52.0
+    private static let sizeLandscape: CGFloat = 44.0
+    private static let iconSizePortrait: CGFloat = 36.0
+    private static let iconSizeLandscape: CGFloat = 30.0
+    
+    private var widthConstrait = NSLayoutConstraint()
+    private var iconColor = UIColor()
+    private var iconLabel = UILabel()
+    private var type: SYUIExpandableButtonType = .text
+    private var blurView: UIView?
+    
+    // MARK: - Public Methods
     
     public init(withType type: SYUIExpandableButtonType) {
         super.init(frame: CGRect.zero)
@@ -56,39 +63,6 @@ public class SYUIExpandableButton: UIButton {
         super.layoutSubviews()
         fullRoundShadowPath()
         blurView?.fullRoundCorners()
-    }
-    
-    private func initDefaults() {
-        iconColor = .textInvert
-        blurView = addBlurViewWithMapControlsBlurStyle()
-        setupDefaultShadow()
-        iconLabel = createIconLabel()
-        addSubview(iconLabel)
-        iconLabel.coverWholeSuperview()
-        widthConstrait = widthAnchor.constraint(equalToConstant: SYUIExpandableButton.size)
-        widthConstrait.isActive = true
-        widthAnchor.constraint(equalTo: heightAnchor).isActive = true
-    }
-    
-    private func createIconLabel() -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = buttonFont()
-        label.textColor = iconColor
-        label.textAlignment = .center
-        label.baselineAdjustment = .alignCenters
-        label.minimumScaleFactor = 0.5
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }
-    
-    private func buttonFont() -> UIFont {
-        switch type {
-        case .icon:
-            return SygicFonts.with(SygicFonts.iconFont, size: SYUIExpandableButton.iconSize)!
-        case .text:
-            return SygicFonts.with(SygicFonts.semiBold, size: SYUIExpandableButton.iconSize)!
-        }
     }
     
     override public func setTitle(_ title: String?, for state: UIControlState) {
@@ -150,6 +124,41 @@ public class SYUIExpandableButton: UIButton {
         layer.removeAllAnimations()
         for view in subviews {
             view.layer.removeAllAnimations()
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func initDefaults() {
+        iconColor = .textInvert
+        blurView = addBlurViewWithMapControlsBlurStyle()
+        setupDefaultShadow()
+        iconLabel = createIconLabel()
+        addSubview(iconLabel)
+        iconLabel.coverWholeSuperview()
+        widthConstrait = widthAnchor.constraint(equalToConstant: SYUIExpandableButton.size)
+        widthConstrait.isActive = true
+        widthAnchor.constraint(equalTo: heightAnchor).isActive = true
+    }
+    
+    private func createIconLabel() -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = buttonFont()
+        label.textColor = iconColor
+        label.textAlignment = .center
+        label.baselineAdjustment = .alignCenters
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }
+    
+    private func buttonFont() -> UIFont {
+        switch type {
+        case .icon:
+            return SygicFonts.with(SygicFonts.iconFont, size: SYUIExpandableButton.iconSize)!
+        case .text:
+            return SygicFonts.with(SygicFonts.semiBold, size: SYUIExpandableButton.iconSize)!
         }
     }
     
