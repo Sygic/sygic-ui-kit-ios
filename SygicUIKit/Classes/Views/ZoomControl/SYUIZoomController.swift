@@ -33,6 +33,7 @@ public class SYUIZoomController: SYUIExpandableButtonsController {
     public weak var delegate: SYUIZoomControllerDelegate?
     
     private var zoomingTimer: Timer?
+    public var zoomingTimerInterval = 0.2
     
     public override init() {
         super.init()
@@ -102,7 +103,7 @@ public class SYUIZoomController: SYUIExpandableButtonsController {
         switch recognizer.state {
         case .began:
             delegate?.zoomController(wants: .startZoomOut)
-            zoomingTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateZoomingOut), userInfo: nil, repeats: true)
+            zoomingTimer = Timer.scheduledTimer(timeInterval: zoomingTimerInterval, target: self, selector: #selector(updateZoomingOut), userInfo: nil, repeats: true)
         case .ended:
             delegate?.zoomController(wants: .stopZooming)
             zoomingTimer?.invalidate()
