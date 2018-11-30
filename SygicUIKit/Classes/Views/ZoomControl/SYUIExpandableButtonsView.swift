@@ -1,13 +1,15 @@
 public class SYUIExpandableButtonsView: UIView {
     
-    public static let toggleAnimationInterval: TimeInterval = 0.5
-    public static let buttonAnimationInterval: TimeInterval = 0.2
-    public static let buttonAnimationDelay: TimeInterval = 0.1
+    public static var toggleAnimationInterval: TimeInterval = 0.5
+    public static var buttonAnimationInterval: TimeInterval = 0.2
+    public static var buttonAnimationDelay: TimeInterval = 0.1
     
-    private var toggleButton = SYUIExpandableButton(withType: .icon)
-    private var isExpanded = false
+    public var toggleButton = SYUIExpandableButton(withType: .icon)
+    public var toggleButtonExpandedIcon = SygicIcon.viewControls
+    public var toggleButtonWrappedIcon = SygicIcon.close
     
     public var expandableButtons = [SYUIExpandableButton]()
+    public var isExpanded = false
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,12 +27,11 @@ public class SYUIExpandableButtonsView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         toggleButton.translatesAutoresizingMaskIntoConstraints = false
         toggleButton.setTitle(titleForToggleButton(), for: .normal)
-        toggleButton.addTarget(self, action: #selector(toggleButtonTapped(button:)), for: .touchUpInside)
         addSubview(toggleButton)
         wrapButtonsWithoutAnimation()
     }
     
-    public func expandButtons() {
+    public func expandButtons(withCompletion completion: (() -> ())?) {
         isExpanded = true
         removeConstraintsRelated(toSubview: toggleButton)
         
@@ -53,7 +54,7 @@ public class SYUIExpandableButtonsView: UIView {
         }
         
         animateControlsShow { () -> () in
-            self.toggleButton.isEnabled = true
+            completion?()
         }
     }
     
@@ -69,13 +70,8 @@ public class SYUIExpandableButtonsView: UIView {
     
     // MARK: - Private Methods
     
-    @objc private func toggleButtonTapped(button: SYUIExpandableButton) {
-        button.isEnabled = false
-        isExpanded ? wrapButtons() : expandButtons()
-    }
-    
     private func titleForToggleButton() -> String {
-        return isExpanded ? SygicIcon.close : SygicIcon.viewControls
+        return isExpanded ? toggleButtonWrappedIcon : toggleButtonExpandedIcon
     }
     
     private func setButtonsTitleColor(_ color: UIColor, for state: UIControlState, setDropShadow: Bool) {
