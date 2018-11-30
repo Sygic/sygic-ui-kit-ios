@@ -3,7 +3,7 @@ import UIKit
 class RootTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -19,6 +19,8 @@ class RootTableViewController: UITableViewController {
             cell.textLabel?.text = "Bottom sheet"
         case 4:
             cell.textLabel?.text = "PoiDetailViewController"
+        case 5:
+            cell.textLabel?.text = "Zoom Controls"
         default:
             break
         }
@@ -37,6 +39,8 @@ class RootTableViewController: UITableViewController {
             navigationController?.pushViewController(BottomSheetTestViewController(), animated: true)
         case 4:
             navigationController?.pushViewController(PoiDetailTestViewController(), animated: true)
+        case 5:
+            navigationController?.pushViewController(ZoomTestViewController(), animated: true)
         default:
             break
         }
