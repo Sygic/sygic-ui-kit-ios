@@ -28,7 +28,7 @@ public protocol SYUIPoiDetailDelegate: class {
     func poiDetailDidSelectCell(at indexPath: IndexPath)
 }
 
-public class SYUIPoiDetailViewController: UIViewController {
+open class SYUIPoiDetailViewController: UIViewController {
     
     public weak var dataSource: SYUIPoiDetailDataSource? {
         didSet {
@@ -47,12 +47,10 @@ public class SYUIPoiDetailViewController: UIViewController {
     private var bottomSheetView: SYUIBottomSheetView!
     private let poiDetailView = SYUIPoiDetailView()
     
-    override public func loadView() {
+    override open func loadView() {
         bottomSheetView = SYUIBottomSheetView()
         bottomSheetView.sheetDelegate = self
-        if let dataSource = dataSource {
-            bottomSheetView.minimizedHeight = defaultMinimizedHeight + (SYUIActionButtonSize.normal.rawValue * CGFloat(dataSource.poiDetailNumberOfActionButtons))
-        }
+        
         view = bottomSheetView
         
         poiDetailView.translatesAutoresizingMaskIntoConstraints = false
@@ -60,12 +58,15 @@ public class SYUIPoiDetailViewController: UIViewController {
         poiDetailView.coverWholeSuperview()
     }
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         
+        if let dataSource = dataSource {
+            bottomSheetView.minimizedHeight = defaultMinimizedHeight + (SYUIActionButtonSize.normal.rawValue * CGFloat(dataSource.poiDetailNumberOfActionButtons))
+        }
     }
     
-    override public func viewDidAppear(_ animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         poiDetailView.delegate = self
         poiDetailView.tableView.panGestureRecognizer.isEnabled = bottomSheetView.isFullViewVisible
