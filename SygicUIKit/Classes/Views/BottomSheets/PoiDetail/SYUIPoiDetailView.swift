@@ -175,7 +175,8 @@ extension SYUIPoiDetailView: UITableViewDataSource {
     }
     
     @objc private func copyLongpressRecognized(recognizer: UILongPressGestureRecognizer){
-        showCopyContextMenu()
+        guard recognizer.state == .began, let cell = recognizer.view as? UITableViewCell else { return }
+        showCopyContextMenu(from: cell)
     }
 }
 
@@ -225,17 +226,14 @@ extension SYUIPoiDetailView: UITableViewDelegate {
         delegate?.poiDetailDidSelectRow(at: indexPath)
     }
     
-    func showCopyContextMenu() {
-//        let indexPath = IndexPath(row: PoiDetailRowAction.copyGpsCoordinates.rawValue, section: PoiDetailSectionType.actions.rawValue)
-//        guard let gpsCell = tableView.cellForRow(at: indexPath), !UIMenuController.shared.isMenuVisible else { return }
-//        let menu = UIMenuController.shared
-//
-//        gpsCell.becomeFirstResponder()
-//        menu.update()
-//
-//        let menuRect = tableView.rectForRow(at: indexPath)
-//        menu.setTargetRect(menuRect, in: tableView)
-//        menu.setMenuVisible(true, animated: true)
+    func showCopyContextMenu(from cell: UITableViewCell) {
+        guard !UIMenuController.shared.isMenuVisible, let indexPath = tableView.indexPath(for: cell) else { return }
+        let menu = UIMenuController.shared
+        cell.becomeFirstResponder()
+        menu.update()
+        let menuRect = tableView.rectForRow(at: indexPath)
+        menu.setTargetRect(menuRect, in: tableView)
+        menu.setMenuVisible(true, animated: true)
     }
 }
 
