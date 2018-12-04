@@ -6,7 +6,7 @@ import UIKit
     case disabled
 }
 
-public struct SYUIPoiDetailCellViewModel: SYUIPoiDetailCellDataSource {
+public struct SYUIPoiDetailCellData: SYUIPoiDetailCellDataSource {
     public var title: String
     public var subtitle: String?
     public var icon: String?
@@ -66,10 +66,10 @@ class PoiDetailTableViewCell: UITableViewCell {
         highlightCell(highlighted, backgroundColor: backgroundColor, foregroundColor: titleLabel.textColor)
     }
     
-    public func update(with viewModel: SYUIPoiDetailCellDataSource) {
+    public func update(with cellData: SYUIPoiDetailCellDataSource) {
         backgroundColor = .background
         
-        switch (viewModel.actionType) {
+        switch (cellData.actionType) {
         case .action:
             setDefaultColors()
         case .removeAction:
@@ -77,9 +77,9 @@ class PoiDetailTableViewCell: UITableViewCell {
         case .disabled:
             setDefaultColorsForInactiveState()
         }
-        titleLabel.text = viewModel.title
-        iconLabel.text = viewModel.icon
-        stringToCopy = viewModel.stringToCopy ?? ""
+        titleLabel.text = cellData.title
+        iconLabel.text = cellData.icon
+        stringToCopy = cellData.stringToCopy ?? ""
     }
     
     fileprivate func createLayout() {
@@ -173,9 +173,9 @@ class PoiDetailSubtitleTableViewCell: PoiDetailTableViewCell {
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(13)-[title]-(2)-[subtitle]-(11)-|", options: [], metrics: nil, views: ["title": titleLabel, "subtitle": subtitleLabel]))
     }
     
-    override public func update(with viewModel: SYUIPoiDetailCellDataSource) {
-        super.update(with: viewModel)
-        subtitleLabel.text = viewModel.subtitle
+    override public func update(with cellData: SYUIPoiDetailCellDataSource) {
+        super.update(with: cellData)
+        subtitleLabel.text = cellData.subtitle
         subtitleLabel.textColor = .textBody
     }
 }

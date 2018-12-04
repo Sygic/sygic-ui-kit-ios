@@ -1,20 +1,26 @@
 import Foundation
 
 public protocol SYUIPoiDetailDataSource: class {
+    /// Returns space in points between expanded poi detail view and top of the screen (default == 0)
     var poiDetailMaxTopOffset: CGFloat { get }
+    
     var poiDetailTitle: String { get }
     var poiDetailSubtitle: String? { get }
     
+    /// Returns number of SYUIActionButtons that appears above poi detail content data (default == 0)
     var poiDetailNumberOfActionButtons: Int { get }
-    func poiDetailActionButtonProperties(at index: Int) -> SYUIActionButtonProperties?
+    /// Implement if number of action buttons returns more than 0
+    func poiDetailActionButton(for index: Int) -> SYUIActionButton
+    /// Returns number of poi detail data rows
     func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int
-    func poiDetailCellViewModel(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource
+    /// Custom Poi detail row data
+    func poiDetailCellData(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource
 }
 
 public extension SYUIPoiDetailDataSource {
-    var poiDetailMaxTopOffset: CGFloat {
-        return 0
-    }
+    var poiDetailMaxTopOffset: CGFloat { return 0 }
+    var poiDetailNumberOfActionButtons: Int { return 0}
+    func poiDetailActionButton(for index: Int) -> SYUIActionButton { return SYUIActionButton() }
 }
 
 public protocol SYUIPoiDetailDelegate: class {
@@ -35,13 +41,18 @@ public class SYUIPoiDetailViewController: UIViewController {
     }
     public weak var delegate: SYUIPoiDetailDelegate?
     
+    /// visible height of PoiDetailView when minimized (without action buttons)
+    public var defaultMinimizedHeight: CGFloat = 122
+    
     private var bottomSheetView: SYUIBottomSheetView!
     private let poiDetailView = SYUIPoiDetailView()
     
     override public func loadView() {
         bottomSheetView = SYUIBottomSheetView()
         bottomSheetView.sheetDelegate = self
-        bottomSheetView.minimizedHeight = 184
+        if let dataSource = dataSource {
+            bottomSheetView.minimizedHeight = defaultMinimizedHeight + (SYUIActionButtonSize.normal.rawValue * CGFloat(dataSource.poiDetailNumberOfActionButtons))
+        }
         view = bottomSheetView
         
         poiDetailView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,11 +67,12 @@ public class SYUIPoiDetailViewController: UIViewController {
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        poiDetailView.viewModel = self
+        poiDetailView.delegate = self
+        poiDetailView.tableView.panGestureRecognizer.isEnabled = bottomSheetView.isFullViewVisible
     }
     
     // MARK: presentation handling
-    public func presentPoiDetail(to presentingViewController: UIViewController, completion: ((_ finished: Bool)->())?) {
+    public func presentPoiDetailAsChildViewController(to presentingViewController: UIViewController, completion: ((_ finished: Bool)->())?) {
         guard let bottomSheetView = view as? SYUIBottomSheetView else {
             completion?(false)
             return
@@ -104,36 +116,36 @@ extension SYUIPoiDetailViewController: BottomSheetViewDelegate {
 }
 
 extension SYUIPoiDetailViewController: SYUIPoiDetailViewProtocol {
-    public func numberOfRows(in section: SYUIPoiDetailSectionType) -> Int {
+    public func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int {
         return dataSource?.poiDetailNumberOfRows(in: section) ?? 0
     }
     
-    public func poiDetailCellViewModel(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource {
-        return dataSource?.poiDetailCellViewModel(for: indexPath) ?? SYUIPoiDetailCellViewModel(title: "")
+    public func poiDetailCellData(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource {
+        return dataSource?.poiDetailCellData(for: indexPath) ?? SYUIPoiDetailCellData(title: "")
     }
     
     
-    public var addressCellViewModel: SYUIPoiDetailAddressDataSource {
-        guard let dataSource = dataSource else { return SYUIPoiDetailAddressViewModel(title: "", subtitle: nil) }
-        return SYUIPoiDetailAddressViewModel(title: dataSource.poiDetailTitle, subtitle: dataSource.poiDetailSubtitle)
+    public var poiDetailHeaderCellData: SYUIPoiDetailHeaderDataSource {
+        guard let dataSource = dataSource else { return SYUIPoiDetailHeaderData(title: "", subtitle: nil) }
+        return SYUIPoiDetailHeaderData(title: dataSource.poiDetailTitle, subtitle: dataSource.poiDetailSubtitle)
     }
     
-    public var buttonsViewModel: SYUIActionButtonsViewModel {
+    public var poiDetailButtons: [SYUIActionButton] {
         let count = dataSource?.poiDetailNumberOfActionButtons ?? 0
-        var buttons: [SYUIActionButtonProperties] = []
+        var buttons: [SYUIActionButton] = []
         for index in 0..<count {
-            guard let properties = dataSource?.poiDetailActionButtonProperties(at: index) else { continue }
-            buttons.append(properties)
+            guard let button = dataSource?.poiDetailActionButton(for: index) else { continue }
+            buttons.append(button)
         }
-        return SYUIActionButtonsViewModel(with: buttons)
+        return buttons
     }
     
-    public func didPressActionButton(at index: Int) {
+    public func poiDetailDidPressActionButton(at index: Int) {
         delegate?.poiDetailDidPressActionButton(at: index)
     }
     
-    public func didSelectRow(at indexPath: IndexPath) {
-        if indexPath.section == SYUIPoiDetailSectionType.address.rawValue {
+    public func poiDetailDidSelectRow(at indexPath: IndexPath) {
+        if indexPath.section == SYUIPoiDetailSectionType.header.rawValue {
             if bottomSheetView.isFullViewVisible {
                 bottomSheetView.minimize()
             } else {

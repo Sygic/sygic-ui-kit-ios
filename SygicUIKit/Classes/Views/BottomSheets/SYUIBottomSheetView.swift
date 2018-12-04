@@ -1,6 +1,7 @@
 import UIKit
 
 public protocol BottomSheetViewDelegate: class {
+    /// Tells if bottomSheetView should change position when pan gesture is recognized (default set to true)
     func bottomSheetCanMove() -> Bool
     
     func bottomSheetDidSwipe(_ bottomSheetView: SYUIBottomSheetView, with delta: CGFloat, to offset: CGFloat)
