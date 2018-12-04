@@ -20,6 +20,8 @@ public class SYUIZoomController: SYUIExpandableButtonsController {
     
     public var is3D = false {
         didSet {
+            // must be guarded to not trigger unwanted animations
+            guard is3D != oldValue else { return }
             updateToggle3DButtonTitle()
         }
     }
