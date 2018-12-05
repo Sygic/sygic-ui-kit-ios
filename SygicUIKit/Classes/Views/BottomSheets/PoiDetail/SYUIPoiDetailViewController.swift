@@ -19,7 +19,7 @@ public protocol SYUIPoiDetailDataSource: class {
 
 public extension SYUIPoiDetailDataSource {
     var poiDetailMaxTopOffset: CGFloat { return 0 }
-    var poiDetailNumberOfActionButtons: Int { return 0}
+    var poiDetailNumberOfActionButtons: Int { return 0 }
     func poiDetailActionButton(for index: Int) -> SYUIActionButton { return SYUIActionButton() }
 }
 

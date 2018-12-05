@@ -26,8 +26,8 @@ public extension BottomSheetViewDelegate {
 
 open class SYUIBottomSheetView: UIView {
     
-    private static let dragIndicatorViewTopMargin: CGFloat   = 7.0
-    private static let minVisibleHeight: CGFloat             = 100
+    private static let dragIndicatorViewTopMargin: CGFloat = 7.0
+    private static let minVisibleHeight: CGFloat = 100
     private static let maxSlideAnimationDuration: TimeInterval = 0.8
     
     public weak var sheetDelegate: BottomSheetViewDelegate?
@@ -183,15 +183,9 @@ open class SYUIBottomSheetView: UIView {
     //MARK: - To override
     
     open func willExpand() {}
-    open func didExpand() {
-        // TODO:
-//        AutocloseTimer.shared.userInteractionWasDetected()
-    }
+    open func didExpand() {}
     open func willMinimize() {}
-    open func didMinimize() {
-        // TODO:
-//        AutocloseTimer.shared.userInteractionWasDetected()
-    }
+    open func didMinimize() {}
     
     open func shouldRestoreMapState() -> Bool { return false }
 }
