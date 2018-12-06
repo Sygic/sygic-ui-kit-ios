@@ -1,22 +1,28 @@
 import UIKit
 
 class PoiDetailSectionHeaderView: UITableViewHeaderFooterView {
+    
+    // MARK: - Private Properties
 
     private let separator = UIView()
     
-    override init(reuseIdentifier: String?) {
+    // MARK: - Public Methods
+    
+    public override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         createLayout()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         separator.backgroundColor = .border
     }
+    
+    // MARK: - Private Methods
     
     private func createLayout() {
         contentView.backgroundColor = .clear

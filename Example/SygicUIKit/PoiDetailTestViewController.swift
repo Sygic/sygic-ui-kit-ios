@@ -91,7 +91,7 @@ extension PoiDetailTestViewController: SYUIPoiDetailDataSource {
         guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section) else { return SYUIPoiDetailCellData(title: "") }
         switch section {
         case .actions:
-            return SYUIPoiDetailCellData(title: "GPS", subtitle: "48.1450996,17.1069041", icon: SygicIcon.streetView)
+            return SYUIPoiDetailCellData(title: "GPS", subtitle: "48.1450996,17.1069041", icon: SygicIcon.streetView, stringToCopy: "copy to clipboard")
         case .contactInfo:
             switch indexPath.row {
             case 0:

@@ -1,6 +1,13 @@
 import UIKit
 import GradientView
 
+public enum SYUIPoiDetailSectionType: Int {
+    case header
+    case contactInfo
+    case actions
+    
+    static let count = 3
+}
 
 public protocol SYUIPoiDetailViewProtocol: class {
     var poiDetailButtons: [SYUIActionButton] { get }
@@ -12,15 +19,9 @@ public protocol SYUIPoiDetailViewProtocol: class {
     func poiDetailDidSelectRow(at indexPath: IndexPath)
 }
 
-public enum SYUIPoiDetailSectionType: Int {
-    case header
-    case contactInfo
-    case actions
+class SYUIPoiDetailView: UIView {
     
-    static let count = 3
-}
-
-internal class SYUIPoiDetailView: UIView {
+    // MARK: - Public Properties
 
     public let addressCellBottomScreenOffset: CGFloat = 6.0
     public let actionButtonsView = SYUIActionButtonsView()
@@ -39,6 +40,8 @@ internal class SYUIPoiDetailView: UIView {
         }
     }
     
+    // MARK: - Public Methods
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         createUI()
@@ -55,6 +58,8 @@ internal class SYUIPoiDetailView: UIView {
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 20))
         tableView.reloadData()
     }
+    
+    // MARK: - Private Methods
     
     private func createUI() {
         setupActionButtonsView()
@@ -125,13 +130,25 @@ internal class SYUIPoiDetailView: UIView {
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|[gradient]|", options: .alignAllCenterY, metrics: nil, views: bindings))
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:[actionButtonsView][gradient(16)]", options: .alignAllCenterX, metrics: nil, views: bindings))
 
+        // TODO:
 //        ColorSchemeManager.sharedInstance.currentColorScheme.asDriver().drive(onNext: { (colorScheme) in
             gradient.colors = [UIColor.bar, UIColor.bar.withAlphaComponent(0.0)]
 //        }).disposed(by: disposeBag)
     }
+    
+    private func showCopyContextMenu(from cell: UITableViewCell) {
+        guard !UIMenuController.shared.isMenuVisible, let indexPath = tableView.indexPath(for: cell) else { return }
+        let menu = UIMenuController.shared
+        cell.becomeFirstResponder()
+        menu.update()
+        let menuRect = tableView.rectForRow(at: indexPath)
+        menu.setTargetRect(menuRect, in: tableView)
+        menu.setMenuVisible(true, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
+
 extension SYUIPoiDetailView: UITableViewDataSource {
     public func numberOfSections(in tableView: UITableView) -> Int {
         return SYUIPoiDetailSectionType.count
@@ -175,7 +192,8 @@ extension SYUIPoiDetailView: UITableViewDataSource {
     }
     
     @objc private func copyLongpressRecognized(recognizer: UILongPressGestureRecognizer){
-        showCopyContextMenu()
+        guard recognizer.state == .began, let cell = recognizer.view as? UITableViewCell else { return }
+        showCopyContextMenu(from: cell)
     }
 }
 
@@ -224,19 +242,7 @@ extension SYUIPoiDetailView: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         delegate?.poiDetailDidSelectRow(at: indexPath)
     }
-    
-    func showCopyContextMenu() {
-//        let indexPath = IndexPath(row: PoiDetailRowAction.copyGpsCoordinates.rawValue, section: PoiDetailSectionType.actions.rawValue)
-//        guard let gpsCell = tableView.cellForRow(at: indexPath), !UIMenuController.shared.isMenuVisible else { return }
-//        let menu = UIMenuController.shared
-//
-//        gpsCell.becomeFirstResponder()
-//        menu.update()
-//
-//        let menuRect = tableView.rectForRow(at: indexPath)
-//        menu.setTargetRect(menuRect, in: tableView)
-//        menu.setMenuVisible(true, animated: true)
-    }
+
 }
 
 // MARK: - ActionButtonsDelegate

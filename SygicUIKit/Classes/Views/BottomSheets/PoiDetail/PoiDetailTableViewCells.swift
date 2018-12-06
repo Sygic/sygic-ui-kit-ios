@@ -6,7 +6,16 @@ import UIKit
     case disabled
 }
 
+public protocol SYUIPoiDetailCellDataSource {
+    var title: String { get }
+    var subtitle: String? { get }
+    var icon: String? { get }
+    var actionType: PoiDetailCellActionType { get }
+    var stringToCopy: String? { get }
+}
+
 public struct SYUIPoiDetailCellData: SYUIPoiDetailCellDataSource {
+    
     public var title: String
     public var subtitle: String?
     public var icon: String?
@@ -20,14 +29,7 @@ public struct SYUIPoiDetailCellData: SYUIPoiDetailCellDataSource {
         self.actionType = actionType
         self.stringToCopy = stringToCopy
     }
-}
-
-public protocol SYUIPoiDetailCellDataSource {
-    var title: String { get }
-    var subtitle: String? { get }
-    var icon: String? { get }
-    var actionType: PoiDetailCellActionType { get }
-    var stringToCopy: String? { get }
+    
 }
 
 class PoiDetailTableViewCell: UITableViewCell {
@@ -56,6 +58,8 @@ class PoiDetailTableViewCell: UITableViewCell {
         iconLabel.fullRoundCorners()
     }
     
+    // MARK: - Public Methods
+    
     public override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         let iconBackgroundColor = iconLabel.backgroundColor
         
@@ -81,6 +85,8 @@ class PoiDetailTableViewCell: UITableViewCell {
         iconLabel.text = cellData.icon
         stringToCopy = cellData.stringToCopy ?? ""
     }
+    
+    // MARK: - Private Methods
     
     fileprivate func createLayout() {
         setupHighlightingView()
@@ -131,6 +137,7 @@ class PoiDetailTableViewCell: UITableViewCell {
 }
 
 //MARK: - Copy
+
 extension PoiDetailTableViewCell {
     override var canBecomeFirstResponder: Bool {
         return true
@@ -146,7 +153,6 @@ extension PoiDetailTableViewCell {
     override func copy(_ sender: Any?) {
         let pasteBoard = UIPasteboard.general
         pasteBoard.string = stringToCopy
-        //    [SygicAnalytics infinarioTrackPoiDetailAction:ATTR_VALUE_DETAIL_ACTION_GPS_COORD_COPY andSearchResult:nil];
     }
 }
 

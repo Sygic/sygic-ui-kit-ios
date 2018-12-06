@@ -13,13 +13,17 @@ public struct SYUIPoiDetailHeaderData: SYUIPoiDetailHeaderDataSource {
 
 public class PoiDetailHeaderCell: UITableViewCell {
     
+    // MARK: - Public Properties
+    
     public static let verticalFrameOffset: CGFloat = 13.0
+    
+    // MARK: - Private Properties
     
     private let titleLabelHeight:       CGFloat = 28
     private let subtitleLabelHeight:    CGFloat = 22
     private let ratingLabelHeight:      CGFloat = 19
-    private let ratingStarFontSize:     CGFloat  = 12
-    private let fuelIconFontSize:       CGFloat  = 15
+    private let ratingStarFontSize:     CGFloat = 12
+    private let fuelIconFontSize:       CGFloat = 15
     private let horizontalFrameOffset:  CGFloat = 24
     private var addressCellHeight: CGFloat { return 2 * PoiDetailHeaderCell.verticalFrameOffset + titleLabelHeight + subtitleLabelHeight }
     
@@ -34,13 +38,14 @@ public class PoiDetailHeaderCell: UITableViewCell {
     private let maxRating: Int    = 5
     private var fuelPrice: String = ""
     
+    // MARK: - Public Methods
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -53,15 +58,14 @@ public class PoiDetailHeaderCell: UITableViewCell {
         subtitleLabel.textColor = .textBody
         ratingLabel.textColor = .textBody
     }
-
- // MARK: - Public Methods
+    
     public func update(with data: SYUIPoiDetailHeaderDataSource) {
         update(titleText: data.title)
         update(subtitleText: data.subtitle)
     }
     
+    // MARK: - Private Methods
     
- // MARK: - Private Methods
     private func setupLayout() {
         backgroundColor = .bar
         contentView.backgroundColor = .bar
@@ -144,7 +148,7 @@ public class PoiDetailHeaderCell: UITableViewCell {
     }
     
     private func update(ratingValue rating: Double) {
-        if rating>=0 {
+        if rating >= 0 {
             self.rating = rating
             updateRatingLabelText()
         }
