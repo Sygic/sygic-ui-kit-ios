@@ -5,7 +5,7 @@ public protocol SYUICompassDelegate: class {
     func compassDidTap(_ compass: SYUICompass)
 }
 
-public class SYUICompassController: NSObject {
+open class SYUICompassController {
     public var compass = SYUICompass()
     public weak var delegate: SYUICompassDelegate?
     private let halfRotation = CGFloat(180.0)
@@ -23,8 +23,6 @@ public class SYUICompassController: NSObject {
     public init(course: Double = 0.0, autoHide: Bool = true) {
         self.course = course
         self.autoHide = autoHide
-        
-        super.init()
         
         createTapGestureRecognizer()
     }

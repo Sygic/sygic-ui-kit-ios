@@ -3,7 +3,7 @@ public protocol SYUIMapRecenterDelegate: class {
     func didChangeRecenterButtonState(button: SYUIActionButton, state: SYUIMapRecenterController.state)
 }
 
-public class SYUIMapRecenterController {
+open class SYUIMapRecenterController {
     public enum state {
         case free
         case locked

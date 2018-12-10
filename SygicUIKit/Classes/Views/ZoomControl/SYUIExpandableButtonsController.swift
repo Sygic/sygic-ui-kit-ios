@@ -1,5 +1,5 @@
 
-public class SYUIExpandableButtonsController {
+open class SYUIExpandableButtonsController {
     
     // MARK: - Public Properties
     

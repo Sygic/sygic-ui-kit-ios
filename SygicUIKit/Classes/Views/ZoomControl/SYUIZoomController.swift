@@ -14,7 +14,7 @@ public protocol SYUIZoomControllerDelegate: class {
     func zoomController(wants activity: SYUIZoomActivity)
 }
 
-public class SYUIZoomController: SYUIExpandableButtonsController {
+open class SYUIZoomController: SYUIExpandableButtonsController {
     
     // MARK: - Public Properties
     
