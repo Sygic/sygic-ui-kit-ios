@@ -188,7 +188,7 @@ public class PoiDetailHeaderCell: UITableViewCell {
     
     private func fuelPriceAttributedString() -> NSAttributedString {
         let attributetText = NSMutableAttributedString()
-        attributetText.append(NSAttributedString(string: SygicIcon.fuelPrices, attributes: fuelPriceIconAttributes()))
+        attributetText.append(NSAttributedString(string: SYUIIcon.fuelPrices, attributes: fuelPriceIconAttributes()))
         attributetText.append(NSAttributedString(string: " \(fuelPrice)", attributes: textAttributes()))
         return attributetText
     }

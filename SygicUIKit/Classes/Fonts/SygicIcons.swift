@@ -1,4 +1,4 @@
-@objcMembers public class SygicIcon: NSObject {
+@objcMembers public class SYUIIcon: NSObject {
 	public static let none = ""
 	public static let ARNavigation = "\u{e10a}"
 	public static let ATM = "\u{e314}"

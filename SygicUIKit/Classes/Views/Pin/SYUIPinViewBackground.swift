@@ -23,7 +23,7 @@ class SYUIPinViewBackground: UIView {
         
         pinLabel.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
         pinLabel.autoresizingMask = []
-        pinLabel.text = SygicIcon.pin
+        pinLabel.text = SYUIIcon.pin
         pinLabel.textColor = .textBody
         pinLabel.backgroundColor = .clear
         pinLabel.textAlignment = .center
@@ -53,7 +53,7 @@ class SYUIPinViewBackground: UIView {
         
         dropShadowLabel.frame = CGRect(x: 0, y: 18, width: bounds.width, height: bounds.height)
         dropShadowLabel.autoresizingMask = []
-        dropShadowLabel.text = SygicIcon.pin
+        dropShadowLabel.text = SYUIIcon.pin
         dropShadowLabel.textColor = .textBody
         dropShadowLabel.backgroundColor = .clear
         dropShadowLabel.textAlignment = .center

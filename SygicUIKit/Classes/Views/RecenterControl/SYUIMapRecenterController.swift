@@ -44,11 +44,11 @@ open class SYUIMapRecenterController {
     private func refreshIcon() {
         switch currentState {
         case .free:
-            button.icon = SygicIcon.positionIos
+            button.icon = SYUIIcon.positionIos
         case .locked:
-            button.icon = SygicIcon.positionLockIos
+            button.icon = SYUIIcon.positionLockIos
         case .lockedCompass:
-            button.icon = SygicIcon.positionLockCompassIos
+            button.icon = SYUIIcon.positionLockCompassIos
         }
     }
 }

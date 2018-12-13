@@ -10,16 +10,16 @@ public extension NSAttributedString {
         for i in 0..<numberOfStars {
             //Full star
             if rating >= Double(i+1) {
-                starString.append(NSAttributedString(string: SygicIcon.ratingFull, attributes: activeStarFormat))
+                starString.append(NSAttributedString(string: SYUIIcon.ratingFull, attributes: activeStarFormat))
             }
             else if rating > Double(i) {
-                let leftHalf = NSMutableAttributedString(string: SygicIcon.ratingHalfLeft, attributes: activeStarFormat)
-                let rightHalf = NSMutableAttributedString(string: SygicIcon.ratingHalfRight, attributes: inactiveStarFormat)
+                let leftHalf = NSMutableAttributedString(string: SYUIIcon.ratingHalfLeft, attributes: activeStarFormat)
+                let rightHalf = NSMutableAttributedString(string: SYUIIcon.ratingHalfRight, attributes: inactiveStarFormat)
                 starString.append(leftHalf)
                 starString.append(rightHalf)
             }
             else {
-                starString.append(NSAttributedString(string: SygicIcon.ratingFull, attributes: inactiveStarFormat))
+                starString.append(NSAttributedString(string: SYUIIcon.ratingFull, attributes: inactiveStarFormat))
             }
         }
         return starString

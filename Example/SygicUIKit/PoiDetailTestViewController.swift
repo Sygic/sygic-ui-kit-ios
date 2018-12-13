@@ -72,7 +72,7 @@ extension PoiDetailTestViewController: SYUIPoiDetailDataSource {
     func poiDetailActionButton(for index: Int) -> SYUIActionButton {
         let button = SYUIActionButton()
         button.title = "Primary action button"
-        button.icon = SygicIcon.routeStart
+        button.icon = SYUIIcon.routeStart
         return button
     }
     
@@ -91,15 +91,15 @@ extension PoiDetailTestViewController: SYUIPoiDetailDataSource {
         guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section) else { return SYUIPoiDetailCellData(title: "") }
         switch section {
         case .actions:
-            return SYUIPoiDetailCellData(title: "GPS", subtitle: "48.1450996,17.1069041", icon: SygicIcon.streetView, stringToCopy: "copy to clipboard")
+            return SYUIPoiDetailCellData(title: "GPS", subtitle: "48.1450996,17.1069041", icon: SYUIIcon.streetView, stringToCopy: "copy to clipboard")
         case .contactInfo:
             switch indexPath.row {
             case 0:
-                return SYUIPoiDetailCellData(title: "Phone", subtitle: "+421 987 123 456", icon: SygicIcon.call)
+                return SYUIPoiDetailCellData(title: "Phone", subtitle: "+421 987 123 456", icon: SYUIIcon.call)
             case 1:
-                return SYUIPoiDetailCellData(title: "Email", subtitle: "info@sygic.com", icon: SygicIcon.email)
+                return SYUIPoiDetailCellData(title: "Email", subtitle: "info@sygic.com", icon: SYUIIcon.email)
             case 2:
-                return SYUIPoiDetailCellData(title: "Website", subtitle: "www.sygic.com", icon: SygicIcon.website)
+                return SYUIPoiDetailCellData(title: "Website", subtitle: "www.sygic.com", icon: SYUIIcon.website)
             default:
                 return SYUIPoiDetailCellData(title: "")
             }

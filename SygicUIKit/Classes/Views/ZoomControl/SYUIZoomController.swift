@@ -26,25 +26,25 @@ open class SYUIZoomController: SYUIExpandableButtonsController {
         }
     }
     
-    public var zoomInButtonIcon = SygicIcon.zoomIn {
+    public var zoomInButtonIcon = SYUIIcon.zoomIn {
         didSet {
             zoomInButton.setTitle(zoomInButtonIcon, for: .normal)
         }
     }
     
-    public var zoomOutButtonIcon = SygicIcon.zoomOut {
+    public var zoomOutButtonIcon = SYUIIcon.zoomOut {
         didSet {
             zoomOutButton.setTitle(zoomOutButtonIcon, for: .normal)
         }
     }
     
-    public var icon2D = SygicIcon.view2D {
+    public var icon2D = SYUIIcon.view2D {
         didSet {
             toggle3DButton.setTitle(toggle3DButtonIcon, for: .normal)
         }
     }
     
-    public var icon3D = SygicIcon.view3D {
+    public var icon3D = SYUIIcon.view3D {
         didSet {
             toggle3DButton.setTitle(toggle3DButtonIcon, for: .normal)
         }

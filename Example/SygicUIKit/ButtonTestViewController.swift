@@ -115,7 +115,7 @@ class ButtonTestViewController: UIViewController {
 
     private var primaryButton2: SYUIActionButton {
         let button = SYUIActionButton()
-        button.icon = SygicIcon.directionsAction
+        button.icon = SYUIIcon.directionsAction
         button.title = "Get directions Get directions"
         button.style = SYUIActionButtonStyle.primary
         button.isEnabled = true
@@ -124,7 +124,7 @@ class ButtonTestViewController: UIViewController {
 
     private var secondaryButton2: SYUIActionButton {
         let button = SYUIActionButton()
-        button.icon = SygicIcon.pinPlace
+        button.icon = SYUIIcon.pinPlace
         button.title = "Add waypoint"
         button.style = SYUIActionButtonStyle.secondary
         button.isEnabled = true
@@ -133,7 +133,7 @@ class ButtonTestViewController: UIViewController {
 
     private var blurredButton: SYUIActionButton {
         let button = SYUIActionButton()
-        button.icon = SygicIcon.close
+        button.icon = SYUIIcon.close
         button.title = ""
         button.style = SYUIActionButtonStyle.blurred
         button.isEnabled = true
@@ -142,7 +142,7 @@ class ButtonTestViewController: UIViewController {
 
     private var primaryButton3: SYUIActionButton {
         let button = SYUIActionButton()
-        button.icon = SygicIcon.directionsAction
+        button.icon = SYUIIcon.directionsAction
         button.title = "Done"
         button.style = SYUIActionButtonStyle.primary
         button.isEnabled = true
@@ -152,7 +152,7 @@ class ButtonTestViewController: UIViewController {
 
     private var secondaryButton3: SYUIActionButton {
         let button = SYUIActionButton()
-        button.icon = SygicIcon.pinPlace
+        button.icon = SYUIIcon.pinPlace
         button.title = "Add waypoint"
         button.style = SYUIActionButtonStyle.secondary
         button.isEnabled = true
@@ -171,7 +171,7 @@ class ButtonTestViewController: UIViewController {
 
     private var secondaryButton4: SYUIActionButton {
         let button = SYUIActionButton()
-        button.icon = SygicIcon.directionsAction
+        button.icon = SYUIIcon.directionsAction
         button.title = "Label"
         button.style = SYUIActionButtonStyle.secondary
         button.isEnabled = false
@@ -189,7 +189,7 @@ class ButtonTestViewController: UIViewController {
 
     private var primaryButton5: SYUIActionButton {
         let button = SYUIActionButton()
-        button.icon = SygicIcon.directionsAction
+        button.icon = SYUIIcon.directionsAction
         button.title = ""
         button.style = SYUIActionButtonStyle.primary
         button.isEnabled = true
@@ -198,7 +198,7 @@ class ButtonTestViewController: UIViewController {
 
     private var secondaryButton5: SYUIActionButton {
         let button = SYUIActionButton()
-        button.icon = SygicIcon.directionsAction
+        button.icon = SYUIIcon.directionsAction
         button.title = ""
         button.style = SYUIActionButtonStyle.secondary
         button.isEnabled = true
@@ -225,7 +225,7 @@ class ButtonTestViewController: UIViewController {
 
     private var progressRoundButton: SYUIActionButton {
         let button = SYUIActionButton()
-        button.icon = SygicIcon.close
+        button.icon = SYUIIcon.close
         button.title = ""
         button.style = SYUIActionButtonStyle.secondary
         button.isEnabled = true

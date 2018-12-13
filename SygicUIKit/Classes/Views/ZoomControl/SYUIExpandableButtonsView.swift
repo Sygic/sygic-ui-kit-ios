@@ -8,8 +8,8 @@ public class SYUIExpandableButtonsView: UIView {
     public static var buttonAnimationDelay: TimeInterval = 0.1
     
     public var toggleButton = SYUIExpandableButton(withType: .icon)
-    public var toggleButtonExpandedIcon = SygicIcon.viewControls
-    public var toggleButtonWrappedIcon = SygicIcon.close
+    public var toggleButtonExpandedIcon = SYUIIcon.viewControls
+    public var toggleButtonWrappedIcon = SYUIIcon.close
     
     public var expandableButtons = [SYUIExpandableButton]()
     public var isExpanded = false

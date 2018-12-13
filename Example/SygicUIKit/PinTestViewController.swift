@@ -40,18 +40,18 @@ class PinTestViewController: UIViewController {
     }
     
     private func addPins() {
-        let (cont1, pin1) = createPinView(icon: SygicIcon.accomodation, color: .red, highlighted: false, animatedHighlight: true)
+        let (cont1, pin1) = createPinView(icon: SYUIIcon.accomodation, color: .red, highlighted: false, animatedHighlight: true)
         pinStack.addArrangedSubview(cont1)
         pin1.delegate = self
         
-        let (cont2, pin2) = createPinView(icon: SygicIcon.restaurant, color: .blue, highlighted: true, animatedHighlight: false)
+        let (cont2, pin2) = createPinView(icon: SYUIIcon.restaurant, color: .blue, highlighted: true, animatedHighlight: false)
         pinStack.addArrangedSubview(cont2)
         pin2.delegate = self
 
-        let (cont3, pin3) = createPinView(icon: SygicIcon.stationPetrol, color: .gray, highlighted: true, animatedHighlight: true)
+        let (cont3, pin3) = createPinView(icon: SYUIIcon.stationPetrol, color: .gray, highlighted: true, animatedHighlight: true)
         pinStack.addArrangedSubview(cont3)
 
-        let (cont4, pin4) = createPinView(icon: SygicIcon.restingArea, color: .brown, highlighted: true, animatedHighlight: false)
+        let (cont4, pin4) = createPinView(icon: SYUIIcon.restingArea, color: .brown, highlighted: true, animatedHighlight: false)
         pinStack.addArrangedSubview(cont4)
 
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (t: Timer) in
