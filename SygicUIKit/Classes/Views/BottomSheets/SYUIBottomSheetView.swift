@@ -217,7 +217,7 @@ extension SYUIBottomSheetView {//: Animating {
 
 public extension SYUIBottomSheetView {
     
-    public func animateIn(_ completion: (()->Void)?) {
+    public func animateIn(bounce: Bool = false, _ completion: (()->Void)?) {
         topConstraint.constant = 0
         updateContentHeight(shouldMinimize: false)
         superview?.layoutIfNeeded()
@@ -230,13 +230,21 @@ public extension SYUIBottomSheetView {
         sheetDelegate?.bottomSheetWillAnimate(self, to: minimizedPosition, with: duration)
         willAppear()
         
-        UIView.animate(withDuration: duration, delay: 0.0, options: .curveEaseInOut, animations: { [unowned self] in
+        let animationBlock: (()->()) = { [unowned self] in
             self.superview?.layoutIfNeeded()
-        }) { (finished) in
+        }
+        
+        let completionBlock: ((Bool)->()) = { finished in
             completion?()
             
             self.didAppear()
             self.sheetDelegate?.bottomSheetDidAnimate(self, to: self.minimizedPosition)
+        }
+        
+        if bounce {
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 30, options: [], animations: animationBlock, completion: completionBlock)
+        } else {
+            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: animationBlock, completion: completionBlock)
         }
     }
     
