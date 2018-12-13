@@ -73,14 +73,14 @@ open class SYUIPoiDetailViewController: UIViewController {
     }
     
     // MARK: presentation handling
-    public func presentPoiDetailAsChildViewController(to presentingViewController: UIViewController, completion: ((_ finished: Bool)->())?) {
+    public func presentPoiDetailAsChildViewController(to presentingViewController: UIViewController, bounce: Bool = false, completion: ((_ finished: Bool)->())?) {
         guard let bottomSheetView = view as? SYUIBottomSheetView else {
             completion?(false)
             return
         }
         presentingViewController.addChildViewController(self)
         presentingViewController.view.addSubview(view)
-        bottomSheetView.animateIn {
+        bottomSheetView.animateIn(bounce: bounce) {
             completion?(true)
         }
     }

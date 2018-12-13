@@ -16,7 +16,7 @@ class BottomSheetTestViewController: UIViewController {
     }
     
     @objc func showBottomSheet() {
-        bottomSheet.animateIn {
+        bottomSheet.animateIn(bounce: true) {
             print("bottom sheet shown")
         }
     }
