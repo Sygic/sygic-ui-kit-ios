@@ -32,11 +32,7 @@ open class SYUIPoiDetailViewController: UIViewController {
     
     public weak var dataSource: SYUIPoiDetailDataSource? {
         didSet {
-            if let dataSource = dataSource {
-                guard view == bottomSheetView else { return }
-                bottomSheetView.minTopMargin = dataSource.poiDetailMaxTopOffset
-                poiDetailView.reloadData()
-            }
+            reloadData()
         }
     }
     public weak var delegate: SYUIPoiDetailDelegate?
@@ -70,6 +66,12 @@ open class SYUIPoiDetailViewController: UIViewController {
         super.viewDidAppear(animated)
         poiDetailView.delegate = self
         poiDetailView.tableView.panGestureRecognizer.isEnabled = bottomSheetView.isFullViewVisible
+    }
+    
+    open func reloadData() {
+        guard let dataSource = dataSource, view == bottomSheetView else { return }
+        bottomSheetView.minTopMargin = dataSource.poiDetailMaxTopOffset
+        poiDetailView.reloadData()
     }
     
     // MARK: presentation handling

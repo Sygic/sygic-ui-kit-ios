@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A91342D579A2F69A06D503A /* Pods_SygicUIKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9EE2FD125B20E2C21310EB /* Pods_SygicUIKit_Tests.framework */; };
+		582BBAAB21C4098000846B1B /* SkinTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582BBAAA21C4098000846B1B /* SkinTestViewController.swift */; };
 		586437A6219DD25D00C160C2 /* PoiDetailTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586437A5219DD25D00C160C2 /* PoiDetailTestViewController.swift */; };
 		58A9636E21947D4E001015CC /* RootTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A9636D21947D4E001015CC /* RootTableViewController.swift */; };
 		58A96370219480A9001015CC /* ButtonTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A9636F219480A9001015CC /* ButtonTestViewController.swift */; };
@@ -38,6 +39,7 @@
 		13020C89EA263BA493961572 /* Pods_SygicUIKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicUIKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E554132A4D4D1B93938CB9A /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		4EF2A05EC5D17767E41EE0CD /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		582BBAAA21C4098000846B1B /* SkinTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinTestViewController.swift; sourceTree = "<group>"; };
 		586437A5219DD25D00C160C2 /* PoiDetailTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoiDetailTestViewController.swift; sourceTree = "<group>"; };
 		58A9636D21947D4E001015CC /* RootTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTableViewController.swift; sourceTree = "<group>"; };
 		58A9636F219480A9001015CC /* ButtonTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTestViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +92,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		582BBAAC21C409E700846B1B /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				58A963742195D70D001015CC /* BottomSheetTestViewController.swift */,
+				58A9636F219480A9001015CC /* ButtonTestViewController.swift */,
+				CC9742C1219C49EF009C8AB7 /* CompassTestViewController.swift */,
+				CCA40B15219ABAC900514067 /* PinTestViewController.swift */,
+				586437A5219DD25D00C160C2 /* PoiDetailTestViewController.swift */,
+				582BBAAA21C4098000846B1B /* SkinTestViewController.swift */,
+				5CD0CB2C219F271B00343790 /* ZoomTestViewController.swift */,
+			);
+			name = Examples;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -114,14 +130,9 @@
 		607FACD21AFB9204008FA782 /* Example for SygicUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				582BBAAC21C409E700846B1B /* Examples */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				58A9636D21947D4E001015CC /* RootTableViewController.swift */,
-				58A963742195D70D001015CC /* BottomSheetTestViewController.swift */,
-				58A9636F219480A9001015CC /* ButtonTestViewController.swift */,
-				CC9742C1219C49EF009C8AB7 /* CompassTestViewController.swift */,
-				5CD0CB2C219F271B00343790 /* ZoomTestViewController.swift */,
-				CCA40B15219ABAC900514067 /* PinTestViewController.swift */,
-				586437A5219DD25D00C160C2 /* PoiDetailTestViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -383,6 +394,7 @@
 			files = (
 				58A96370219480A9001015CC /* ButtonTestViewController.swift in Sources */,
 				58A9636E21947D4E001015CC /* RootTableViewController.swift in Sources */,
+				582BBAAB21C4098000846B1B /* SkinTestViewController.swift in Sources */,
 				586437A6219DD25D00C160C2 /* PoiDetailTestViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				CC9742C2219C49EF009C8AB7 /* CompassTestViewController.swift in Sources */,
