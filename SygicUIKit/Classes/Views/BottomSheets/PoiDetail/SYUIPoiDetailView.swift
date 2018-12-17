@@ -83,6 +83,7 @@ class SYUIPoiDetailView: UIView {
         gradient.colors = [UIColor.bar, UIColor.bar.withAlphaComponent(0.0)]
         tableView.separatorColor = .border
         tableView.backgroundColor = .background
+        tableView.reloadData()
     }
     
     private func setupActionButtonsView() {

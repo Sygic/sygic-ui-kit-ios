@@ -92,6 +92,12 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         }
     }
     
+    public var style = SYUIActionButtonStyle.primary {
+        didSet {
+            updateLayout()
+        }
+    }
+    
     
     override public var titleLabel: UILabel? {
         return customTitleLabel
@@ -138,12 +144,6 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
                 view.removeFromSuperview()
                 rightIcon.isHidden = rightIcon.text == nil
             }
-        }
-    }
-    
-    public var style = SYUIActionButtonStyle.primary {
-        didSet {
-            updateLayout()
         }
     }
     
@@ -321,6 +321,8 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         customTitleLabel.adjustsFontSizeToFitWidth = true
         
         setupConstraints()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
     }
     
     private func setupConstraints() {
@@ -500,6 +502,10 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         setTitleLabelFont(for: style)
         setSubtitleLabelFont(for: style)
         setShadow(for: style)
+    }
+    
+    @objc private func updateColors() {
+        updateLayout()
     }
 }
 

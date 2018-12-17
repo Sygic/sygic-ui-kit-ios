@@ -50,22 +50,25 @@ public class SYUICompass: UIView {
         createBackgroundView()
         createCompassArrow()
         
-        self.borderView.backgroundColor = UIColor(red:0.09, green:0.11, blue:0.15, alpha:0.1)
-        self.backgroundView.backgroundColor = .white
-        self.compassArrow.setNeedsDisplay()
-        self.setupDefaultShadow()
+        updateColors()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
+    }
+    
+    @objc private func updateColors() {
+        borderView.backgroundColor = .iconBackground
+        backgroundView.backgroundColor = .background
+        compassArrow.setNeedsDisplay()
+        setupDefaultShadow()
     }
     
     private func createBackgroundView() {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.backgroundColor = .background
         addSubview(backgroundView)
         backgroundView.coverWholeSuperview()
     }
     
     private func createBorderView() {
         borderView.translatesAutoresizingMaskIntoConstraints = false
-        borderView.backgroundColor = .iconBackground
         addSubview(borderView)
         borderView.coverWholeSuperview(withMargin: -1.0)
     }

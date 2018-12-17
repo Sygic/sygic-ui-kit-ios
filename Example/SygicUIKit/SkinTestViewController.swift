@@ -1,6 +1,10 @@
 import UIKit
 import SygicUIKit
 
+class CustomTestColorPallete: SYUIColorPalette {
+    var action: UIColor { return UIColor(red: 0.7, green: 0.13, blue: 0.18, alpha: 1) }
+}
+
 class SkinTestViewController: UIViewController {
     
     let customSkin = SYUINightColorPalette()
@@ -32,13 +36,6 @@ class SkinTestViewController: UIViewController {
     
     @objc private func updateColors() {
         view.backgroundColor = .background
-        
-        defaultSkinButton.style = .primary
-        nightSkinButton.style = .blurred
-        customSkinButton.style = .secondary
-        
-        poiDetailVC.reloadData()
-        
         navigationController?.navigationBar.tintColor = .action
     }
     
@@ -88,8 +85,4 @@ class SkinTestViewController: UIViewController {
         nightSkinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         customSkinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
-}
-
-class CustomTestColorPallete: SYUIColorPalette {
-    var action: UIColor { return UIColor(red: 0.7, green: 0.13, blue: 0.18, alpha: 1) }
 }
