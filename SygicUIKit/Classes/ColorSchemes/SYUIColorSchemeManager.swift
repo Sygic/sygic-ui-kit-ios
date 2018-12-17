@@ -1,5 +1,9 @@
 import Foundation
 
+@objc public protocol SYUIColorUpdate {
+    @objc func setupColors()
+}
+
 public enum ColorScheme {
     case day
     case night

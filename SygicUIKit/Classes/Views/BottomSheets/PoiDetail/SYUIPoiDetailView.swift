@@ -73,17 +73,8 @@ class SYUIPoiDetailView: UIView {
         actionButtonsView.delegate = self
         bringSubview(toFront: actionButtonsView)
         
-        updateColors()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
-    }
-    
-    @objc private func updateColors() {
-        backgroundColor = .bar
-        actionButtonsView.backgroundColor = .bar
-        gradient.colors = [UIColor.bar, UIColor.bar.withAlphaComponent(0.0)]
-        tableView.separatorColor = .border
-        tableView.backgroundColor = .background
-        tableView.reloadData()
+        setupColors()
+        NotificationCenter.default.addObserver(self, selector: #selector(setupColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
     }
     
     private func setupActionButtonsView() {
@@ -243,5 +234,16 @@ extension SYUIPoiDetailView: SYUIActionButtonsDelegate {
         if let delegate = delegate {
             delegate.poiDetailDidPressActionButton(at: index)
         }
+    }
+}
+
+extension SYUIPoiDetailView: SYUIColorUpdate {
+    public func setupColors() {
+        backgroundColor = .bar
+        actionButtonsView.backgroundColor = .bar
+        gradient.colors = [UIColor.bar, UIColor.bar.withAlphaComponent(0.0)]
+        tableView.separatorColor = .border
+        tableView.backgroundColor = .background
+        tableView.reloadData()
     }
 }

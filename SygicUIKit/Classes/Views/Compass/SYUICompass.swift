@@ -50,15 +50,8 @@ public class SYUICompass: UIView {
         createBackgroundView()
         createCompassArrow()
         
-        updateColors()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
-    }
-    
-    @objc private func updateColors() {
-        borderView.backgroundColor = .iconBackground
-        backgroundView.backgroundColor = .background
-        compassArrow.setNeedsDisplay()
-        setupDefaultShadow()
+        setupColors()
+        NotificationCenter.default.addObserver(self, selector: #selector(setupColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
     }
     
     private func createBackgroundView() {
@@ -91,5 +84,14 @@ public class SYUICompass: UIView {
         let hitOffset = CGFloat(10.0)
         bounds = CGRect(x: CGFloat(bounds.origin.x - hitOffset), y: CGFloat(bounds.origin.y - hitOffset), width: CGFloat(bounds.size.width + 2 * hitOffset), height: CGFloat(bounds.size.height + 2 * hitOffset))
         return bounds.contains(point)
+    }
+}
+
+extension SYUICompass: SYUIColorUpdate {
+    public func setupColors() {
+        borderView.backgroundColor = .iconBackground
+        backgroundView.backgroundColor = .background
+        compassArrow.setNeedsDisplay()
+        setupDefaultShadow()
     }
 }

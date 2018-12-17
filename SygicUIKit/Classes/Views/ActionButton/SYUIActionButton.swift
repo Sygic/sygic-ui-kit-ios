@@ -322,7 +322,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         
         setupConstraints()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setupColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
     }
     
     private func setupConstraints() {
@@ -503,10 +503,6 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         setSubtitleLabelFont(for: style)
         setShadow(for: style)
     }
-    
-    @objc private func updateColors() {
-        updateLayout()
-    }
 }
 
 // MARK: - Optional subviews
@@ -525,4 +521,10 @@ extension SYUIActionButton {
         return activityIndicator
     }
     
+}
+
+extension SYUIActionButton: SYUIColorUpdate {
+    public func setupColors() {
+        updateLayout()
+    }
 }
