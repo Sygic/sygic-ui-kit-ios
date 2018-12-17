@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol ColorPalette {
+public protocol SYUIColorPalette {
     
     var background: UIColor { get }
     var mapBackground: UIColor { get }
@@ -51,7 +51,7 @@ public protocol ColorPalette {
 }
 
 // MARK: - Default values
-public extension ColorPalette {
+public extension SYUIColorPalette {
     
     var background:         UIColor { return UIColor(argb: 0xffffffff) }
     var mapBackground:      UIColor { return UIColor(argb: 0xffefefea) }

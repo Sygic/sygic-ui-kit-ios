@@ -191,11 +191,11 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         didSet {
             guard let backgroundColor = originalBackgroundColor, isHighlighted != oldValue else { return }
             if style == .plain {
-                customTitleLabel.textColor = isHighlighted ? UIColor.action.adjustBrightness(with: ColorSchemeManager.sharedInstance.brightnessMultiplier.lighter) : .action
+                customTitleLabel.textColor = isHighlighted ? UIColor.action.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.lighter) : .action
             } else if style == .blurred {
-                rightIcon.textColor = isHighlighted ? UIColor.textInvert.adjustBrightness(with: ColorSchemeManager.sharedInstance.brightnessMultiplier.darker) : .textInvert
+                rightIcon.textColor = isHighlighted ? UIColor.textInvert.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.darker) : .textInvert
             } else {
-                let multiplier = ColorSchemeManager.sharedInstance.brightnessMultiplier(for: backgroundColor, foregroundColor: customTitleLabel.textColor)
+                let multiplier = SYUIColorSchemeManager.shared.brightnessMultiplier(for: backgroundColor, foregroundColor: customTitleLabel.textColor)
                 let highlightedColor = isHighlighted ? backgroundColor.adjustBrightness(with: multiplier) : backgroundColor
                 
                 backgroundView.highlightColor = highlightedColor

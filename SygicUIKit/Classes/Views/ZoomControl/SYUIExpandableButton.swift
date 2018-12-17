@@ -23,7 +23,7 @@ public class SYUIExpandableButton: UIButton {
     override public var isHighlighted: Bool {
         didSet {
             guard isHighlighted != oldValue else { return }
-            iconLabel.textColor = isHighlighted ? iconColor.adjustBrightness(with: ColorSchemeManager.sharedInstance.brightnessMultiplier.darker) : iconColor
+            iconLabel.textColor = isHighlighted ? iconColor.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.darker) : iconColor
         }
     }
     
