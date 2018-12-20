@@ -92,7 +92,7 @@ class PoiDetailTableViewCell: UITableViewCell {
         setupHighlightingView()
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = SygicFonts.with(SygicFonts.regular, size:SygicFontSize.headingOld)
+        titleLabel.font = SYUIFont.with(SYUIFont.regular, size:SYUIFontSize.headingOld)
         titleLabel.textColor = .action
         contentView.addSubview(titleLabel)
     }
@@ -122,7 +122,7 @@ class PoiDetailTableViewCell: UITableViewCell {
     
     private func createAccessoryIconLabel() {
         iconLabel.translatesAutoresizingMaskIntoConstraints = false
-        iconLabel.font = SygicFonts.iconFontWith(size: 18.0)
+        iconLabel.font = SYUIFont.iconFontWith(size: 18.0)
         setDefaultColors()
         iconLabel.clipsToBounds = true
         iconLabel.textAlignment = .center
@@ -163,12 +163,12 @@ class PoiDetailSubtitleTableViewCell: PoiDetailTableViewCell {
         
     override fileprivate func createLayout() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = SygicFonts.with(SygicFonts.regular, size:SygicFontSize.bodyOld)
+        titleLabel.font = SYUIFont.with(SYUIFont.regular, size:SYUIFontSize.bodyOld)
         titleLabel.textColor = .action
         contentView.addSubview(titleLabel)
         
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.font = SygicFonts.with(SygicFonts.regular, size:SygicFontSize.headingOld)
+        subtitleLabel.font = SYUIFont.with(SYUIFont.regular, size:SYUIFontSize.headingOld)
         subtitleLabel.textColor = .textBody
         contentView.addSubview(subtitleLabel)
     }
