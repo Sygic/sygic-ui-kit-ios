@@ -5,6 +5,10 @@ class CustomTestColorPallete: SYUIColorPalette {
     var action: UIColor { return UIColor(red: 0.7, green: 0.13, blue: 0.18, alpha: 1) }
 }
 
+struct CustomFontFamily: SYUIFontFamily {
+    public var semiBold: String { return "Oswald-Bold" }
+}
+
 class SkinTestViewController: UIViewController {
     
     let customSkin = SYUINightColorPalette()
@@ -13,13 +17,19 @@ class SkinTestViewController: UIViewController {
     let nightSkinButton = SYUIActionButton()
     let customSkinButton = SYUIActionButton()
     
-    private let poiDetailVC = SYUIPoiDetailViewController()
+    var defaultFontFamily: SYUIFontFamily!
+    var customFontFamily: CustomFontFamily!
+    
+    private var poiDetailVC: SYUIPoiDetailViewController?
     private let poiDetailDataSource = PoiDetailTestViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupButtons()
+        
+        defaultFontFamily = SYUIFontManager.shared.currentFontFamily
+        customFontFamily = CustomFontFamily()
         
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(updateColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
@@ -28,8 +38,10 @@ class SkinTestViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        let poiDetailVC = SYUIPoiDetailViewController()
         poiDetailVC.dataSource = poiDetailDataSource
         poiDetailVC.presentPoiDetailAsChildViewController(to: self, bounce: true, completion: nil)
+        self.poiDetailVC = poiDetailVC
     }
     
     // MARK: Color update
@@ -42,6 +54,8 @@ class SkinTestViewController: UIViewController {
     // MARK: Color scheme switching
     
     @objc private func defaultSkinButtonPressed(_ sender: UIButton) {
+        SYUIFontManager.shared.currentFontFamily = defaultFontFamily
+        
         SYUIColorSchemeManager.shared.setDefaultColorPalettes()
         SYUIColorSchemeManager.shared.currentColorScheme = .day
     }
@@ -52,6 +66,8 @@ class SkinTestViewController: UIViewController {
     }
     
     @objc private func customSkinButtonPressed(_ sender: UIButton) {
+        SYUIFontManager.shared.currentFontFamily = customFontFamily
+        
         SYUIColorSchemeManager.shared.setDefaultColorPalettes(dayColorPalette: CustomTestColorPallete(), nightColorPalette: nil)
         SYUIColorSchemeManager.shared.currentColorScheme = .day
     }
@@ -71,6 +87,7 @@ class SkinTestViewController: UIViewController {
         customSkinButton.translatesAutoresizingMaskIntoConstraints = false
         customSkinButton.title = "Custom skin demo"
         customSkinButton.style = .secondary
+        customSkinButton.titleLabel?.font = UIFont(name: CustomFontFamily().semiBold, size: SYUIFontSize.heading)
         customSkinButton.addTarget(self, action: #selector(customSkinButtonPressed(_:)), for: .touchUpInside)
         
         view.addSubview(defaultSkinButton)
