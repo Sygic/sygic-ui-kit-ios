@@ -11,7 +11,7 @@ public enum ColorScheme {
 
 public let ColorPaletteChangedNotification: String = "ColorPaletteChangedNotification"
 
-public class SYUIColorSchemeManager: NSObject {
+public class SYUIColorSchemeManager {
 
     public static let shared = SYUIColorSchemeManager()
     
