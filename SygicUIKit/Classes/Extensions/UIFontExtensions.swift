@@ -12,6 +12,15 @@ public extension UIFont {
     }
     
     static func registerFont(bundle: Bundle, fontName: String, fontExtension: String) -> Bool {
+        for oldFontFamily in UIFont.familyNames {
+            for oldFontName in UIFont.fontNames(forFamilyName: oldFontFamily) {
+                if oldFontName == fontName {
+                    // font already registerd
+                    return true
+                }
+            }
+        }
+        
         guard let fontURL = bundle.url(forResource: fontName, withExtension: fontExtension) else {
             fatalError("Couldn't find font \(fontName)")
         }

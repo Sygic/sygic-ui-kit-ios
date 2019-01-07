@@ -1,5 +1,14 @@
 import Foundation
 
+/**
+ Singleton. Handles color scheme switching between day and night color palletes.
+ 
+ Properties:
+ - currentColorPalette: color palette currently in use
+ - currentColorScheme: color scheme (default is day)
+ - brightnessMultiplier: returns multiplier for color adjustment for highlighted states
+ - highlightedNavigationBarButtonAlpha: returns alpha value for highlighted state on custom navigation bar items
+ */
 @objc public protocol SYUIColorUpdate {
     @objc func setupColors()
 }
@@ -23,7 +32,11 @@ public class SYUIColorSchemeManager {
     
     public var currentColorScheme: ColorScheme = .day {
         didSet {
-            currentColorPalette = isNight ? nightColorPalette! : dayColorPalette!
+            if nightColorPalette == nil || dayColorPalette == nil {
+                setColorPalettes(dayColorPalette: dayColorPalette, nightColorPalette: nightColorPalette)
+            }
+            guard let nightPalette = nightColorPalette, let dayPalette = dayColorPalette else { return }
+            currentColorPalette = isNight ? nightPalette : dayPalette
         }
     }
     
@@ -35,13 +48,18 @@ public class SYUIColorSchemeManager {
     
     private var dayColorPalette: SYUIColorPalette?
     private var nightColorPalette: SYUIColorPalette?
+    
+    private init() {}
 
     // MARK: - Setting Day & Night palettes
     
-    public func setDefaultColorPalettes(dayColorPalette: SYUIColorPalette? = SYUIDefaultColorPalette(), nightColorPalette: SYUIColorPalette? = SYUINightColorPalette()) {
+    public func setDefaultColorPalettes() {
+        setColorPalettes()
+    }
+    
+    public func setColorPalettes(dayColorPalette: SYUIColorPalette? = SYUIDefaultColorPalette(), nightColorPalette: SYUIColorPalette? = SYUINightColorPalette()) {
         self.dayColorPalette = dayColorPalette
         self.nightColorPalette = nightColorPalette
-        
         setNewColorScheme(currentColorScheme)
     }
     
