@@ -1,6 +1,6 @@
 import UIKit
 
-public class SYUIFontSize: NSObject {
+public class SYUIFontSize {
     public static var body: CGFloat { return SYUIFontManager.shared.currentFontSize.body }
     public static var heading: CGFloat { return SYUIFontManager.shared.currentFontSize.heading }
     public static var poiIcon: CGFloat { return SYUIFontManager.shared.currentFontSize.poiIcon }
