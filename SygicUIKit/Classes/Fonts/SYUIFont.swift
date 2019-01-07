@@ -12,7 +12,7 @@ public class SYUIFontSize {
     public static var bodyOld: CGFloat { return SYUIFontManager.shared.currentFontSize.bodyOld }
 }
 
-@objc public class SYUIFont: NSObject {
+public class SYUIFont {
     public static var bold: String { return SYUIFontManager.shared.currentFontFamily.bold }
     public static var boldItalic: String { return SYUIFontManager.shared.currentFontFamily.boldItalic }
     public static var extraBold: String { return SYUIFontManager.shared.currentFontFamily.extraBold }
