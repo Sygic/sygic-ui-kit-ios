@@ -6,7 +6,7 @@ class SYUIPinViewIcon: UIView {
     public var icon: String? {
         didSet {
             iconLabel.text = icon
-            iconLabel.font = SygicFonts.with(SygicFonts.iconFont, size: SygicFontSize.poiIcon)
+            iconLabel.font = SYUIFont.with(SYUIFont.iconFont, size: SYUIFontSize.poiIcon)
         }
     }
     

@@ -92,6 +92,12 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         }
     }
     
+    public var style = SYUIActionButtonStyle.primary {
+        didSet {
+            updateLayout()
+        }
+    }
+    
     
     override public var titleLabel: UILabel? {
         return customTitleLabel
@@ -141,12 +147,6 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         }
     }
     
-    public var style = SYUIActionButtonStyle.primary {
-        didSet {
-            updateLayout()
-        }
-    }
-    
     public override var backgroundColor: UIColor? {
         didSet {
             originalBackgroundColor = backgroundColor
@@ -191,11 +191,11 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         didSet {
             guard let backgroundColor = originalBackgroundColor, isHighlighted != oldValue else { return }
             if style == .plain {
-                customTitleLabel.textColor = isHighlighted ? UIColor.action.adjustBrightness(with: ColorSchemeManager.sharedInstance.brightnessMultiplier.lighter) : .action
+                customTitleLabel.textColor = isHighlighted ? UIColor.action.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.lighter) : .action
             } else if style == .blurred {
-                rightIcon.textColor = isHighlighted ? UIColor.textInvert.adjustBrightness(with: ColorSchemeManager.sharedInstance.brightnessMultiplier.darker) : .textInvert
+                rightIcon.textColor = isHighlighted ? UIColor.textInvert.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.darker) : .textInvert
             } else {
-                let multiplier = ColorSchemeManager.sharedInstance.brightnessMultiplier(for: backgroundColor, foregroundColor: customTitleLabel.textColor)
+                let multiplier = SYUIColorSchemeManager.shared.brightnessMultiplier(for: backgroundColor, foregroundColor: customTitleLabel.textColor)
                 let highlightedColor = isHighlighted ? backgroundColor.adjustBrightness(with: multiplier) : backgroundColor
                 
                 backgroundView.highlightColor = highlightedColor
@@ -281,7 +281,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         customTitleLabel.text = title
         customSubtitleLabel.text = subtitle
         rightIcon.text = icon
-        rightIcon.font = SygicFonts.with(SygicFonts.iconFont, size: iconSize)
+        rightIcon.font = SYUIFont.with(SYUIFont.iconFont, size: iconSize)
         rightIcon.textAlignment = iconAlignment
         updateStyle()
         capitalizeTitleIfNeeded()
@@ -315,12 +315,14 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     private func createDefaultUI() {
         setupBorder()
         setupBackgroundView()
-        rightIcon.font = SygicFonts.with(SygicFonts.iconFont, size: rightIconFontSize)
+        rightIcon.font = SYUIFont.with(SYUIFont.iconFont, size: rightIconFontSize)
         customTitleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         customTitleLabel.minimumScaleFactor = 0.6
         customTitleLabel.adjustsFontSizeToFitWidth = true
         
         setupConstraints()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setupColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
     }
     
     private func setupConstraints() {
@@ -402,13 +404,13 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     }
     
     private func setTitleLabelFont(for style: SYUIActionButtonStyle) {
-        let titleSize = self.titleSize ?? SygicFontSize.heading
-        customTitleLabel.font = SygicFonts.with(SygicFonts.semiBold, size: titleSize)
+        let titleSize = self.titleSize ?? SYUIFontSize.heading
+        customTitleLabel.font = SYUIFont.with(SYUIFont.semiBold, size: titleSize)
     }
     
     private func setSubtitleLabelFont(for style: SYUIActionButtonStyle) {
-        let subtitleSize = self.subtitleSize ?? SygicFontSize.body
-        customSubtitleLabel.font = SygicFonts.with(SygicFonts.semiBold, size: subtitleSize)
+        let subtitleSize = self.subtitleSize ?? SYUIFontSize.body
+        customSubtitleLabel.font = SYUIFont.with(SYUIFont.semiBold, size: subtitleSize)
     }
     
     private func capitalizeTitleIfNeeded() {
@@ -519,4 +521,10 @@ extension SYUIActionButton {
         return activityIndicator
     }
     
+}
+
+extension SYUIActionButton: SYUIColorUpdate {
+    public func setupColors() {
+        updateLayout()
+    }
 }

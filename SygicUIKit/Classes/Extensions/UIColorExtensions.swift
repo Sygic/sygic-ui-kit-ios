@@ -3,73 +3,73 @@ import UIKit
 public extension UIColor {
     
     /// Use for general views & cells background.
-    public static var background:       UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.background }
+    public static var background:       UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.background }
     /// Use for launch screen and map's background
-    public static var mapBackground:    UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.mapBackground }
+    public static var mapBackground:    UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.mapBackground }
     /// Use for UITableView background.
-    public static var tableBackground:  UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.tableBackground }
+    public static var tableBackground:  UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.tableBackground }
     /// Use for texts on colorful (not white) background.
-    public static var textInvert:       UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.textInvert }
+    public static var textInvert:       UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.textInvert }
     /// Use for bar background (UINavigationBar, UIToolbar)
-    public static var bar:              UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.bar }
+    public static var bar:              UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.bar }
     /// Use for UITableView separator color, secondary actions, foreground color for views on `border` background (Search field in Search bar, SegmentedView in Navigation bar, etc.).
-    public static var border:           UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.border }
+    public static var border:           UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.border }
     /// Use for general text color.
-    public static var textBody:         UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.textBody }
+    public static var textBody:         UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.textBody }
     /// Use for main, highlighted text color (titles, emphasized texts)
-    public static var textTitle:        UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.textTitle }
+    public static var textTitle:        UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.textTitle }
     /// Use for primary action views.
-    public static var action:           UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.action }
+    public static var action:           UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.action }
     /// Use for error views, destruction actions.
-    public static var error:            UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.error }
+    public static var error:            UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.error }
     /// Use for less warnings and less important errors.
-    public static var warning:          UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.warning }
+    public static var warning:          UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.warning }
     /// Use for success information texts.
-    public static var success:          UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.success }
+    public static var success:          UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.success }
     /// Use for rating views.
-    public static var rating:           UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.rating }
+    public static var rating:           UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.rating }
     
     /// Use for texts on light background.
-    public static var textSign:           UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.textSign }
+    public static var textSign:           UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.textSign }
     /// Use for icon background, map controls border.
-    public static var iconBackground:     UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.iconBackground }
+    public static var iconBackground:     UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.iconBackground }
     /// Use for shadows.
-    public static var shadow:             UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.shadow }
+    public static var shadow:             UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.shadow }
     /// Use for bar shadows (UINavigationBar, ...) and border shadows.
-    public static var barShadow:          UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.barShadow }
+    public static var barShadow:          UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.barShadow }
     /// Use for action indicators and disclosure indicators in cells.
-    public static var actionIndicator:    UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.actionIndicator }
+    public static var actionIndicator:    UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.actionIndicator }
     /// Use for background color for overlay views (Fancy modals, popups, ...).
-    public static var overlay:            UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.overlay }
+    public static var overlay:            UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.overlay }
     /// Use for default blur color.
-    public static var mapInfoBackground:  UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.mapInfoBackground }
+    public static var mapInfoBackground:  UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.mapInfoBackground }
     
     /// Use for secondary texts on colorful (not white) background.
-    public static var textInvertSecondary:  UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.textInvertSecondary }
+    public static var textInvertSecondary:  UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.textInvertSecondary }
     /// Use for subtitle (less important) texts on colorful (not white) background.
-    public static var textInvertSubtitle:   UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.textInvertSubtitle }
+    public static var textInvertSubtitle:   UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.textInvertSubtitle }
     
     /// Use for shadows for primary action views.
-    public static var actionShadow: UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.actionShadow }
-    public static var errorShadow: UIColor { return ColorSchemeManager.sharedInstance.currentColorPalette.errorShadow }
+    public static var actionShadow: UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.actionShadow }
+    public static var errorShadow: UIColor { return SYUIColorSchemeManager.shared.currentColorPalette.errorShadow }
 
     // MARK: - POI group colors
-    public static var poiGroupTourism          : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupTourism }
-    public static var poiGroupFoodDrink        : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupFoodDrink }
-    public static var poiGroupAccomodation     : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupAccomodation }
-    public static var poiGroupParking          : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupParking }
-    public static var poiGroupPetrolStation    : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupPetrolStation }
-    public static var poiGroupTransportation   : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupTransportation }
-    public static var poiGroupBank             : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupBank }
-    public static var poiGroupShopping         : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupShopping }
-    public static var poiGroupVehicleServices  : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupVehicleServices }
-    public static var poiGroupSocialLife       : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupSocialLife }
-    public static var poiGroupSvcEducation     : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupSvcEducation }
-    public static var poiGroupSport            : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupSport }
-    public static var poiGroupGuides           : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupGuides }
-    public static var poiGroupEmergency        : UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.poiGroupEmergency }
+    public static var poiGroupTourism          : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupTourism }
+    public static var poiGroupFoodDrink        : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupFoodDrink }
+    public static var poiGroupAccomodation     : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupAccomodation }
+    public static var poiGroupParking          : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupParking }
+    public static var poiGroupPetrolStation    : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupPetrolStation }
+    public static var poiGroupTransportation   : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupTransportation }
+    public static var poiGroupBank             : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupBank }
+    public static var poiGroupShopping         : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupShopping }
+    public static var poiGroupVehicleServices  : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupVehicleServices }
+    public static var poiGroupSocialLife       : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupSocialLife }
+    public static var poiGroupSvcEducation     : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupSvcEducation }
+    public static var poiGroupSport            : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupSport }
+    public static var poiGroupGuides           : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupGuides }
+    public static var poiGroupEmergency        : UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.poiGroupEmergency }
     
-    public static var signpostDefaultBackground: UIColor {  return ColorSchemeManager.sharedInstance.currentColorPalette.signpostDefaultBackground }
+    public static var signpostDefaultBackground: UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.signpostDefaultBackground }
     
 }
 

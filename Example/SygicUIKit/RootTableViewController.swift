@@ -3,7 +3,7 @@ import UIKit
 class RootTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 7
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -20,6 +20,8 @@ class RootTableViewController: UITableViewController {
         case 4:
             cell.textLabel?.text = "PoiDetailViewController"
         case 5:
+            cell.textLabel?.text = "Skin / themes"
+        case 6:
             cell.textLabel?.text = "Zoom Controls"
         default:
             break
@@ -40,6 +42,8 @@ class RootTableViewController: UITableViewController {
         case 4:
             navigationController?.pushViewController(PoiDetailTestViewController(), animated: true)
         case 5:
+            navigationController?.pushViewController(SkinTestViewController(), animated: true)
+        case 6:
             navigationController?.pushViewController(ZoomTestViewController(), animated: true)
         default:
             break

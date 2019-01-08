@@ -29,7 +29,7 @@ class SYUIPinViewBackground: UIView {
         pinLabel.textAlignment = .center
         pinLabel.numberOfLines = 1
         pinLabel.alpha = 1
-        pinLabel.font = SygicFonts.with(SygicFonts.iconFont, size: bounds.height)
+        pinLabel.font = SYUIFont.with(SYUIFont.iconFont, size: bounds.height)
         addSubview(pinLabel)
         
         addShadow(color: .shadow)

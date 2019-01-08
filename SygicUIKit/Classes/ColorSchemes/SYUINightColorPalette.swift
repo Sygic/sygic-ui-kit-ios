@@ -1,10 +1,10 @@
 import Foundation
 
-public struct NightColorPalette: ColorPalette {
+public struct SYUINightColorPalette: SYUIColorPalette {
 
     public init() {}
     
-    public var background:      UIColor { return DefaultColorPalette().textTitle }
+    public var background:      UIColor { return SYUIDefaultColorPalette().textTitle }
     public var tableBackground: UIColor { return UIColor(argb: 0xff242933) }
     public var textInvert:      UIColor { return UIColor(argb: 0xffe1e7f2) }
     public var bar:             UIColor { return UIColor(argb: 0xff2d3340) }
@@ -17,9 +17,9 @@ public struct NightColorPalette: ColorPalette {
     public var success:         UIColor { return UIColor(argb: 0xff5c993d) }
     public var rating:          UIColor { return UIColor(argb: 0xffa6874b) }
     
-    public var textSign:           UIColor { return DefaultColorPalette().textSign }
-    public var mapInfoBackground:  UIColor { return DefaultColorPalette().mapInfoBackground }
-    public var barShadow:          UIColor { return DefaultColorPalette().textTitle.withAlphaComponent(0.5) }
+    public var textSign:           UIColor { return SYUIDefaultColorPalette().textSign }
+    public var mapInfoBackground:  UIColor { return SYUIDefaultColorPalette().mapInfoBackground }
+    public var barShadow:          UIColor { return SYUIDefaultColorPalette().textTitle.withAlphaComponent(0.5) }
     public var overlay:            UIColor { return textTitle.withAlphaComponent(0.1) }
     
     public var actionShadow:    UIColor { return background.withAlphaComponent(0.5) }

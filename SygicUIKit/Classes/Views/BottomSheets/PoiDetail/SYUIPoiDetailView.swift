@@ -27,6 +27,10 @@ class SYUIPoiDetailView: UIView {
     public let actionButtonsView = SYUIActionButtonsView()
     public let tableView = UITableView()
     
+    // MARK: - Private Properties
+    
+    private let gradient = GradientView()
+    
     public var headerHeight: CGFloat {
         if let headerCell = tableView.cellForRow(at: IndexPath(row: 0, section: Int(SYUIPoiDetailSectionType.header.rawValue))) {
             return headerCell.frame.size.height
@@ -69,19 +73,11 @@ class SYUIPoiDetailView: UIView {
         actionButtonsView.delegate = self
         bringSubview(toFront: actionButtonsView)
         
-        backgroundColor = .bar
-        actionButtonsView.backgroundColor = .bar
-        tableView.separatorColor = .border
-        tableView.backgroundColor = .background
+        setupColors()
+        NotificationCenter.default.addObserver(self, selector: #selector(setupColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
     }
     
     private func setupActionButtonsView() {
-        // TODO:
-//        ColorSchemeManager.sharedInstance.currentColorScheme.asDriver().drive(onNext: { [unowned self] (colorScheme) in
-//            self.actionButtonsView.backgroundColor = .bar
-//            self.backgroundColor = .bar
-//        }).disposed(by: disposeBag)
-        
         actionButtonsView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(actionButtonsView)
         actionButtonsView.leadingAnchor.constraint(equalTo: safeLeadingAnchor).isActive = true
@@ -99,13 +95,6 @@ class SYUIPoiDetailView: UIView {
         tableView.rowHeight = UITableViewAutomaticDimension
         addSubview(tableView)
 
-        // TODO:
-//        ColorSchemeManager.sharedInstance.currentColorScheme.asDriver().drive(onNext: { [unowned self] (colorScheme) in
-//            self.tableView.separatorColor = .border
-//            self.tableView.backgroundColor = .background
-//            self.tableView.reloadData()
-//        }).disposed(by: disposeBag)
-
         tableView.register(PoiDetailHeaderCell.self, forCellReuseIdentifier: NSStringFromClass(PoiDetailHeaderCell.self))
         tableView.register(PoiDetailTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(PoiDetailTableViewCell.self))
         tableView.register(PoiDetailSubtitleTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(PoiDetailSubtitleTableViewCell.self))
@@ -121,7 +110,6 @@ class SYUIPoiDetailView: UIView {
     }
     
     private func setupGradientView() {
-        let gradient = GradientView()
         gradient.translatesAutoresizingMaskIntoConstraints = false
         gradient.backgroundColor = UIColor.clear
         gradient.locations = [0, 1]
@@ -129,11 +117,6 @@ class SYUIPoiDetailView: UIView {
         let bindings = ["actionButtonsView":actionButtonsView, "gradient":gradient]
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|[gradient]|", options: .alignAllCenterY, metrics: nil, views: bindings))
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:[actionButtonsView][gradient(16)]", options: .alignAllCenterX, metrics: nil, views: bindings))
-
-        // TODO:
-//        ColorSchemeManager.sharedInstance.currentColorScheme.asDriver().drive(onNext: { (colorScheme) in
-            gradient.colors = [UIColor.bar, UIColor.bar.withAlphaComponent(0.0)]
-//        }).disposed(by: disposeBag)
     }
     
     private func showCopyContextMenu(from cell: UITableViewCell) {
@@ -251,5 +234,16 @@ extension SYUIPoiDetailView: SYUIActionButtonsDelegate {
         if let delegate = delegate {
             delegate.poiDetailDidPressActionButton(at: index)
         }
+    }
+}
+
+extension SYUIPoiDetailView: SYUIColorUpdate {
+    public func setupColors() {
+        backgroundColor = .bar
+        actionButtonsView.backgroundColor = .bar
+        gradient.colors = [UIColor.bar, UIColor.bar.withAlphaComponent(0.0)]
+        tableView.separatorColor = .border
+        tableView.backgroundColor = .background
+        tableView.reloadData()
     }
 }

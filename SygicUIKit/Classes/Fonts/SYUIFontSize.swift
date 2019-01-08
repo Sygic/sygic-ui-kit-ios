@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol FontSize {
+public protocol SYUIFontSizeProtocol {
     var bodyOld: CGFloat { get }
     var body: CGFloat { get }
     var headingOld: CGFloat { get }
@@ -11,7 +11,7 @@ public protocol FontSize {
 }
 
 // MARK: - Default values
-public extension FontSize {
+public extension SYUIFontSizeProtocol {
     var bodyOld: CGFloat { return 14.0 }
     var body: CGFloat { return 16.0 }
     var headingOld: CGFloat { return 17.0 }
@@ -21,6 +21,6 @@ public extension FontSize {
     var buttonIconLarge: CGFloat { return 32.0 }
 }
 
-public struct DefaultFontSize: FontSize {
+public struct DefaultFontSize: SYUIFontSizeProtocol {
     public init() {}
 }

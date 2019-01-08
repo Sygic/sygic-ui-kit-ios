@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol FontFamily {
+public protocol SYUIFontFamily {
     var bold: String { get }
     var boldItalic: String { get }
     var extraBold: String { get }
@@ -15,7 +15,7 @@ public protocol FontFamily {
 }
 
 // MARK: - Default values
-public extension FontFamily {
+public extension SYUIFontFamily {
     var bold: String { return "InterUI-Bold" }
     var boldItalic: String { return "InterUI-BoldItalic" }
     var extraBold: String { return "InterUI-Black" }
@@ -29,7 +29,7 @@ public extension FontFamily {
     var iconFont: String { return "SygicIcons" }
 }
 
-public struct DefaultFontFamily: FontFamily {
+public struct DefaultFontFamily: SYUIFontFamily {
     public init() {
         guard let fontBundle = Bundle.fontBundle else { return }
         _ = UIFont.registerFont(bundle: fontBundle, fontName: self.bold, fontExtension: "ttf")
@@ -46,7 +46,7 @@ public struct DefaultFontFamily: FontFamily {
 
 extension Bundle {
     static var fontBundle: Bundle? {
-        let podBundle = Bundle(for: SygicFonts.self)
+        let podBundle = Bundle(for: SYUIFont.self)
         if let resourcesBundleUrl = podBundle.url(forResource: "SygicUIKit", withExtension: "bundle") {
             return Bundle(url: resourcesBundleUrl)
         }

@@ -23,7 +23,7 @@ public class SYUIExpandableButton: UIButton {
     override public var isHighlighted: Bool {
         didSet {
             guard isHighlighted != oldValue else { return }
-            iconLabel.textColor = isHighlighted ? iconColor.adjustBrightness(with: ColorSchemeManager.sharedInstance.brightnessMultiplier.darker) : iconColor
+            iconLabel.textColor = isHighlighted ? iconColor.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.darker) : iconColor
         }
     }
     
@@ -156,9 +156,9 @@ public class SYUIExpandableButton: UIButton {
     private func buttonFont() -> UIFont {
         switch type {
         case .icon:
-            return SygicFonts.with(SygicFonts.iconFont, size: SYUIExpandableButton.iconSize)!
+            return SYUIFont.with(SYUIFont.iconFont, size: SYUIExpandableButton.iconSize)!
         case .text:
-            return SygicFonts.with(SygicFonts.semiBold, size: SYUIExpandableButton.iconSize)!
+            return SYUIFont.with(SYUIFont.semiBold, size: SYUIExpandableButton.iconSize)!
         }
     }
     

@@ -1,7 +1,12 @@
 import Foundation
 
-public protocol ColorPalette {
+
+/**
+ Defines all colors used by SYUIKit components. To customize kit colors, create your own color palette that implements SYUIColorPalette protocol and implements your own desired values.
+ */
+public protocol SYUIColorPalette {
     
+    // MARK: - Basic colors
     var background: UIColor { get }
     var mapBackground: UIColor { get }
     var tableBackground: UIColor { get }
@@ -16,6 +21,7 @@ public protocol ColorPalette {
     var success: UIColor { get }
     var rating: UIColor { get }
     
+    // MARK: - Derived colors with opacity
     var textSign: UIColor { get }
     var iconBackground: UIColor { get }
     var shadow: UIColor { get }
@@ -51,8 +57,9 @@ public protocol ColorPalette {
 }
 
 // MARK: - Default values
-public extension ColorPalette {
+public extension SYUIColorPalette {
     
+    // MARK: - Basic colors
     var background:         UIColor { return UIColor(argb: 0xffffffff) }
     var mapBackground:      UIColor { return UIColor(argb: 0xffefefea) }
     var tableBackground:    UIColor { return UIColor(argb: 0xffe1e7f2) }
@@ -67,6 +74,7 @@ public extension ColorPalette {
     var success:            UIColor { return UIColor(argb: 0xff339900) }
     var rating:             UIColor { return UIColor(argb: 0xfff2ae24) }
     
+    // MARK: - Derived colors with opacity
     var textSign:           UIColor { return textTitle }
     var iconBackground:     UIColor { return textTitle.withAlphaComponent(0.1) }
     var shadow:             UIColor { return textTitle.withAlphaComponent(0.15) }
