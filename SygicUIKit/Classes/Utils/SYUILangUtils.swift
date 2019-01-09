@@ -34,12 +34,6 @@ public func LS(_ key: String?, _ comment: String = "") -> String {
         
         return localizedString
     } else {
-        return "".localized
-    }
-}
-
-public extension String {
-    public var localized: String {
-        return LS(self)
+        return ""
     }
 }
