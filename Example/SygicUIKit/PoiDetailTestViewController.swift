@@ -95,11 +95,11 @@ extension PoiDetailTestViewController: SYUIPoiDetailDataSource {
         case .contactInfo:
             switch indexPath.row {
             case 0:
-                return SYUIPoiDetailCellData(title: "Phone", subtitle: "+421 987 123 456", icon: SYUIIcon.call)
+                return SYUIPoiDetailCellData(title: LS("detail.contact.phone"), subtitle: "+421 987 123 456", icon: SYUIIcon.call)
             case 1:
-                return SYUIPoiDetailCellData(title: "Email", subtitle: "info@sygic.com", icon: SYUIIcon.email)
+                return SYUIPoiDetailCellData(title: LS("detail.contact.mail"), subtitle: "info@sygic.com", icon: SYUIIcon.email)
             case 2:
-                return SYUIPoiDetailCellData(title: "Website", subtitle: "www.sygic.com", icon: SYUIIcon.website)
+                return SYUIPoiDetailCellData(title: LS("detail.contact.url"), subtitle: "www.sygic.com", icon: SYUIIcon.website)
             default:
                 return SYUIPoiDetailCellData(title: "")
             }
