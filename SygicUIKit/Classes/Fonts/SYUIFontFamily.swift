@@ -1,5 +1,7 @@
 import Foundation
 
+
+/// Font family protocol for define Font.
 public protocol SYUIFontFamily {
     var bold: String { get }
     var boldItalic: String { get }
@@ -15,6 +17,7 @@ public protocol SYUIFontFamily {
 }
 
 // MARK: - Default values
+
 public extension SYUIFontFamily {
     var bold: String { return "InterUI-Bold" }
     var boldItalic: String { return "InterUI-BoldItalic" }

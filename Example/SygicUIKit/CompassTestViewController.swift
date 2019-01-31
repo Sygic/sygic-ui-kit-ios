@@ -2,7 +2,9 @@ import UIKit
 import MapKit
 import SygicUIKit
 
+
 class CompassTestViewController: UIViewController {
+    
     private let mapView = MKMapView()
     private let compassController = SYUICompassController(course: 0, autoHide: true)
     

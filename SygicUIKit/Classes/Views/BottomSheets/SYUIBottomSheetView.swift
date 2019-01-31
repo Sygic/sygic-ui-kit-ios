@@ -1,5 +1,6 @@
 import UIKit
 
+
 public protocol BottomSheetViewDelegate: class {
     /// Tells if bottomSheetView should change position when pan gesture is recognized (default set to true)
     func bottomSheetCanMove() -> Bool
@@ -23,14 +24,10 @@ public extension BottomSheetViewDelegate {
     func bottomSheetDidAnimate(_ bottomSheetView: SYUIBottomSheetView, to offset: CGFloat) {}
 }
 
-
 open class SYUIBottomSheetView: UIView {
     
-    private static let dragIndicatorViewTopMargin: CGFloat = 7.0
-    private static let minVisibleHeight: CGFloat = 100
-    private static let maxSlideAnimationDuration: TimeInterval = 0.8
+    // MARK: - Public Properties
     
-    public weak var sheetDelegate: BottomSheetViewDelegate?
     public var minTopMargin: CGFloat = 68
     public var minimizedHeight: CGFloat = SYUIBottomSheetView.minVisibleHeight
     public var canSwipeToHide: Bool = false
@@ -38,17 +35,16 @@ open class SYUIBottomSheetView: UIView {
     public let panGesture = UIPanGestureRecognizer()
     public let dragIndicatorView = UIView()
     
-    private var heightConstraint = NSLayoutConstraint()
-    private var animationToCount: Int = 0
-    private var dragIndicatorViewTopConstraint = NSLayoutConstraint()
-    private var topConstraint = NSLayoutConstraint()
+    public weak var sheetDelegate: BottomSheetViewDelegate?
     
     open var startingOffset: CGFloat {
         return minimizedHeight
     }
+    
     open var minOffset: CGFloat {
         return minTopMargin
     }
+    
     open var maxOffset: CGFloat {
         return minimizedPosition
     }
@@ -71,9 +67,23 @@ open class SYUIBottomSheetView: UIView {
         }
         return false
     }
+    
     public var isCollapsed: Bool {
         return frame.origin.y.rounded(.toNearestOrEven) == minimizedPosition.rounded(.toNearestOrEven)
     }
+    
+    // MARK: - Private Properties
+    
+    private static let dragIndicatorViewTopMargin: CGFloat = 7.0
+    private static let minVisibleHeight: CGFloat = 100
+    private static let maxSlideAnimationDuration: TimeInterval = 0.8
+    
+    private var heightConstraint = NSLayoutConstraint()
+    private var animationToCount: Int = 0
+    private var dragIndicatorViewTopConstraint = NSLayoutConstraint()
+    private var topConstraint = NSLayoutConstraint()
+    
+    // MARK: - Public Methods
     
     public init() {
         super.init(frame: CGRect.zero)
@@ -96,14 +106,36 @@ open class SYUIBottomSheetView: UIView {
         dragIndicatorView.fullRoundCorners()
     }
     
-    private func superviewHeight() -> CGFloat {
-        if let superview = superview {
-            return superview.frame.size.height
-        }
-        return 0
+    open func updateDragIndicatorView(with offset: CGFloat) {
+        let normalizedOffset = min(SYUIBottomSheetView.dragIndicatorViewTopMargin, offset+SYUIBottomSheetView.dragIndicatorViewTopMargin)
+        dragIndicatorViewTopConstraint.constant = normalizedOffset
+        dragIndicatorView.isHidden = normalizedOffset < -SYUIBottomSheetView.dragIndicatorViewTopMargin
+        layoutIfNeeded()
     }
     
-    //MARK: - UI
+    public func updateContentHeight(shouldMinimize: Bool) {
+        heightConstraint.constant = contentHeight
+        if shouldMinimize {
+            minimize()
+        }
+    }
+    
+    public func superviewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        updateContentHeight(shouldMinimize: true)
+    }
+    
+    public func minimize() {
+        if !isCollapsed {
+            animateTo(maxOffset, duration: SYUIConstants.animationDuration)
+        }
+    }
+    
+    public func expand() {
+        animateTo(minOffset, duration: SYUIConstants.animationDuration)
+    }
+    
+    //MARK: UI
+    
     open func createUI() {
         backgroundColor = .background
         setupShadowTopBorder()
@@ -112,6 +144,24 @@ open class SYUIBottomSheetView: UIView {
         
         createPanGesture()
         createDragIndicatorView()
+    }
+    
+    //MARK: To override
+    
+    open func willExpand() {}
+    open func didExpand() {}
+    open func willMinimize() {}
+    open func didMinimize() {}
+    
+    open func shouldRestoreMapState() -> Bool { return false }
+    
+    // MARK: - Private Methods
+    
+    private func superviewHeight() -> CGFloat {
+        if let superview = superview {
+            return superview.frame.size.height
+        }
+        return 0
     }
     
     private func createPanGesture() {
@@ -152,47 +202,12 @@ open class SYUIBottomSheetView: UIView {
         NSLayoutConstraint.activate([topConstraint, heightConstraint])
     }
     
-    open func updateDragIndicatorView(with offset: CGFloat) {
-        let normalizedOffset = min(SYUIBottomSheetView.dragIndicatorViewTopMargin, offset+SYUIBottomSheetView.dragIndicatorViewTopMargin)
-        dragIndicatorViewTopConstraint.constant = normalizedOffset
-        dragIndicatorView.isHidden = normalizedOffset < -SYUIBottomSheetView.dragIndicatorViewTopMargin
-        layoutIfNeeded()
-    }
-    
-    public func updateContentHeight(shouldMinimize: Bool) {
-        heightConstraint.constant = contentHeight
-        if shouldMinimize {
-            minimize()
-        }
-    }
-    
-    public func superviewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        updateContentHeight(shouldMinimize: true)
-    }
-    
-    public func minimize() {
-        if !isCollapsed {
-            animateTo(maxOffset, duration: SYUIConstants.animationDuration)
-        }
-    }
-    
-    public func expand() {
-        animateTo(minOffset, duration: SYUIConstants.animationDuration)
-    }
-    
-    //MARK: - To override
-    
-    open func willExpand() {}
-    open func didExpand() {}
-    open func willMinimize() {}
-    open func didMinimize() {}
-    
-    open func shouldRestoreMapState() -> Bool { return false }
 }
 
-//MARK: - Animating
+// MARK: - Animating
 
-extension SYUIBottomSheetView {//: Animating {
+extension SYUIBottomSheetView {
+    
     open func shouldAnimateAlpha() -> Bool {
         return false
     }
@@ -202,18 +217,15 @@ extension SYUIBottomSheetView {//: Animating {
         sheetDelegate?.bottomSheetWillAppear(self)
     }
 
-    open func didAppear() {
-    }
+    open func didAppear() { }
 
     open func willDisappear() {
         sheetDelegate?.bottomSheetWillDisappear(self)
     }
 
-    open func didDisappear() {
-    }
+    open func didDisappear() { }
+    
 }
-
-// MARK: -
 
 public extension SYUIBottomSheetView {
     
@@ -305,7 +317,6 @@ public extension SYUIBottomSheetView {
         }
     }
 }
-
 
 //MARK: - Pan gesture
 

@@ -1,19 +1,29 @@
 import CoreGraphics
 import UIKit
 
+
+/// A path view that depicts the progress of a task over time.
 public class PathProgressView: UIView {
     
+    // MARK: - Public Properties
+    
+    /// Width of a progress path line
     static let lineWidth: CGFloat = 4.0
+    
+    /// Progress path
+    public var path: UIBezierPath {
+        return UIBezierPath()
+    }
+    
+    // MARK: - Private Properties
     
     private let barLayer: CAShapeLayer
     private var duration: TimeInterval = 0.0
     private var strokeColor: UIColor = .action
     
-    var path: UIBezierPath {
-        return UIBezierPath()
-    }
+    // MARK: - Public Methods
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         barLayer = CAShapeLayer()
         barLayer.fillColor = UIColor.clear.cgColor
         barLayer.lineWidth = PathProgressView.lineWidth
@@ -37,20 +47,29 @@ public class PathProgressView: UIView {
         startAnimate()
     }
     
+    /// Set up path with a countdown. So it will fulfill automatically.
+    ///
+    /// - Parameters:
+    ///   - countdownDuration: Countdown duration of a path.
+    ///   - strokeColor: Stroke color.
     public func setup(with countdownDuration: TimeInterval, strokeColor: UIColor = .action) {
         self.duration = countdownDuration
         self.strokeColor = strokeColor
     }
-    
-    /**
-     
-     */
+
+    /// Set up path with a progress. So path will be fill based on progress.
+    ///
+    /// - Parameters:
+    ///   - progress: Progress value between 0.0 and 1.0.
+    ///   - strokeColor: Stroke color.
     public func setup(progress: CGFloat, strokeColor: UIColor = .action) {
         self.duration = 0
         self.strokeColor = strokeColor
         barLayer.strokeEnd = progress
         setNeedsDisplay()
     }
+    
+    // MARK: - Private Methods
     
     private func startAnimate() {
         let animation = CABasicAnimation(keyPath: "strokeEnd")

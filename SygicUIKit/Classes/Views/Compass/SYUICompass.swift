@@ -1,12 +1,19 @@
 import Foundation
 import UIKit
 
+
+/// Compass view.
 public class SYUICompass: UIView {
+    
+    // MARK: - Private Properties
+    
     private let COMPASS_BACKGROUND_SIZE = 44.0
     private let COMPASS_BORDER_SIZE = 46.0
     private let compassArrow = SYUICompassArrow()
     private let backgroundView = UIView()
     private let borderView = UIView()
+    
+    // MARK: - Public Methods
     
     public init() {
         super.init(frame: CGRect.zero)
@@ -23,10 +30,16 @@ public class SYUICompass: UIView {
         borderView.fullRoundCorners()
     }
     
+    /// Rotate arrow at compass.
+    ///
+    /// - Parameter rotation: angle of arrow in radians.
     public func rotateArrow(_ rotation: CGFloat) {
         compassArrow.layer.setAffineTransform(CGAffineTransform(rotationAngle: rotation))
     }
     
+    /// Animate visibility of a compass.
+    ///
+    /// - Parameter visible: Boolean value whether compass is visible or not.
     public func animateVisibility(_ visible: Bool) {
         if visible && alpha == 0.0  {
             UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut, .beginFromCurrentState], animations: {
@@ -39,7 +52,22 @@ public class SYUICompass: UIView {
         }
     }
     
-    //MARK: - UI
+    // MARK: UIViewGeometry
+    
+    public override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if (alpha == 0) {
+            return false
+        }
+        var bounds: CGRect = self.bounds
+        let hitOffset = CGFloat(10.0)
+        bounds = CGRect(x: CGFloat(bounds.origin.x - hitOffset), y: CGFloat(bounds.origin.y - hitOffset), width: CGFloat(bounds.size.width + 2 * hitOffset), height: CGFloat(bounds.size.height + 2 * hitOffset))
+        return bounds.contains(point)
+    }
+    
+    // MARK: - Private Methods
+    
+    // MARK: UI
+    
     private func initDefault() {
         alpha = 1
         accessibilityLabel = "native.compas"
@@ -75,16 +103,6 @@ public class SYUICompass: UIView {
         compassArrow.coverWholeSuperview()
     }
     
-    // MARK: - UIViewGeometry
-    public override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if (alpha == 0) {
-            return false
-        }
-        var bounds: CGRect = self.bounds
-        let hitOffset = CGFloat(10.0)
-        bounds = CGRect(x: CGFloat(bounds.origin.x - hitOffset), y: CGFloat(bounds.origin.y - hitOffset), width: CGFloat(bounds.size.width + 2 * hitOffset), height: CGFloat(bounds.size.height + 2 * hitOffset))
-        return bounds.contains(point)
-    }
 }
 
 extension SYUICompass: SYUIColorUpdate {

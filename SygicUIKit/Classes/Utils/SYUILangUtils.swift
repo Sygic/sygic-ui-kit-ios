@@ -16,7 +16,6 @@ private class LocalizedHelper {
  - returns:
  Returns localized string into current language
  */
-
 public func LS(_ key: String?, _ comment: String = "") -> String {
     if let key = key {
         

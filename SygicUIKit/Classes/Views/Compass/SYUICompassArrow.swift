@@ -1,6 +1,9 @@
 import UIKit
 
+
+/// Compass arrow drawn with `UIBezierPath`
 class SYUICompassArrow: UIView {
+    
     override func draw(_ rect: CGRect) {
         //// north Drawing
         let northPath = UIBezierPath()
@@ -21,4 +24,5 @@ class SYUICompassArrow: UIView {
         UIColor.border.setFill()
         southPath.fill()
     }
+    
 }

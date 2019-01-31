@@ -1,19 +1,38 @@
 
+/// Map Recenter controller delegate.
 public protocol SYUIMapRecenterDelegate: class {
-    func didChangeRecenterButtonState(button: SYUIActionButton, state: SYUIMapRecenterController.state)
+    
+    /// Method is called, when state of a button is changed.
+    ///
+    /// - Parameters:
+    ///   - button: button that changed state.
+    ///   - state: new changed state.
+    func didChangeRecenterButtonState(button: SYUIActionButton, state: SYUIRecenterState)
 }
 
+/// Represents state of recenter controller.
+public enum SYUIRecenterState {
+    /// Map is in free browse mode.
+    case free
+    /// Map is locked to gps position.
+    case locked
+    /// Map is locked to gps position and camera is rotating in front of device.
+    case lockedCompass
+}
+
+/// Map recenter controller controls its view that is `SYUIActionButton`.
 open class SYUIMapRecenterController {
-    public enum state {
-        case free
-        case locked
-        case lockedCompass
-    }
     
+    // MARK: - Public Properties
+    
+    /// Button, which represents a view of this controller
     public var button = SYUIActionButton()
-    public var allowedStates: [state] = [.free, .locked, .lockedCompass]
     
-    public var currentState: state = .free {
+    /// Allowed states
+    public var allowedStates: [SYUIRecenterState] = [.free, .locked, .lockedCompass]
+    
+    /// Current state of controller
+    public var currentState: SYUIRecenterState = .free {
         didSet {
             refreshIcon()
             if let delegate = delegate, oldValue != currentState {
@@ -21,7 +40,11 @@ open class SYUIMapRecenterController {
             }
         }
     }
+    
+    /// Map recenter delegate.
     public weak var delegate: SYUIMapRecenterDelegate?
+    
+    // MARK: - Public Methods
     
     public init() {
         button.style = .secondary
@@ -29,7 +52,9 @@ open class SYUIMapRecenterController {
         refreshIcon()
     }
     
-    @objc func didTapButton() {
+    // MARK: - Private Methods
+    
+    @objc private func didTapButton() {
         if allowedStates.count == 0 { return }
         guard var stateIndex = allowedStates.firstIndex(of: currentState) else { return }
         stateIndex += 1
@@ -51,4 +76,5 @@ open class SYUIMapRecenterController {
             button.icon = SYUIIcon.positionLockCompassIos
         }
     }
+    
 }

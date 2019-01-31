@@ -1,6 +1,8 @@
 import UIKit
 
+
 public extension UIFont {
+    
     public var monospacedDigitFont: UIFont {
         let fontDescriptorAttributes = [UIFontDescriptor.AttributeName.featureSettings: [[UIFontDescriptor.FeatureKey.featureIdentifier: kNumberSpacingType,
                                                                                           UIFontDescriptor.FeatureKey.typeIdentifier: kMonospacedNumbersSelector]]]
@@ -42,4 +44,5 @@ public extension UIFont {
         
         return true
     }
+    
 }

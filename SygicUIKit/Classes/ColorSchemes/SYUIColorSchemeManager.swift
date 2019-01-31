@@ -1,35 +1,45 @@
 import Foundation
 
 /**
- Singleton. Handles color scheme switching between day and night color palletes.
+    Protocol for updating colors for current color palette.
  
- Properties:
- - currentColorPalette: color palette currently in use
- - currentColorScheme: color scheme (default is day)
- - brightnessMultiplier: returns multiplier for color adjustment for highlighted states
- - highlightedNavigationBarButtonAlpha: returns alpha value for highlighted state on custom navigation bar items
- */
+    Adapt this protocol in class, where you want to update your color based on color scheme.
+    Then register ColorPaletteChangedNotification to setupColors method:
+    ```
+    NotificationCenter.default.addObserver(self, selector: #selector(setupColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
+    ```
+*/
 @objc public protocol SYUIColorUpdate {
     @objc func setupColors()
 }
 
+/// Available color schemes.
 public enum ColorScheme {
+    /// Color scheme for a day.
     case day
+    /// Color scheme for a night.
     case night
 }
 
+/// Notification you need to observe for listening on change of color palette. So you can update UI.
 public let ColorPaletteChangedNotification: String = "ColorPaletteChangedNotification"
 
+
+/// Singleton. Handles color scheme switching between day and night color palletes.
 public class SYUIColorSchemeManager {
+    
+    // MARK: - Public Properties
 
     public static let shared = SYUIColorSchemeManager()
     
+    /// Color palette currently in use
     public var currentColorPalette: SYUIColorPalette = SYUIDefaultColorPalette() {
         didSet {
             NotificationCenter.default.post(name: Notification.Name(rawValue: ColorPaletteChangedNotification), object: currentColorPalette)
         }
     }
     
+    /// Color scheme currently in use (default is day)
     public var currentColorScheme: ColorScheme = .day {
         didSet {
             if nightColorPalette == nil || dayColorPalette == nil {
@@ -40,34 +50,57 @@ public class SYUIColorSchemeManager {
         }
     }
     
+    /// Multiplier for color adjustment for highlighted states
     public let brightnessMultiplier: (lighter: CGFloat, darker: CGFloat) = (lighter: 1.25, darker: 0.9)
+    
+    /// Returns alpha value for highlighted state on custom navigation bar items
     public let highlightedNavigationBarButtonAlpha: CGFloat = 0.3
+    
+    /// Returns if current color scheme is night
     public var isNight: Bool {
         return currentColorScheme == .night
     }
+    
+    // MARK: - Private Properties
     
     private var dayColorPalette: SYUIColorPalette?
     private var nightColorPalette: SYUIColorPalette?
     
     private init() {}
-
-    // MARK: - Setting Day & Night palettes
     
+    // MARK: - Public Methods
+
+    // MARK: Setting Day & Night palettes
+    
+    /// Set color palettes to default palattes, both day and night color palette.
     public func setDefaultColorPalettes() {
         setColorPalettes()
     }
-    
+
+    /// Set color palettes for day and night.
+    ///
+    /// - Parameters:
+    ///   - dayColorPalette: color palette for a day.
+    ///   - nightColorPalette: color palette for a night
     public func setColorPalettes(dayColorPalette: SYUIColorPalette? = SYUIDefaultColorPalette(), nightColorPalette: SYUIColorPalette? = SYUINightColorPalette()) {
         self.dayColorPalette = dayColorPalette
         self.nightColorPalette = nightColorPalette
         setNewColorScheme(currentColorScheme)
     }
     
-    // MARK: - Brightness
+    // MARK: Brightness
     
+    /// Compares which color is ligther and returns correct brightness multiplier.
+    ///
+    /// - Parameters:
+    ///   - backgroundColor: background color to compare.
+    ///   - foregroundColor: foreground color to compare.
+    /// - Returns: Multiplier for darker color if background is lighter and vice versa.
     public func brightnessMultiplier(for backgroundColor: UIColor, foregroundColor: UIColor) -> CGFloat {
         return backgroundColor.isLighter(than: foregroundColor) ? brightnessMultiplier.darker : brightnessMultiplier.lighter
     }
+    
+    // MARK: - Private Methods
     
     // MARK: Setting new scheme
     

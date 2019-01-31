@@ -1,8 +1,13 @@
 import UIKit
 import QuartzCore
 
+
+/// View class that manages pin icon.
 class SYUIPinViewIcon: UIView {
     
+    // MARK: - Public Properties
+    
+    /// Font string value of an icon.
     public var icon: String? {
         didSet {
             iconLabel.text = icon
@@ -10,6 +15,7 @@ class SYUIPinViewIcon: UIView {
         }
     }
     
+    /// Color of an icon.
     public var iconColor: UIColor? {
         didSet {
             if isSelected {
@@ -23,6 +29,7 @@ class SYUIPinViewIcon: UIView {
         }
     }
     
+    /// Boolean value whether pin icon is selected or not.
     public var isSelected: Bool {
         set {
             if newValue {
@@ -37,6 +44,7 @@ class SYUIPinViewIcon: UIView {
         get { return iconLabel.textColor == iconColor }
     }
     
+    /// Boolean value whether icon sould show shadow or not.
     public var shouldShowShadow: Bool {
         set { layer.shadowOpacity = newValue ? 1 : 0 }
         get { return layer.shadowOpacity > 0 }
@@ -44,7 +52,9 @@ class SYUIPinViewIcon: UIView {
     
     public var iconLabel: UILabel = UILabel()
     
-    // MARK: - Life cycle
+    // MARK: - Public Methods
+    
+    // MARK: Life cycle
     
     init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
