@@ -1,18 +1,44 @@
 import UIKit
 
 
+/// Bottom sheet view delegate protocol.
 public protocol BottomSheetViewDelegate: class {
     /// Tells if bottomSheetView should change position when pan gesture is recognized (default set to true)
     func bottomSheetCanMove() -> Bool
     
+    /// Delegate information, that bottomSheetView change its position by pan gesture
+    ///
+    /// - Parameters:
+    ///   - bottomSheetView: bottom sheet view
+    ///   - delta: position diffrence in points
+    ///   - offset: targeted y offset of view from its superview
     func bottomSheetDidSwipe(_ bottomSheetView: SYUIBottomSheetView, with delta: CGFloat, to offset: CGFloat)
+    
+    /// Delegate information, that bottomSheetView will animate its position
+    ///
+    /// - Parameters:
+    ///   - bottomSheetView: bottom sheet view
+    ///   - offset: targeted y offset of view from its superview
+    ///   - duration: animation duration
     func bottomSheetWillAnimate(_ bottomSheetView: SYUIBottomSheetView, to offset: CGFloat, with duration: TimeInterval)
+    
+    /// Delegate information, that bottomSheetView will appear on screen
     func bottomSheetWillAppear(_ bottomSheetView: SYUIBottomSheetView)
+    
+    /// Delegate information, that bottomSheetView will disappear from screen
     func bottomSheetWillDisappear(_ bottomSheetView: SYUIBottomSheetView)
+    
+    /// Delegate information, that bottomSheetView was swiped out of screen by pan gesture
     func bottomSheetDidSwipeOut(_ bottomSheetView: SYUIBottomSheetView)
+    
+    /// Delegate information, that bottomSheetView did finish its animation
+    ///
+    /// - Parameters:
+    ///   - offset: final y offset of view from its superview
     func bottomSheetDidAnimate(_ bottomSheetView: SYUIBottomSheetView, to offset: CGFloat)
 }
 
+/// Default implementation to declare delegate methods as optional
 public extension BottomSheetViewDelegate {
     func bottomSheetCanMove() -> Bool { return true }
     
@@ -24,43 +50,56 @@ public extension BottomSheetViewDelegate {
     func bottomSheetDidAnimate(_ bottomSheetView: SYUIBottomSheetView, to offset: CGFloat) {}
 }
 
+/// Bottom sheet view
 open class SYUIBottomSheetView: UIView {
     
     // MARK: - Public Properties
     
+    /// Offset of bottom sheet view from top of its superview when expanded.
     public var minTopMargin: CGFloat = 68
+    /// Height of visible part of bottom sheet view when minimized.
     public var minimizedHeight: CGFloat = SYUIBottomSheetView.minVisibleHeight
+    /// Indicates if bottom sheet view will listen to swipe to hide gesture when minimized.
     public var canSwipeToHide: Bool = false
-    public var translationOffset: CGFloat = 0
+    /// Pan gesture recognizer to handle bottom sheet movement.
     public let panGesture = UIPanGestureRecognizer()
+    /// View to indicate bottom sheet can be moved with gestures.
     public let dragIndicatorView = UIView()
     
+    /// Delegate
     public weak var sheetDelegate: BottomSheetViewDelegate?
     
+    /// Starting position (in points) of bottom sheet view used as targeted position by animateIn(...)
     open var startingOffset: CGFloat {
         return minimizedHeight
     }
     
+    /// Minimal positon offset of bottom sheet view from top of its superview
     open var minOffset: CGFloat {
         return minTopMargin
     }
     
+    /// Maximal positon offset of bottom sheet view from top of its superview
     open var maxOffset: CGFloat {
         return minimizedPosition
     }
     
+    /// Current positon offset of bottom sheet view from top of its superview
     public var currentOffset: CGFloat {
         return superviewHeight() - topConstraint.constant
     }
     
+    /// Height of bottom sheet view content (should be equal with bottom sheet view height)
     public var contentHeight: CGFloat {
         return superviewHeight() - minOffset
     }
     
+    /// Positon offset of bottom sheet view from top of its superview when minimized
     public var minimizedPosition: CGFloat {
         return superviewHeight() - minimizedHeight
     }
     
+    /// Indicates if bottom sheet view is fully visible on screen (expanded)
     public var isFullViewVisible: Bool {
         if let presentationLayer = layer.presentation() {
             return presentationLayer.frame.origin.y <= minOffset
@@ -68,6 +107,7 @@ open class SYUIBottomSheetView: UIView {
         return false
     }
     
+    /// Indicates if bottom sheet view is placed on its minimized offset position
     public var isCollapsed: Bool {
         return frame.origin.y.rounded(.toNearestOrEven) == minimizedPosition.rounded(.toNearestOrEven)
     }
@@ -79,6 +119,7 @@ open class SYUIBottomSheetView: UIView {
     private static let maxSlideAnimationDuration: TimeInterval = 0.8
     
     private var heightConstraint = NSLayoutConstraint()
+    private var translationOffset: CGFloat = 0
     private var animationToCount: Int = 0
     private var dragIndicatorViewTopConstraint = NSLayoutConstraint()
     private var topConstraint = NSLayoutConstraint()
@@ -106,6 +147,9 @@ open class SYUIBottomSheetView: UIView {
         dragIndicatorView.fullRoundCorners()
     }
     
+    /// Moves drag indicator view
+    ///
+    /// - Parameter offset: position offset from top of bottom sheet view
     open func updateDragIndicatorView(with offset: CGFloat) {
         let normalizedOffset = min(SYUIBottomSheetView.dragIndicatorViewTopMargin, offset+SYUIBottomSheetView.dragIndicatorViewTopMargin)
         dragIndicatorViewTopConstraint.constant = normalizedOffset
@@ -113,6 +157,9 @@ open class SYUIBottomSheetView: UIView {
         layoutIfNeeded()
     }
     
+    /// Update bottom sheet view to fit its content height property
+    ///
+    /// - Parameter shouldMinimize: if true, bottom sheet view will minimize after
     public func updateContentHeight(shouldMinimize: Bool) {
         heightConstraint.constant = contentHeight
         if shouldMinimize {
@@ -120,22 +167,30 @@ open class SYUIBottomSheetView: UIView {
         }
     }
     
+    /// Updates height and minimize bottom sheet view. Should be called by superview controller when viewWillTransition(..) is called
+    ///
+    /// - Parameters:
+    ///   - size: superview new size
+    ///   - coordinator: transition coordinator
     public func superviewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         updateContentHeight(shouldMinimize: true)
     }
     
+    /// Minimize bottom sheet view
     public func minimize() {
         if !isCollapsed {
             animateTo(maxOffset, duration: SYUIConstants.animationDuration)
         }
     }
     
+    /// Shows full bottom sheet view
     public func expand() {
         animateTo(minOffset, duration: SYUIConstants.animationDuration)
     }
     
     //MARK: UI
     
+    /// Creates and setups besic UI elements
     open func createUI() {
         backgroundColor = .background
         setupShadowTopBorder()
@@ -148,12 +203,14 @@ open class SYUIBottomSheetView: UIView {
     
     //MARK: To override
     
+    /// Called when view is going to be expanded
     open func willExpand() {}
+    /// Called when view was expanded
     open func didExpand() {}
+    /// Called when view is going to be minimized
     open func willMinimize() {}
+    /// Called when view was minimized
     open func didMinimize() {}
-    
-    open func shouldRestoreMapState() -> Bool { return false }
     
     // MARK: - Private Methods
     

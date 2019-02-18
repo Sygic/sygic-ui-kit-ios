@@ -1,19 +1,27 @@
 import UIKit
 
+/// Poi detail cell action types
 @objc public enum PoiDetailCellActionType: Int {
+    /// standard cell type
     case action
+    /// remove action style cell type
     case removeAction
+    /// disabled action cell type
     case disabled
 }
 
+/// Protocol for Poi detail cell data source
 public protocol SYUIPoiDetailCellDataSource {
     var title: String { get }
     var subtitle: String? { get }
     var icon: String? { get }
+    /// Cell action type that defines cell visual style
     var actionType: PoiDetailCellActionType { get }
+    /// String that is provided for context menu action 'Copy'
     var stringToCopy: String? { get }
 }
 
+/// Poi detail cell data source
 public struct SYUIPoiDetailCellData: SYUIPoiDetailCellDataSource {
     
     public var title: String
@@ -32,7 +40,10 @@ public struct SYUIPoiDetailCellData: SYUIPoiDetailCellDataSource {
     
 }
 
+/// Poi detail table view cell
 class PoiDetailTableViewCell: UITableViewCell {
+    
+    // MARK: - Private Properties
     
     fileprivate let iconSize: CGFloat = 36.0
     
@@ -40,6 +51,8 @@ class PoiDetailTableViewCell: UITableViewCell {
     fileprivate let iconLabel = UILabel()
     
     private var stringToCopy = ""
+    
+    // MARK: - Public Methods
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -58,8 +71,6 @@ class PoiDetailTableViewCell: UITableViewCell {
         iconLabel.fullRoundCorners()
     }
     
-    // MARK: - Public Methods
-    
     public override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         let iconBackgroundColor = iconLabel.backgroundColor
         
@@ -70,6 +81,9 @@ class PoiDetailTableViewCell: UITableViewCell {
         highlightCell(highlighted, backgroundColor: backgroundColor, foregroundColor: titleLabel.textColor)
     }
     
+    /// Update cell with data form data source
+    ///
+    /// - Parameter cellData: data source
     public func update(with cellData: SYUIPoiDetailCellDataSource) {
         backgroundColor = .background
         
@@ -157,6 +171,7 @@ extension PoiDetailTableViewCell {
 }
 
 
+/// Poi detail table view cell with subtitle label
 class PoiDetailSubtitleTableViewCell: PoiDetailTableViewCell {
     
     private let subtitleLabel = UILabel()

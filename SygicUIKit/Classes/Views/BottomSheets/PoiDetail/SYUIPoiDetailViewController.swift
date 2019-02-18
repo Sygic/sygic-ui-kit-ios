@@ -1,5 +1,7 @@
 import Foundation
 
+
+/// Protocol for PoiDetail data source
 public protocol SYUIPoiDetailDataSource: class {
     /// Returns space in points between expanded poi detail view and top of the screen (default == 0)
     var poiDetailMaxTopOffset: CGFloat { get }
@@ -23,27 +25,37 @@ public extension SYUIPoiDetailDataSource {
     func poiDetailActionButton(for index: Int) -> SYUIActionButton { return SYUIActionButton() }
 }
 
+/// Protocol for PoiDetail delegate
 public protocol SYUIPoiDetailDelegate: class {
     func poiDetailDidPressActionButton(at index: Int)
     func poiDetailDidSelectCell(at indexPath: IndexPath)
 }
 
+/// PoiDetail view controller
 open class SYUIPoiDetailViewController: UIViewController {
     
+    // MARK: - Public Properties
+    
+    /// Data source
     public weak var dataSource: SYUIPoiDetailDataSource? {
         didSet {
             reloadData()
         }
     }
+    /// Delegate
     public weak var delegate: SYUIPoiDetailDelegate?
     
-    /// visible height of PoiDetailView when minimized (without action buttons)
+    /// Visible height of PoiDetailView when minimized (without action buttons)
     public var defaultMinimizedHeight: CGFloat = 122
+    
+    // MARK: - Private Properties
     
     private var bottomSheetView: SYUIBottomSheetView!
     private let poiDetailView = SYUIPoiDetailView()
     
-    override open func loadView() {
+    // MARK: - Public Methods
+    
+    open override func loadView() {
         bottomSheetView = SYUIBottomSheetView()
         bottomSheetView.sheetDelegate = self
         
@@ -54,7 +66,7 @@ open class SYUIPoiDetailViewController: UIViewController {
         poiDetailView.coverWholeSuperview()
     }
     
-    override open func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         
         if let dataSource = dataSource {
@@ -62,12 +74,20 @@ open class SYUIPoiDetailViewController: UIViewController {
         }
     }
     
-    override open func viewDidAppear(_ animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         poiDetailView.delegate = self
         poiDetailView.tableView.panGestureRecognizer.isEnabled = bottomSheetView.isFullViewVisible
     }
     
+    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: { (_:UIViewControllerTransitionCoordinatorContext) in
+            self.bottomSheetView.superviewWillTransition(to: size, with: coordinator)
+        }, completion: nil)
+        super.viewWillTransition(to: size, with: coordinator)
+    }
+    
+    /// Reload data from poi detail dataSurce
     open func reloadData() {
         guard let dataSource = dataSource, view == bottomSheetView else { return }
         bottomSheetView.minTopMargin = dataSource.poiDetailMaxTopOffset
@@ -75,6 +95,13 @@ open class SYUIPoiDetailViewController: UIViewController {
     }
     
     // MARK: presentation handling
+    
+    /// Presents poiDetail controller as childViewController from presentingViewController
+    ///
+    /// - Parameters:
+    ///   - presentingViewController: presenting view controller (parentViewController)
+    ///   - bounce: adds bounce effect to presenting animation if true (default == false)
+    ///   - completion: completion block called when presenting animations are finished
     public func presentPoiDetailAsChildViewController(to presentingViewController: UIViewController, bounce: Bool = false, completion: ((_ finished: Bool)->())?) {
         guard let bottomSheetView = view as? SYUIBottomSheetView else {
             completion?(false)
@@ -87,6 +114,9 @@ open class SYUIPoiDetailViewController: UIViewController {
         }
     }
     
+    /// Dismiss poiDetail controller and removes him from parentViewController
+    ///
+    /// - Parameter completion: completion block
     public func dismissPoiDetail(completion: ((_ finished: Bool)->())?) {
         guard let bottomSheetView = view as? SYUIBottomSheetView else {
             completion?(false)
@@ -98,6 +128,8 @@ open class SYUIPoiDetailViewController: UIViewController {
         }
     }
 }
+
+// MARK: - BottomSheetView delegate
 
 extension SYUIPoiDetailViewController: BottomSheetViewDelegate {
     public func bottomSheetCanMove() -> Bool {
@@ -117,6 +149,8 @@ extension SYUIPoiDetailViewController: BottomSheetViewDelegate {
         }
     }
 }
+
+// MARK: - PoiDetailView protocol
 
 extension SYUIPoiDetailViewController: SYUIPoiDetailViewProtocol {
     public func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int {
