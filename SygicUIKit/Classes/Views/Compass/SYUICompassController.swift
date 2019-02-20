@@ -1,15 +1,26 @@
 import Foundation
 
 
+/// Compass controller delegate protocol.
 public protocol SYUICompassDelegate: class {
+    
+    /// Delegate informs, that was tapped on compass.
+    ///
+    /// - Parameter compass: compass reference, which was tapped.
     func compassDidTap(_ compass: SYUICompass)
 }
 
+/// View controller, that manage compass view.
 open class SYUICompassController {
-    public var compass = SYUICompass()
-    public weak var delegate: SYUICompassDelegate?
-    private let halfRotation = CGFloat(180.0)
     
+    // MARK: - Public Properties
+    
+    /// View, that compass controller manage.
+    public var compass = SYUICompass()
+    
+    /// Sets angle of a compass in degrees.
+    ///
+    /// If course is 0 degrees, compass is hidden with animation. You can override this behavior in inherited class.
     public var course: Double {
         didSet {
             course = course.truncatingRemainder(dividingBy: 360.0)
@@ -18,7 +29,17 @@ open class SYUICompassController {
         }
     }
     
+    /// Auto hide sets possibility to hide compass, if course is 0, which is north.
     public var autoHide: Bool
+    
+    /// Compass controller delegate.
+    public weak var delegate: SYUICompassDelegate?
+    
+    // MARK: - Private Properties
+    
+    private let halfRotation = CGFloat(180.0)
+    
+    // MARK: - Public Methods
     
     public init(course: Double = 0.0, autoHide: Bool = true) {
         self.course = course
@@ -27,11 +48,13 @@ open class SYUICompassController {
         createTapGestureRecognizer()
     }
     
+    // MARK: - Private Methods
+    
     private func shouldBeVisible() -> Bool {
         return course.rounded() != 0 || !autoHide
     }
     
-    // MARK: - Actions
+    // MARK: Actions
     private func createTapGestureRecognizer() {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.compassClicked))
         compass.addGestureRecognizer(tapRecognizer)

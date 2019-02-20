@@ -1,13 +1,15 @@
 import UIKit
 
-typealias voidBlock = () -> Void
-typealias floatfloatBlock = (_: CGFloat) -> CGFloat
-typealias floatColorBlock = (_: CGFloat) -> UIColor
-let ActivityIndicatorAnimationKey = "rotationAnimation"
-let ActivityIndicatorDurationPerTurn: TimeInterval = 1.0
+
+private typealias floatfloatBlock = (_: CGFloat) -> CGFloat
+private typealias floatColorBlock = (_: CGFloat) -> UIColor
 
 public class InfiniteCountdownActivityIndicator: UIView {
-    @IBInspectable public var color: UIColor? {
+    
+    // MARK: - Public Properties
+    
+    /// Color of a circle.
+    public var color: UIColor? {
         didSet {
             if let color = color {
                 countdownLabel.textColor = color
@@ -15,6 +17,9 @@ public class InfiniteCountdownActivityIndicator: UIView {
             circleImageView?.image = circleImage(with: bounds.size)
         }
     }
+    
+    /// Width of a circle.
+    public var circleWidth: CGFloat = 0.0
     
     override public var isHidden: Bool {
         didSet {
@@ -26,15 +31,15 @@ public class InfiniteCountdownActivityIndicator: UIView {
         }
     }
     
-    @IBInspectable public var circleWidth: CGFloat = 0.0
-
-    @IBInspectable private var circleSubdivCount: Int = 0
+    // MARK: - Private Properties
+    
+    private var circleSubdivCount: Int = 0
     private var circleImageView: UIImageView?
     private var countdownLabel = UILabel()
+    private let ActivityIndicatorAnimationKey = "rotationAnimation"
+    private let ActivityIndicatorDurationPerTurn: TimeInterval = 1.0
     
-    public func updateCountdown(_ secondsRemaining: Int) {
-        countdownLabel.text = "\(secondsRemaining)"
-    }
+    // MARK: - Public Methods
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -69,6 +74,15 @@ public class InfiniteCountdownActivityIndicator: UIView {
         renderCircleImage(to: rect)
         #endif
     }
+    
+    /// Update countdown text of a label.
+    ///
+    /// - Parameter secondsRemaining: countdown seconds remaining.
+    public func updateCountdown(_ secondsRemaining: Int) {
+        countdownLabel.text = "\(secondsRemaining)"
+    }
+    
+    // MARK: - Private Methods
     
     private func initDefaultLayout() {
         backgroundColor = UIColor.clear
@@ -109,7 +123,7 @@ public class InfiniteCountdownActivityIndicator: UIView {
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=0)-[countdownLabel]-(>=0)-|", options: [], metrics: nil, views: ["countdownLabel": countdownLabel]))
     }
     
-    // MARK: - Circle drawing
+    // MARK: Circle drawing
     private func pointForTrapezoid(withAngle a: CGFloat, andRadius r: CGFloat, forCenter p: CGPoint) -> CGPoint {
         return CGPoint(x: p.x + r * cos(a), y: p.y + r * sin(a))
     }
@@ -205,7 +219,7 @@ public class InfiniteCountdownActivityIndicator: UIView {
         }, withSubdiv: circleSubdivCount, withCenter: CGPoint(x: rect.midX, y: rect.midY), withScale: 0.5)
     }
     
-    // MARK: - Animations
+    // MARK: Animations
     private func startAnimating() {
         guard let circleImageView = circleImageView else { return }
         if circleImageView.layer.animation(forKey: ActivityIndicatorAnimationKey) != nil || circleImageView.image == nil {

@@ -1,8 +1,13 @@
 import UIKit
 import QuartzCore
 
-class SYUIPinViewBackground: UIView {
 
+/// Class managing background of a pin.
+class SYUIPinViewBackground: UIView {
+    
+    // MARK: - Public Properties
+
+    /// Color of a pin
     public var pinColor: UIColor?
     {
         didSet {
@@ -11,11 +16,16 @@ class SYUIPinViewBackground: UIView {
         }
     }
     
+    // MARK: - Private Properties
+    
     private var pinLabel: UILabel = UILabel()
+    private var dropShadowLabel: UILabel = UILabel()
     
-    // MARK: - Life cycle
+    // MARK: - Public Methods
     
-    init() {
+    // MARK: Life cycle
+    
+    public init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 80, height: 72))
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -35,14 +45,15 @@ class SYUIPinViewBackground: UIView {
         addShadow(color: .shadow)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Shadow creation
+    // MARK: Shadow creation
     
-    private var dropShadowLabel: UILabel = UILabel()
-
+    /// Add shadow to a pin.
+    ///
+    /// - Parameter color: color of a shadow.
     public func addShadow(color: UIColor) {
         pinLabel.layer.shadowColor = color.cgColor
         pinLabel.layer.shadowOffset = CGSize(width: 0.1, height: 1.1)

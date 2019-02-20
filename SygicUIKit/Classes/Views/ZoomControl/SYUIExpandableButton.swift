@@ -1,25 +1,40 @@
 
+/// Rotation of button for proper animation rotation.
 public enum SYUIExpandableButtonRotationDirection {
+    /// Button is rotating to the left.
     case left
+    /// Button is rotating to the right.
     case right
 }
 
+/// Title type of button.
 public enum SYUIExpandableButtonType {
+    /// Title is text.
     case text
+    /// Title is icon.
     case icon
 }
 
+/**
+    Expandable button class.
+ 
+    Expandable buttons are used in `SYUIExpandableButtonsController`. It represents main button and also buttons which are expanded.
+*/
 public class SYUIExpandableButton: UIButton {
     
     // MARK: - Public Properties
     
-    public static var iconSize: CGFloat {
-        return SYUIDeviceOrientationUtils.orientationSize(for: SYUIExpandableButton.iconSizePortrait, landscape: SYUIExpandableButton.iconSizeLandscape)
+    /// Font size of title in button based on device orientation.
+    public static var fontSize: CGFloat {
+        return SYUIDeviceOrientationUtils.orientationSize(for: SYUIExpandableButton.fontSizePortrait, landscape: SYUIExpandableButton.fontSizeLandscape)
     }
+    
+    /// Size of button based on device orientation.
     public static var size: CGFloat {
         return SYUIDeviceOrientationUtils.orientationSize(for: SYUIExpandableButton.sizePortrait, landscape: SYUIExpandableButton.sizeLandscape)
     }
     
+    /// isHiglighted override for setting text color of label.
     override public var isHighlighted: Bool {
         didSet {
             guard isHighlighted != oldValue else { return }
@@ -32,8 +47,8 @@ public class SYUIExpandableButton: UIButton {
     private static let animationHelpLabelTag = 34562
     private static let sizePortrait: CGFloat = 52.0
     private static let sizeLandscape: CGFloat = 44.0
-    private static let iconSizePortrait: CGFloat = 36.0
-    private static let iconSizeLandscape: CGFloat = 30.0
+    private static let fontSizePortrait: CGFloat = 36.0
+    private static let fontSizeLandscape: CGFloat = 30.0
     
     private var widthConstrait = NSLayoutConstraint()
     private var iconColor = UIColor()
@@ -43,6 +58,9 @@ public class SYUIExpandableButton: UIButton {
     
     // MARK: - Public Methods
     
+    /// Expandable button init.
+    ///
+    /// - Parameter type: Type of the button.
     public init(withType type: SYUIExpandableButtonType) {
         super.init(frame: CGRect.zero)
         self.type = type
@@ -83,6 +101,12 @@ public class SYUIExpandableButton: UIButton {
         iconLabel.textColor = color
     }
     
+    /// Animate title change of the button.
+    ///
+    /// - Parameters:
+    ///   - newTitle: new title for the button.
+    ///   - duration: duration of the animation.
+    ///   - direction: direction of the animatio.
     public func animateTitleChange(to newTitle: String, withDuration duration: TimeInterval, andDirection direction: SYUIExpandableButtonRotationDirection) {
         if let oldLabel = viewWithTag(SYUIExpandableButton.animationHelpLabelTag) {
             oldLabel.alpha = 0.0
@@ -120,6 +144,7 @@ public class SYUIExpandableButton: UIButton {
         }
     }
     
+    /// Remove all actual animations.
     public func removeAllAnimations() {
         layer.removeAllAnimations()
         for view in subviews {
@@ -156,9 +181,9 @@ public class SYUIExpandableButton: UIButton {
     private func buttonFont() -> UIFont {
         switch type {
         case .icon:
-            return SYUIFont.with(SYUIFont.iconFont, size: SYUIExpandableButton.iconSize)!
+            return SYUIFont.with(SYUIFont.iconFont, size: SYUIExpandableButton.fontSize)!
         case .text:
-            return SYUIFont.with(SYUIFont.semiBold, size: SYUIExpandableButton.iconSize)!
+            return SYUIFont.with(SYUIFont.semiBold, size: SYUIExpandableButton.fontSize)!
         }
     }
     

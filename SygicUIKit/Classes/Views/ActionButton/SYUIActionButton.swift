@@ -1,5 +1,7 @@
 import UIKit
 
+
+/// Action button properties protocol.
 public protocol SYUIActionButtonProperties {
     var title: String? { get }
     var subtitle: String? { get }
@@ -16,6 +18,7 @@ public protocol SYUIActionButtonProperties {
     var isHidden: Bool { get set }
 }
 
+/// Style of action button.
 @objc public enum SYUIActionButtonStyle: Int {
     /// Primary action.
     case primary
@@ -27,16 +30,20 @@ public protocol SYUIActionButtonProperties {
     case loading
     /// Less important action. Clear `backgroundColor`.
     case plain
-    /// In case of error occured
+    /// In case of error occured.
     case error
-    /// In case of alert
+    /// In case of alert.
     case alert
 }
 
+/// Action button sizes.
 public enum SYUIActionButtonSize: CGFloat {
+    /// Normal size.
     case normal = 56.0
+    /// Compact size.
     case compact = 40.0
     
+    /// Height raw value.
     public var height: CGFloat {
         return self.rawValue
     }
@@ -44,93 +51,90 @@ public enum SYUIActionButtonSize: CGFloat {
 
 ///General purpose action button. Configurable with `SYUIActionButtonProperties`.
 public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
+    
+    // MARK: - Public Properties
+    
+    /// Title of an action button.
     public var title: String? {
         didSet {
             updateLayout()
         }
     }
 
+    /// Subtitle of an action button.
     public var subtitle: String? {
         didSet {
             updateLayout()
         }
     }
     
+    /// Icon of an action button.
     public var icon: String? {
         didSet {
             updateLayout()
         }
     }
     
+    /// Height of an action button.
     public var height: CGFloat = SYUIActionButtonSize.normal.height {
         didSet {
             updateLayout()
         }
     }
     
+    /// Title size of an action button.
     public var titleSize: CGFloat? {
         didSet {
             updateLayout()
         }
     }
     
+    /// Subtitle size of an action button.
     public var subtitleSize: CGFloat? {
         didSet {
             updateLayout()
         }
     }
     
+    /// Icon size of an action button.
     public var iconSize: CGFloat = 24.0 {
         didSet {
             updateLayout()
         }
     }
     
+    /// Icon alignment of an action button. Default is `NSTextAlignment.right`.
     public var iconAlignment: NSTextAlignment = .right {
         didSet {
             updateLayout()
         }
     }
     
+    /// Style of an action button. Default is `SYUIActionButtonStyle.primary`.
     public var style = SYUIActionButtonStyle.primary {
         didSet {
             updateLayout()
         }
     }
     
-    
+    /// Overrided titleLabel to return action button title label.
     override public var titleLabel: UILabel? {
         return customTitleLabel
     }
+    
+    /// Overrided subtitleLabel to return action button subtitle label.
     public var subtitleLabel: UILabel {
         return customSubtitleLabel
     }
     
-    private var originalBackgroundColor: UIColor?
-    private var leftMarginConstraint: NSLayoutConstraint?
-    private var rightMarginConstraint: NSLayoutConstraint?
-    private var iconCenterXConstraint: NSLayoutConstraint?
-    private var heightConstraint: NSLayoutConstraint?
-    private var widthConstraint: NSLayoutConstraint?
-    private var rightIconFontSize: CGFloat = 24.0
-    private let backgroundView = FadingHighlightedBackgroundView(frame: .zero)
-    private let rightAccessoryPlaceholder = UIView()
-    private let borderView = UIView()
-    private var blur: UIView?
-    private var countdownRoundView: CirclePathCountdownView?
-    private var countdownBarView: BarPathCountdownView?
-    private let customTitleLabel = UILabel()
-    private let customSubtitleLabel = UILabel()
-    private let rightIcon = UILabel()
-    private let stackView = UIStackView()
-    private let labelsStackView = UIStackView()
-    
+    /// Set countdown to show countdown indicator in action button.
     public var countdown: TimeInterval? = nil {
         didSet {
             addCountdownViewsIfNeeded()
         }
     }
     
+    /// Right accessory view of an action button.
     public var rightAccessoryView: UIView? {
         willSet {
             if let view = newValue {
@@ -154,40 +158,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         }
     }
     
-    private var hasTitle: Bool {
-        guard let titleText = customTitleLabel.text else { return false }
-        
-        return !titleText.isEmpty
-    }
-    
-    private var hasSubtitle: Bool {
-        guard let subtitleText = customSubtitleLabel.text else { return false }
-        
-        return !subtitleText.isEmpty
-    }
-    
-    private var hasRightIcon: Bool {
-        guard let rightIconText = rightIcon.text else { return false }
-        
-        return !rightIconText.isEmpty
-    }
-    
-    private var hasOnlyIcon: Bool {
-        return !hasTitle && !hasSubtitle && hasRightIcon && rightAccessoryView == nil
-    }
-    
-    private var shouldCapitalizeTitle: Bool {
-        return hasTitle && !hasRightIcon && rightAccessoryView == nil && style != .plain
-    }
-    
-    private var horizontalMargin: CGFloat = 16.0 {
-        didSet {
-            leftMarginConstraint?.constant = horizontalMargin
-            rightMarginConstraint?.constant = -horizontalMargin
-        }
-    }
-    
-    override public var isHighlighted: Bool {
+    public override var isHighlighted: Bool {
         didSet {
             guard let backgroundColor = originalBackgroundColor, isHighlighted != oldValue else { return }
             if style == .plain {
@@ -222,7 +193,63 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         }
     }
     
-    // MARK: - Overrides
+    // MARK: - Private Properties
+    
+    private var originalBackgroundColor: UIColor?
+    private var leftMarginConstraint: NSLayoutConstraint?
+    private var rightMarginConstraint: NSLayoutConstraint?
+    private var iconCenterXConstraint: NSLayoutConstraint?
+    private var heightConstraint: NSLayoutConstraint?
+    private var widthConstraint: NSLayoutConstraint?
+    private var rightIconFontSize: CGFloat = 24.0
+    private let backgroundView = FadingHighlightedBackgroundView(frame: .zero)
+    private let rightAccessoryPlaceholder = UIView()
+    private let borderView = UIView()
+    private var blur: UIView?
+    private var countdownRoundView: CirclePathCountdownView?
+    private var countdownBarView: BarPathCountdownView?
+    private let customTitleLabel = UILabel()
+    private let customSubtitleLabel = UILabel()
+    private let rightIcon = UILabel()
+    private let stackView = UIStackView()
+    private let labelsStackView = UIStackView()
+
+    private var hasTitle: Bool {
+        guard let titleText = customTitleLabel.text else { return false }
+        
+        return !titleText.isEmpty
+    }
+    
+    private var hasSubtitle: Bool {
+        guard let subtitleText = customSubtitleLabel.text else { return false }
+        
+        return !subtitleText.isEmpty
+    }
+    
+    private var hasRightIcon: Bool {
+        guard let rightIconText = rightIcon.text else { return false }
+        
+        return !rightIconText.isEmpty
+    }
+    
+    private var hasOnlyIcon: Bool {
+        return !hasTitle && !hasSubtitle && hasRightIcon && rightAccessoryView == nil
+    }
+    
+    private var shouldCapitalizeTitle: Bool {
+        return hasTitle && !hasRightIcon && rightAccessoryView == nil && style != .plain
+    }
+    
+    private var horizontalMargin: CGFloat = 16.0 {
+        didSet {
+            leftMarginConstraint?.constant = horizontalMargin
+            rightMarginConstraint?.constant = -horizontalMargin
+        }
+    }
+    
+    // MARK: - Public Methods
+    
+    // MARK: Overrides
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -275,9 +302,20 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         layoutSubviews()
     }
     
-    // MARK: - Public
+    // MARK: Public Interface
+
+    /// Modify the margins of the button contents by left or right insets.
+    ///
+    /// - Parameter insets: Used left and right values only.
+    public func setContentsMargin(with insets:UIEdgeInsets){
+        leftMarginConstraint?.constant = insets.left
+        rightMarginConstraint?.constant = -insets.right
+        setNeedsLayout()
+    }
     
-    public func updateLayout() {
+    // MARK: - Private Methods
+    
+    private func updateLayout() {
         customTitleLabel.text = title
         customSubtitleLabel.text = subtitle
         rightIcon.text = icon
@@ -300,17 +338,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         setNeedsLayout()
     }
     
-    /**
-     Modify the margins of the button contents by left or right insets
-     - Parameter insets: Used left and right values only
-     */
-    public func setContentsMargin(with insets:UIEdgeInsets){
-        leftMarginConstraint?.constant = insets.left
-        rightMarginConstraint?.constant = -insets.right
-        setNeedsLayout()
-    }
-    
-    // MARK: - Default UI
+    // MARK: Default UI
     
     private func createDefaultUI() {
         setupBorder()
@@ -414,7 +442,6 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     }
     
     private func capitalizeTitleIfNeeded() {
-        
         if shouldCapitalizeTitle {
             customTitleLabel.text = customTitleLabel.text?.uppercased()
         }
@@ -524,7 +551,9 @@ extension SYUIActionButton {
 }
 
 extension SYUIActionButton: SYUIColorUpdate {
+    
     public func setupColors() {
         updateLayout()
     }
+    
 }

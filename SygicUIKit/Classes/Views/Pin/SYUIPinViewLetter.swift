@@ -1,3 +1,5 @@
+
+/// Pin icon that contains bold letter.
 class SYUIPinViewLetter: SYUIPinViewIcon {
     
     override public var icon: String? {
@@ -8,4 +10,3 @@ class SYUIPinViewLetter: SYUIPinViewIcon {
     }
     
 }
- 

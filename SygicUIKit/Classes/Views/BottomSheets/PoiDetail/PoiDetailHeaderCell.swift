@@ -1,20 +1,25 @@
 import UIKit
 
+
+/// Protocol for Poi detail header cell data source
 public protocol SYUIPoiDetailHeaderDataSource {
     var title: String { get }
     var subtitle: String? { get }
 //    var rating: Double { get }
 }
 
+/// Poi detail header cell data source
 public struct SYUIPoiDetailHeaderData: SYUIPoiDetailHeaderDataSource {
     public var title: String
     public var subtitle: String?
 }
 
+/// Poi detail header cell
 public class PoiDetailHeaderCell: UITableViewCell {
     
     // MARK: - Public Properties
     
+    /// Cell content vertical margin
     public static let verticalFrameOffset: CGFloat = 13.0
     
     // MARK: - Private Properties
@@ -59,6 +64,9 @@ public class PoiDetailHeaderCell: UITableViewCell {
         ratingLabel.textColor = .textBody
     }
     
+    /// Updates cell with data
+    ///
+    /// - Parameter data: data source
     public func update(with data: SYUIPoiDetailHeaderDataSource) {
         update(titleText: data.title)
         update(subtitleText: data.subtitle)

@@ -1,17 +1,31 @@
 
+/// A view that presents button and buttons after expand.
 public class SYUIExpandableButtonsView: UIView {
     
     // MARK: - Public Properties
     
+    /// Time interval for expanding buttons.
     public static var toggleAnimationInterval: TimeInterval = 0.5
+    
+    /// Time Interval for button animation.
     public static var buttonAnimationInterval: TimeInterval = 0.2
+    
+    /// Delay of button animation.
     public static var buttonAnimationDelay: TimeInterval = 0.1
     
+    /// Main toggle button, expandable buttons are animating from this button.
     public var toggleButton = SYUIExpandableButton(withType: .icon)
+    
+    /// Icon of button in expanded state.
     public var toggleButtonExpandedIcon = SYUIIcon.viewControls
+    
+    /// Icon of button in wrapped state.
     public var toggleButtonWrappedIcon = SYUIIcon.close
     
+    /// Array of expandable buttons.
     public var expandableButtons = [SYUIExpandableButton]()
+    
+    /// Returns if view is expanded.
     public var isExpanded = false
     
     override public init(frame: CGRect) {
@@ -25,15 +39,9 @@ public class SYUIExpandableButtonsView: UIView {
     
     // MARK: - Public Methods
     
-    public func initDefaults() {
-        isExpanded = false
-        translatesAutoresizingMaskIntoConstraints = false
-        toggleButton.translatesAutoresizingMaskIntoConstraints = false
-        toggleButton.setTitle(titleForToggleButton(), for: .normal)
-        addSubview(toggleButton)
-        wrapButtonsWithoutAnimation()
-    }
-    
+    /// Expand buttons with completion block.
+    ///
+    /// - Parameter completion: completion block called after buttons are expanded.
     public func expandButtons(withCompletion completion: (() -> ())?) {
         isExpanded = true
         removeConstraintsRelated(toSubview: toggleButton)
@@ -61,10 +69,12 @@ public class SYUIExpandableButtonsView: UIView {
         }
     }
     
+    /// Wrap buttons with animation.
     public func wrapButtons() {
         hideControlButtons(withCompletion: nil)
     }
     
+    /// Wrap buttons without animation.
     public func wrapButtonsWithoutAnimation() {
         isExpanded = false
         expandableButtons.forEach { self.setHidden(forButton: $0) }
@@ -72,6 +82,15 @@ public class SYUIExpandableButtonsView: UIView {
     }
     
     // MARK: - Private Methods
+    
+    private func initDefaults() {
+        isExpanded = false
+        translatesAutoresizingMaskIntoConstraints = false
+        toggleButton.translatesAutoresizingMaskIntoConstraints = false
+        toggleButton.setTitle(titleForToggleButton(), for: .normal)
+        addSubview(toggleButton)
+        wrapButtonsWithoutAnimation()
+    }
     
     private func titleForToggleButton() -> String {
         return isExpanded ? toggleButtonWrappedIcon : toggleButtonExpandedIcon

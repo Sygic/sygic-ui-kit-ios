@@ -1,6 +1,14 @@
 import Foundation
 
 public extension NSAttributedString {
+    
+    /// Attributed string showing stars rating.
+    ///
+    /// - Parameters:
+    ///   - rating: Number of fulfill stars. Stars can be also half-fulfilled.
+    ///   - numberOfStars: Number of all stars.
+    ///   - fontSize: Size of stars.
+    /// - Returns: `NSAttributedString` representing stars.
     public static func starRating(with rating: Double, outOfTotal numberOfStars: Int, fontSize: CGFloat) -> NSAttributedString {
         guard let currentFont = SYUIFont.with(SYUIFont.iconFont, size: fontSize) else { return NSAttributedString() }
         let activeStarFormat: [NSAttributedStringKey: Any] = [.font: currentFont, .foregroundColor: UIColor.rating]
@@ -24,4 +32,5 @@ public extension NSAttributedString {
         }
         return starString
     }
+    
 }

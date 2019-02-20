@@ -1,5 +1,6 @@
 import Foundation
 
+/// Night color palette. Scheme manager using this palette as default palette for night.
 public struct SYUINightColorPalette: SYUIColorPalette {
 
     public init() {}

@@ -1,21 +1,42 @@
 import UIKit
 import GradientView
 
+/// Poi detail sections
 public enum SYUIPoiDetailSectionType: Int {
+    /// Header section (title, subtitle...)
     case header
+    /// Contact section (phone, email, website...)
     case contactInfo
+    /// Section for other actions
     case actions
     
     static let count = 3
 }
 
+/// Poi detail data protocol
 public protocol SYUIPoiDetailViewProtocol: class {
+    /// Array of main action buttons of poi detail
     var poiDetailButtons: [SYUIActionButton] { get }
+    /// Header data source
     var poiDetailHeaderCellData: SYUIPoiDetailHeaderDataSource { get }
     
+    /// Number of rows for section index
+    ///
+    /// - Parameter section: sectrion index
+    /// - Returns: number of rows in section
     func poiDetailNumberOfRows(in section: SYUIPoiDetailSectionType) -> Int
+    /// Poi detail cell data source for cell at index path
+    ///
+    /// - Parameter indexPath: indexPath of cell
+    /// - Returns: data source for cell
     func poiDetailCellData(for indexPath: IndexPath) -> SYUIPoiDetailCellDataSource
+    /// Delegated message for action button pressed at index
+    ///
+    /// - Parameter index: index of action button
     func poiDetailDidPressActionButton(at index: Int)
+    /// Delegated message for poi detail cell pressed at indexPath
+    ///
+    /// - Parameter indexPath: indexPath of selected cell
     func poiDetailDidSelectRow(at indexPath: IndexPath)
 }
 
@@ -23,26 +44,31 @@ class SYUIPoiDetailView: UIView {
     
     // MARK: - Public Properties
 
+    /// Delegate
+    public weak var delegate: SYUIPoiDetailViewProtocol? {
+        didSet {
+            reloadData()
+        }
+    }
+    
+    /// Offset in points from detail address to screen bottom when poi detail view is minimized
     public let addressCellBottomScreenOffset: CGFloat = 6.0
+    /// Action buttons view container
     public let actionButtonsView = SYUIActionButtonsView()
+    /// Main table view
     public let tableView = UITableView()
     
-    // MARK: - Private Properties
-    
-    private let gradient = GradientView()
-    
-    public var headerHeight: CGFloat {
+    /// Height of poi detail header cell
+    private var headerHeight: CGFloat {
         if let headerCell = tableView.cellForRow(at: IndexPath(row: 0, section: Int(SYUIPoiDetailSectionType.header.rawValue))) {
             return headerCell.frame.size.height
         }
         return 0
     }
     
-    public weak var delegate: SYUIPoiDetailViewProtocol? {
-        didSet {
-            reloadData()
-        }
-    }
+    // MARK: - Private Properties
+    
+    private let gradient = GradientView()
     
     // MARK: - Public Methods
     
@@ -56,6 +82,7 @@ class SYUIPoiDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// Reload data from delegate
     public func reloadData() {
         guard let delegate = delegate else { return }
         actionButtonsView.buttons = delegate.poiDetailButtons

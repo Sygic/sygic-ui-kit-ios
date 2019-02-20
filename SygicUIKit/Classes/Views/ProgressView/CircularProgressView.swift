@@ -1,13 +1,12 @@
 import CoreGraphics
 import UIKit
 
+
 public class CircularProgressView: UIView {
     
-    public let button = UIButton()
+    // MARK: - Public Properties
     
-//    MARK: - Private properties
-    private let color = UIColor.action
-    private let animationKey = "rotationAnimation"
+    public let button = UIButton()
     
     public var progress: CGFloat? = nil {
         willSet {
@@ -25,7 +24,6 @@ public class CircularProgressView: UIView {
         }
     }
     
-    /// public override of isHidden property for views internal purposes
     public override var isHidden: Bool {
         didSet {
             setNeedsDisplay()
@@ -33,13 +31,18 @@ public class CircularProgressView: UIView {
         }
     }
     
-    /// Regular UIView init
+    // MARK: - Private Properties
+    
+    private let color = UIColor.action
+    private let animationKey = "rotationAnimation"
+
+    // MARK: - Public Methods
+    
     override public init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
     }
 
-    /// Regular UIView init
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupUI()
@@ -90,7 +93,8 @@ public class CircularProgressView: UIView {
         
     }
 
-//    MARK: - Private methods
+    // MARK: - Private Methods
+
     private func setupUI() {
         button.translatesAutoresizingMaskIntoConstraints = false
         addSubview(button)

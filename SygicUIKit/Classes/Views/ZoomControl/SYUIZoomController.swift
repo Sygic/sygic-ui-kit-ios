@@ -1,23 +1,41 @@
 
+/// Zoom controller possible activites (user interaction)
 public enum SYUIZoomActivity {
+    /// zoom in button tapped activity
     case zoomIn
+    /// zoom out button tapped activity
     case zoomOut
+    /// zoom in button long press activity
     case startZoomIn
+    /// zoom out button long press activity
     case startZoomOut
+    /// zoom in / zoom out button released after being in zoomingIn/zoomingOut activity
     case stopZooming
+    /// zoom in button is being pressed activity
     case zoomingIn
+    /// zoom out button is being pressed activity
     case zoomingOut
+    /// toggle 3D button tapped activity
     case toggle3D
 }
 
+/// Zoom controller delegate
 public protocol SYUIZoomControllerDelegate: class {
+    
+    /// Zoom controller delegation of user interaction with zoom control.
+    ///
+    /// - Parameter activity: Activity based on user interaction.
     func zoomController(wants activity: SYUIZoomActivity)
 }
 
+
+/// Zoom controller is specific implementation of expandable buttons controller
+/// with zoom buttons, 3D toggle button and gesture recognizers.
 open class SYUIZoomController: SYUIExpandableButtonsController {
-    
+
     // MARK: - Public Properties
     
+    /// Returns if control is toggled to 3D and updates toggle button title.
     public var is3D = false {
         didSet {
             // must be guarded to not trigger unwanted animations
@@ -26,36 +44,43 @@ open class SYUIZoomController: SYUIExpandableButtonsController {
         }
     }
     
+    /// Icon for zoom in button.
     public var zoomInButtonIcon = SYUIIcon.zoomIn {
         didSet {
             zoomInButton.setTitle(zoomInButtonIcon, for: .normal)
         }
     }
     
+    /// Icon for zoom out button.
     public var zoomOutButtonIcon = SYUIIcon.zoomOut {
         didSet {
             zoomOutButton.setTitle(zoomOutButtonIcon, for: .normal)
         }
     }
     
+    /// Icon for 2D toggle button,
     public var icon2D = SYUIIcon.view2D {
         didSet {
             toggle3DButton.setTitle(toggle3DButtonIcon, for: .normal)
         }
     }
     
+    /// Icon for 3D toggle button.
     public var icon3D = SYUIIcon.view3D {
         didSet {
             toggle3DButton.setTitle(toggle3DButtonIcon, for: .normal)
         }
     }
     
+    /// Returns button icon for toggle button.
     public var toggle3DButtonIcon: String {
         return is3D ? icon3D : icon2D
     }
     
+    /// A speed interval of zooming in or zooming out.
     public var zoomingTimerInterval = 0.2
     
+    /// Zoom controller delegate.
     public weak var delegate: SYUIZoomControllerDelegate?
     
     // MARK: - Private Properties
