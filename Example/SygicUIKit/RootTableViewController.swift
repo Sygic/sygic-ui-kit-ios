@@ -1,31 +1,25 @@
 import UIKit
 
+
 class RootTableViewController: UITableViewController {
+    
+    let rowsData = [
+        "Action Buttons",
+        "Pins",
+        "Compass",
+        "Bottom Sheet",
+        "Poi Detail Bottom Sheet",
+        "Skins",
+        "Zoom Controls"
+    ]
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return rowsData.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-        switch indexPath.row {
-        case 0:
-            cell.textLabel?.text = "Action buttons"
-        case 1:
-            cell.textLabel?.text = "Pin"
-        case 2:
-            cell.textLabel?.text = "Compass"
-        case 3:
-            cell.textLabel?.text = "Bottom sheet"
-        case 4:
-            cell.textLabel?.text = "PoiDetailViewController"
-        case 5:
-            cell.textLabel?.text = "Skin / themes"
-        case 6:
-            cell.textLabel?.text = "Zoom Controls"
-        default:
-            break
-        }
+        cell.textLabel?.text = rowsData[indexPath.row]
         return cell
     }
     
@@ -49,4 +43,12 @@ class RootTableViewController: UITableViewController {
             break
         }
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "UI Kit"
+        }
+        return nil
+    }
+    
 }
