@@ -10,6 +10,7 @@ class RootTableViewController: UITableViewController {
         "Bottom Sheet",
         "Poi Detail Bottom Sheet",
         "Skins",
+        "DetailCell Table",
         "Zoom Controls"
     ]
 
@@ -38,6 +39,8 @@ class RootTableViewController: UITableViewController {
         case 5:
             navigationController?.pushViewController(SkinTestViewController(), animated: true)
         case 6:
+            navigationController?.pushViewController(DetailCellTableTestViewController(), animated: true)
+        case 7:
             navigationController?.pushViewController(ZoomTestViewController(), animated: true)
         default:
             break
