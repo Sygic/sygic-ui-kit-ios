@@ -4,15 +4,10 @@ import SygicUIKit
 
 private struct CellData: SYUIDetailCellDataSource {
     var height: CGFloat = 60
-    
     var title: NSMutableAttributedString?
-    
     var subtitle: NSMutableAttributedString?
-    
     var leftIcon: SYUIDetailCellIconDataSource?
-    
     var rightIcon: SYUIDetailCellIconDataSource?
-    
     var backgroundColor: UIColor?
 }
 
