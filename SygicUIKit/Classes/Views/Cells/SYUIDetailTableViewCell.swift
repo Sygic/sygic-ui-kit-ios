@@ -24,7 +24,7 @@ public protocol SYUIDetailCellDataSource {
     /// attributed title
     var title: NSMutableAttributedString? { get }
     /// optional attributed subtitle
-    var subtitle: NSMutableAttributedString? { get set }
+    var subtitle: NSMutableAttributedString? { get }
     /// optional left icon attributes
     var leftIcon: SYUIDetailCellIconDataSource? { get }
     /// optional right icon attributes
