@@ -67,7 +67,7 @@ public class PoiDetailHeaderCell: UITableViewCell {
     
     // MARK: - Public Methods
     
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
     }
@@ -223,12 +223,12 @@ public class PoiDetailHeaderCell: UITableViewCell {
         return attributetText
     }
     
-    private func textAttributes() -> [NSAttributedStringKey: Any] {
+    private func textAttributes() -> [NSAttributedString.Key: Any] {
         guard let font = SYUIFont.with(SYUIFont.regular, size: SYUIFontSize.bodyOld) else { return [:] }
         return [.font: font, .foregroundColor: UIColor.textBody]
     }
     
-    private func fuelPriceIconAttributes() -> [NSAttributedStringKey: Any] {
+    private func fuelPriceIconAttributes() -> [NSAttributedString.Key: Any] {
         guard let font = SYUIFont.iconFontWith(size: fuelIconFontSize) else { return [:] }
         return [.font: font, .foregroundColor: UIColor.textBody, .baselineOffset: -2.5]
     }

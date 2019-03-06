@@ -24,7 +24,7 @@ import UIKit
 
 public extension UIView {
     
-    @discardableResult public func blur(with color: UIColor?, style: UIBlurEffectStyle, margin: CGFloat = 0.0) -> UIVisualEffectView {
+    @discardableResult public func blur(with color: UIColor?, style: UIBlurEffect.Style, margin: CGFloat = 0.0) -> UIVisualEffectView {
         let effectView = blurEffectView(with: style)
         if let color = color, color != .clear {
             let colorOverlay = colorOverlayView(with: color)
@@ -32,7 +32,7 @@ public extension UIView {
             colorOverlay.coverWholeSuperview()
         }
         addSubview(effectView)
-        sendSubview(toBack: effectView)
+        sendSubviewToBack(effectView)
         effectView.coverWholeSuperview(withMargin: margin)
         return effectView
     }
@@ -47,7 +47,7 @@ public extension UIView {
     }
     
 // MARK: Private
-    private func blurEffectView(with style: UIBlurEffectStyle) -> UIVisualEffectView {
+    private func blurEffectView(with style: UIBlurEffect.Style) -> UIVisualEffectView {
         let effectView = UIVisualEffectView(effect: UIBlurEffect(style: style))
         effectView.translatesAutoresizingMaskIntoConstraints = false
         effectView.contentView.layer.cornerRadius = layer.cornerRadius

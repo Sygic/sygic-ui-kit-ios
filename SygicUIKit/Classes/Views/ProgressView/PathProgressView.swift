@@ -100,7 +100,7 @@ public class PathProgressView: UIView {
         animation.duration = duration
         animation.fromValue = 1
         animation.toValue = 0
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         barLayer.strokeEnd = 0.0
         barLayer.removeAllAnimations()
         barLayer.add(animation, forKey: "animateCircle")

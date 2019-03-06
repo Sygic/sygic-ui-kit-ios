@@ -105,18 +105,18 @@ public class SYUIExpandableButton: UIButton {
         blurView?.fullRoundCorners()
     }
     
-    override public func setTitle(_ title: String?, for state: UIControlState) {
+    override public func setTitle(_ title: String?, for state: UIControl.State) {
         iconLabel.text = title
     }
     
-    override public func title(for state: UIControlState) -> String? {
+    override public func title(for state: UIControl.State) -> String? {
         if let newLabel = viewWithTag(SYUIExpandableButton.animationHelpLabelTag) as? UILabel {
             return newLabel.text
         }
         return iconLabel.text
     }
     
-    override public func setTitleColor(_ color: UIColor?, for state: UIControlState) {
+    override public func setTitleColor(_ color: UIColor?, for state: UIControl.State) {
         guard let color = color else { return }
         super.setTitleColor(color, for: state)
         iconColor = color

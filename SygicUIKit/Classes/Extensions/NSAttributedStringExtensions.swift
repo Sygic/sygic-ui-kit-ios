@@ -33,8 +33,8 @@ public extension NSAttributedString {
     /// - Returns: `NSAttributedString` representing stars.
     public static func starRating(with rating: Double, outOfTotal numberOfStars: Int, fontSize: CGFloat) -> NSAttributedString {
         guard let currentFont = SYUIFont.with(SYUIFont.iconFont, size: fontSize) else { return NSAttributedString() }
-        let activeStarFormat: [NSAttributedStringKey: Any] = [.font: currentFont, .foregroundColor: UIColor.rating]
-        let inactiveStarFormat: [NSAttributedStringKey: Any] = [.font: currentFont, .foregroundColor: UIColor.actionIndicator]
+        let activeStarFormat: [NSAttributedString.Key: Any] = [.font: currentFont, .foregroundColor: UIColor.rating]
+        let inactiveStarFormat: [NSAttributedString.Key: Any] = [.font: currentFont, .foregroundColor: UIColor.actionIndicator]
         let starString = NSMutableAttributedString()
         
         for i in 0..<numberOfStars {

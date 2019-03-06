@@ -41,7 +41,7 @@ public extension UITableViewCell {
         let highlightedView = FadingHighlightedBackgroundView(frame: .zero)
         highlightedView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(highlightedView)
-        sendSubview(toBack: highlightedView)
+        sendSubviewToBack(highlightedView)
         highlightedView.coverWholeSuperview()
     }
     

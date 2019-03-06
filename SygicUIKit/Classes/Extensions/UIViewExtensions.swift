@@ -96,8 +96,8 @@ public extension UIView {
     // MARK: - Gettings constraints
     
     func topConstraint() -> NSLayoutConstraint? {
-        let predicate1 = NSPredicate(format: "firstAttribute = %d AND firstItem = %@", NSLayoutAttribute.top.rawValue, self)
-        let predicate2 = NSPredicate(format: "secondAttribute = %d AND secondItem = %@", NSLayoutAttribute.top.rawValue, self)
+        let predicate1 = NSPredicate(format: "firstAttribute = %d AND firstItem = %@", NSLayoutConstraint.Attribute.top.rawValue, self)
+        let predicate2 = NSPredicate(format: "secondAttribute = %d AND secondItem = %@", NSLayoutConstraint.Attribute.top.rawValue, self)
         let finalPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: [predicate1, predicate2])
         let topConstraints: [NSLayoutConstraint]? = (superview?.constraints as NSArray?)?.filtered(using: finalPredicate) as? [NSLayoutConstraint]
         
@@ -105,8 +105,8 @@ public extension UIView {
     }
     
     func bottomConstraint() -> NSLayoutConstraint? {
-        let predicate1 = NSPredicate(format: "firstAttribute = %d AND firstItem = %@", NSLayoutAttribute.bottom.rawValue, self)
-        let predicate2 = NSPredicate(format: "secondAttribute = %d AND secondItem = %@", NSLayoutAttribute.bottom.rawValue, self)
+        let predicate1 = NSPredicate(format: "firstAttribute = %d AND firstItem = %@", NSLayoutConstraint.Attribute.bottom.rawValue, self)
+        let predicate2 = NSPredicate(format: "secondAttribute = %d AND secondItem = %@", NSLayoutConstraint.Attribute.bottom.rawValue, self)
         let finalPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: [predicate1, predicate2])
         let bottomConstraints: [NSLayoutConstraint]? = (superview?.constraints as NSArray?)?.filtered(using: finalPredicate) as? [NSLayoutConstraint]
         
@@ -114,8 +114,8 @@ public extension UIView {
     }
     
     func trailingConstraint() -> NSLayoutConstraint? {
-        let predicate1 = NSPredicate(format: "firstAttribute = %d AND firstItem = %@", NSLayoutAttribute.trailing.rawValue, self)
-        let predicate2 = NSPredicate(format: "secondAttribute = %d AND secondItem = %@", NSLayoutAttribute.trailing.rawValue, self)
+        let predicate1 = NSPredicate(format: "firstAttribute = %d AND firstItem = %@", NSLayoutConstraint.Attribute.trailing.rawValue, self)
+        let predicate2 = NSPredicate(format: "secondAttribute = %d AND secondItem = %@", NSLayoutConstraint.Attribute.trailing.rawValue, self)
         let finalPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: [predicate1, predicate2])
         let bottomConstraints: [NSLayoutConstraint]? = (superview?.constraints as NSArray?)?.filtered(using: finalPredicate) as? [NSLayoutConstraint]
         
