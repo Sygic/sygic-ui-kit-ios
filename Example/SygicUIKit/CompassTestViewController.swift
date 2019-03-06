@@ -40,11 +40,11 @@ class CompassTestViewController: UIViewController {
         mapView.delegate = self
         mapView.isRotateEnabled = true
         
-        let region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: 48.14816, longitude: 17.10674), 500, 500);
+        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.14816, longitude: 17.10674), latitudinalMeters: 500, longitudinalMeters: 500);
         mapView.setRegion(region, animated: true)
         
         view.addSubview(compassController.compass)
-        view.bringSubview(toFront: compassController.compass)
+        view.bringSubviewToFront(compassController.compass)
         compassController.compass.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -16).isActive = true
         compassController.compass.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 16).isActive = true
         
