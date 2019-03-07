@@ -6,9 +6,12 @@ osx_image: xcode10.1
 language: objective-c
 # cache: cocoapods
 podfile: Example/Podfile
-# before_install:
-# - gem install cocoapods # Since Travis is not always on latest version
-# - pod install --project-directory=Example
+
+before_install:
+- gem install cocoapods # Since Travis is not always on latest version
+- pod install --project-directory=Example
+
+
 
 jobs:
   include:
@@ -22,3 +25,6 @@ jobs:
     - stage: deploy
       name: "Deploy to cocoapods"
       script: pod trunk push
+      on:
+      all_branches: true
+      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+
