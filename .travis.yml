@@ -7,22 +7,22 @@ language: objective-c
 # cache: cocoapods
 podfile: Example/Podfile
 
-before_install:
-- gem install cocoapods # Since Travis is not always on latest version
-- pod install --project-directory=Example
+#before_install:
+#- gem install cocoapods # Since Travis is not always on latest version
+#- pod install --project-directory=Example
 
 
 
 jobs:
    include:
-   - stage: "Tests"
-      name: "Unit tests"
-      script:
-      - set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 ONLY_ACTIVE_ARCH=NO | xcpretty
-   - stage: "Pod check"
-      name: "Podspec check"
-      script:
-      - pod lib lint --allow-warnings
+#   - stage: "Tests"
+#     name: "Unit tests"
+#     script:
+#     - set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 ONLY_ACTIVE_ARCH=NO | xcpretty
+#  - stage: "Pod check"
+#     name: "Podspec check"
+#     script:
+#     - pod lib lint --allow-warnings
    - stage: deploy
       name: "Deploy to cocoapods"
       script: pod trunk push
