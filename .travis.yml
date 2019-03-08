@@ -12,10 +12,11 @@ before_install:
 - pod install --project-directory=Example
 
 jobs:
-    stage: lint
-    script: pod lib lint --allow-warnings
-    stage: test
-    script: echo "testujeme spolu"
+  include:
+    - stage: lint
+      script: pod lib lint --allow-warnings
+    - stage: test
+      script: echo "testujeme spolu"
 
 #stages:
 #    - name: lint
