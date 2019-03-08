@@ -14,15 +14,16 @@ before_install:
 
 
 jobs:
-  include:
+   include:
    - stage: "Tests"
-    name: "Unit tests"
-    script:
-    - set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 ONLY_ACTIVE_ARCH=NO | xcpretty
-  - stage: "Pod check"
-    script:
-    - pod lib lint --allow-warnings
-    - stage: deploy
+      name: "Unit tests"
+      script:
+      - set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 ONLY_ACTIVE_ARCH=NO | xcpretty
+   - stage: "Pod check"
+      name: "Podspec check"
+      script:
+      - pod lib lint --allow-warnings
+   - stage: deploy
       name: "Deploy to cocoapods"
       script: pod trunk push
 #      on:
