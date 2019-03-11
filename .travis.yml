@@ -33,7 +33,7 @@ before_install:
 #        tags: true
 
 - pod lib lint --allow-warnings
-#- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO | xcpretty
 
 deploy:
   provider: script
