@@ -12,16 +12,20 @@ before_install:
 - pod install --project-directory=Example
 
 stages:
-    - name: lint
+  - name: lint
+    if: branch =~ ^\d+\.\d+\.\d+$
+  - name: test
     if: branch = master OR breanch =~ ^\d+\.\d+\.\d+$
-    - name: compile
-    if: branch = master OR breanch =~ ^\d+\.\d+\.\d+$
-    - name: test
-    if: branch = master OR breanch =~ ^\d+\.\d+\.\d+$
-    - name: deploy
-    if: breanch =~ ^\d+\.\d+\.\d+$
-    
-script:
-- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 ONLY_ACTIVE_ARCH=NO | xcpretty
-- pod lib lint --allow-warnings
+  - name: deploy
+    if: branch =~ ^\d+\.\d+\.\d+$
 
+jobs:
+  include:
+    - stage: lint
+      script: pod lib lint --allow-warnings
+    - stage: test
+      script: set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 ONLY_ACTIVE_ARCH=NO | xcpretty
+    - stage: deploy
+      script: echo 'deploing job done'
+#- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 ONLY_ACTIVE_ARCH=NO | xcpretty
+#- pod lib lint --allow-warnings
