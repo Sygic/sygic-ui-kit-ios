@@ -12,7 +12,6 @@ before_install:
 stages:
   - test
   - deploy
-    if: tag =~ ^\d+\.\d+\.\d+$
 
 jobs:
   include:
@@ -20,6 +19,7 @@ jobs:
       script: set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO | xcpretty
     - script: pod lib lint
     - stage: deploy
+      if: tag =~ ^\d+\.\d+\.\d+$
       script: skip
       deploy:
         provider: script
