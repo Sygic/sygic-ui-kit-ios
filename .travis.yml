@@ -14,7 +14,7 @@ if: type == pull_request OR (type == push AND branch =~ /^release\/.*$/)
 
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
-- pod install --project-directory=Example
+- pod install --project-directory=Example --repo-update
 
 #stages:
 #  - name: lint
