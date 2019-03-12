@@ -9,6 +9,18 @@ before_install:
 - gem install cocoapods # Since Travis is not always on latest version
 - pod install --project-directory=Example # --repo-update
 
+jobs:
+  include:
+    - stage: test
+      script: echo "Running unit tests (2)"
+    - stage: Cocoapod Release
+      script: skip
+      deploy:
+        provider: script
+        script: echo "Deploying on cocoapods ... "
+        on:
+          tags: true
+
 #stages:
 # - name: lint
 #   if: type == PUSH branch =~ ^\d+\.\d+\.\d+$
@@ -20,7 +32,7 @@ before_install:
 #jobs:
 #  include:
 #    - stage: test
-#      script: - set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO | xcpretty
+#      script: set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO | xcpretty
 #    - stage: deploy
 #      providet: script
 #      script: echo 'deploing job done'
@@ -29,8 +41,8 @@ before_install:
 #    - stage: lint
 #      script: pod lib lint --allow-warnings
 
-script:
-- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO | xcpretty
+#script:
+#- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO | xcpretty
 #- pod lib lint --allow-warnings
 
 #deploy:
