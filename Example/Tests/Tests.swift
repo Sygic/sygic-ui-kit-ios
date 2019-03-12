@@ -4,46 +4,49 @@ import Quick
 import Nimble
 import SygicUIKit
 
-class TableOfContentsSpec: QuickSpec {
+class MockColorPallette: SYUIColorPalette {
+    
+}
+
+class SYUIColorSchemeManagerTests: QuickSpec {
     override func spec() {
         
-        describe("these will fail") {
+        describe("Color scheme tests") {
 
-            it("can do maths") {
-                expect(1) == 2
-            }
-
-            it("can read") {
-                expect("number") == "string"
-            }
-
-            it("will eventually fail") {
-                expect("time").toEventually( equal("done") )
+            beforeEach {
+                SYUIColorSchemeManager.shared.currentColorScheme = .day
+                SYUIColorSchemeManager.shared.setDefaultColorPalettes()
             }
             
-            context("these will pass") {
-
-                it("can do maths") {
-                    expect(23) == 23
+            context("default values") {
+                it("scheme") {
+                    expect(SYUIColorSchemeManager.shared.currentColorScheme) == .day
                 }
-
-                it("can read") {
-                    expect("🐮") == "🐮"
+                
+                it("pallette") {
+                    expect(SYUIColorSchemeManager.shared.currentColorPalette is SYUIDefaultColorPalette) == true
                 }
-
-                it("will eventually pass") {
-                    var time = "passing"
-
-                    DispatchQueue.main.async {
-                        time = "done"
-                    }
-
-                    waitUntil { done in
-                        Thread.sleep(forTimeInterval: 0.5)
-                        expect(time) == "done"
-
-                        done()
-                    }
+                
+                it("shouldnt be night") {
+                    expect(SYUIColorSchemeManager.shared.isNight) == false
+                }
+            }
+            
+            context("updated scheme") {
+                it("should switch to night") {
+                    SYUIColorSchemeManager.shared.currentColorScheme = .night
+                    
+                    expect(SYUIColorSchemeManager.shared.isNight) == true
+                    expect(SYUIColorSchemeManager.shared.currentColorPalette is SYUINightColorPalette) == true
+                }
+            }
+            
+            context("updated pallette") {
+                it("should switch pallette") {
+                    SYUIColorSchemeManager.shared.setColorPalettes(dayColorPalette: MockColorPallette())
+                    
+                    expect(SYUIColorSchemeManager.shared.isNight) == false
+                    expect(SYUIColorSchemeManager.shared.currentColorPalette is MockColorPallette) == true
                 }
             }
         }
