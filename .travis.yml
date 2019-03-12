@@ -20,10 +20,10 @@ jobs:
     - script: pod lib lint
     - stage: deploy
       if: tag =~ ^\d+\.\d+\.\d+$
-      script: skip
+      script: pod spec lint
       deploy:
         provider: script
-        script: echo "Deploying on cocoapods ... "
+        script: pod trunk push SygicUIKit.podspec
         on:
           tags: true
 
