@@ -3,7 +3,7 @@ language: objective-c
 # cache: cocoapods
 podfile: Example/Podfile
 
-if: type == pull_request OR (type == push AND branch =~ /^release\/.*$/)
+if: type == pull_request OR tag IS present
 
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
@@ -11,9 +11,8 @@ before_install:
 
 stages:
 - name: test
-#  if: type == pull_request OR (type == push AND branch =~ /^release\/.*$/)
 - name: deploy
-  if: tag =~ ^\d+\.\d+\.\d+$  #type == push AND branch =~ /^release\/.*$/
+  if: tag =~ ^\d+\.\d+\.\d+$
 
 jobs:
   include:
