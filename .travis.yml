@@ -12,7 +12,7 @@ before_install:
 stages:
 - name: test
 - name: deploy
-  if: tag =~ ^\d+\.\d+\.\d+$
+#  if: tag =~ ^\d+\.\d+\.\d+$
 
 jobs:
   include:
