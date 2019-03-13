@@ -129,7 +129,7 @@ open class SYUIPoiDetailViewController: UIViewController {
             completion?(false)
             return
         }
-        presentingViewController.addChildViewController(self)
+        presentingViewController.addChild(self)
         presentingViewController.view.addSubview(view)
         bottomSheetView.animateIn(bounce: bounce) {
             completion?(true)
@@ -145,7 +145,7 @@ open class SYUIPoiDetailViewController: UIViewController {
             return
         }
         bottomSheetView.animateOut {
-            self.removeFromParentViewController()
+            self.removeFromParent()
             completion?(true)
         }
     }

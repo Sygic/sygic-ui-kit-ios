@@ -119,7 +119,7 @@ public class SYUIPinView: UIView {
         addIconView()
         
         actionButton.frame = backgroundView.frame.union(iconView.frame)
-        actionButton.addTarget(self, action: #selector(handleTap), for: UIControlEvents.touchUpInside)
+        actionButton.addTarget(self, action: #selector(handleTap), for: UIControl.Event.touchUpInside)
         addSubview(actionButton)
         
         backgroundView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
@@ -176,10 +176,10 @@ public class SYUIPinView: UIView {
         delegate?.pinStateHasChanged(self, isHighlighted: highlighted)
         
         if highlighted {
-            superview?.bringSubview(toFront: self)
+            superview?.bringSubviewToFront(self)
             
             if animated {
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.curveLinear, animations: {
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: UIView.AnimationOptions.curveLinear, animations: {
                     self.selectedState()
                 }, completion: { (_) in
                     completion?()
@@ -191,7 +191,7 @@ public class SYUIPinView: UIView {
         } else {
             
             if animated {
-                UIView.animate(withDuration: 0.2, delay: 0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+                UIView.animate(withDuration: 0.2, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                     self.deselectedState()
                 }, completion: { (_) in
                     completion?()

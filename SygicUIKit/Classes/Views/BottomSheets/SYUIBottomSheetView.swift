@@ -160,7 +160,7 @@ open class SYUIBottomSheetView: UIView {
     open override func didMoveToSuperview() {
         if superview != nil {
             createLayoutConstraintsForSuperview()
-            bringSubview(toFront: dragIndicatorView)
+            bringSubviewToFront(dragIndicatorView)
         }
     }
     
@@ -262,7 +262,7 @@ open class SYUIBottomSheetView: UIView {
         dragIndicatorViewTopConstraint = dragIndicatorView.topAnchor.constraint(equalTo: topAnchor, constant: SYUIBottomSheetView.dragIndicatorViewTopMargin)
         dragIndicatorViewTopConstraint.isActive = true
         
-        bringSubview(toFront: dragIndicatorView)
+        bringSubviewToFront(dragIndicatorView)
     }
     
     private func createLayoutConstraintsForSuperview() {
@@ -473,7 +473,7 @@ extension SYUIBottomSheetView: UIGestureRecognizerDelegate {
         }
         
         let velocity = recognizer.velocity(in: self)
-        var duration =  (TimeInterval)((contentHeight - minOffset) / fabs(velocity.y))
+        var duration =  (TimeInterval)((contentHeight - minOffset) / abs(velocity.y))
         duration = min(SYUIBottomSheetView.maxSlideAnimationDuration, duration)
         
         let isHorizontalPan = abs(velocity.x) > abs(velocity.y)

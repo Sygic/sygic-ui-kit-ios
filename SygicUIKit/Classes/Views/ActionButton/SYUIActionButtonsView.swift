@@ -49,7 +49,7 @@ public class SYUIActionButtonsView: UIView {
     // MARK: - Private Properties
     
     private var buttonsMargin: CGFloat = 16.0
-    private var edgeInsets = UIEdgeInsetsMake(20.0, 8.0, 0, -8.0)
+    private var edgeInsets = UIEdgeInsets(top: 20.0, left: 8.0, bottom: 0, right: -8.0)
     private var topConstraint: NSLayoutConstraint?
     private var bottomConstraint: NSLayoutConstraint?
     private var leftConstraint: NSLayoutConstraint?

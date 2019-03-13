@@ -164,7 +164,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
                 rightAccessoryPlaceholder.addSubview(view)
                 view.translatesAutoresizingMaskIntoConstraints = false
                 view.coverWholeSuperview()
-                rightAccessoryPlaceholder.bringSubview(toFront: view)
+                rightAccessoryPlaceholder.bringSubviewToFront(view)
                 rightIcon.isHidden = true
             } else if let view = rightAccessoryView {
                 view.removeFromSuperview()
@@ -316,7 +316,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         }
     }
     
-    override public func setTitle(_ title: String?, for state: UIControlState) {
+    override public func setTitle(_ title: String?, for state: UIControl.State) {
         self.customTitleLabel.text = title
         
         addCountdownViewsIfNeeded()

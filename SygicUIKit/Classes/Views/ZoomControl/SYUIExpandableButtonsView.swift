@@ -118,7 +118,7 @@ public class SYUIExpandableButtonsView: UIView {
         return isExpanded ? toggleButtonWrappedIcon : toggleButtonExpandedIcon
     }
     
-    private func setButtonsTitleColor(_ color: UIColor, for state: UIControlState, setDropShadow: Bool) {
+    private func setButtonsTitleColor(_ color: UIColor, for state: UIControl.State, setDropShadow: Bool) {
         var buttons = expandableButtons
         buttons.append(toggleButton)
         

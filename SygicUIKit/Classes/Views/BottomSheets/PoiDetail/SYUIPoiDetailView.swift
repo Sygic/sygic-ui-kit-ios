@@ -121,7 +121,7 @@ class SYUIPoiDetailView: UIView {
         setupGradientView()
         
         actionButtonsView.delegate = self
-        bringSubview(toFront: actionButtonsView)
+        bringSubviewToFront(actionButtonsView)
         
         setupColors()
         NotificationCenter.default.addObserver(self, selector: #selector(setupColors), name: Notification.Name(ColorPaletteChangedNotification), object: nil)
@@ -140,9 +140,9 @@ class SYUIPoiDetailView: UIView {
             tableView.contentInsetAdjustmentBehavior = .never
         }
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorInset = UIEdgeInsetsMake(0, 24, 0, 0)
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
         tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         addSubview(tableView)
 
         tableView.register(PoiDetailHeaderCell.self, forCellReuseIdentifier: NSStringFromClass(PoiDetailHeaderCell.self))
@@ -197,7 +197,7 @@ extension SYUIPoiDetailView: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let section = SYUIPoiDetailSectionType(rawValue: indexPath.section), let delegate = delegate else {
-            return PoiDetailTableViewCell()
+            return UITableViewCell(frame: .zero)
         }
         switch section {
         case .header:
