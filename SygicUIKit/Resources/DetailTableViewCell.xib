@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-UI-Medium.ttf">
+            <string>InterUI-Medium</string>
+        </array>
+        <array key="Inter-UI-Regular.ttf">
+            <string>InterUI-Regular</string>
+        </array>
+        <array key="SygicIcons.ttf">
+            <string>SygicIcons</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="52" id="vQq-pq-567" customClass="DetailTableViewCell" customModule="SygicKit" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="52"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vQq-pq-567" id="M0S-uS-dcq">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="51.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="N7a-6P-XcQ">
+                        <rect key="frame" x="8" y="0.0" width="367" height="51.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chL-6n-5fu">
+                                <rect key="frame" x="0.0" y="8" width="36" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="dfZ-IT-uml"/>
+                                    <constraint firstAttribute="width" secondItem="chL-6n-5fu" secondAttribute="height" id="eEc-Bb-fIC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SygicIcons" family="SygicIcons" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="ifV-kA-hb6">
+                                <rect key="frame" x="44" y="7" width="280" height="37.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UZT-5S-t0X">
+                                        <rect key="frame" x="0.0" y="0.0" width="31" height="20.5"/>
+                                        <fontDescription key="fontDescription" name="InterUI-Medium" family="Inter UI" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2VS-hl-Lmn">
+                                        <rect key="frame" x="0.0" y="20.5" width="49" height="17"/>
+                                        <fontDescription key="fontDescription" name="InterUI-Regular" family="Inter UI" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oth-m1-gtS">
+                                <rect key="frame" x="332" y="5" width="35" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" priority="999" constant="35" id="HSS-ZL-4sz"/>
+                                    <constraint firstAttribute="height" constant="43" id="ghy-4p-wJQ"/>
+                                    <constraint firstAttribute="width" secondItem="oth-m1-gtS" secondAttribute="height" id="nL6-Ox-f4j"/>
+                                    <constraint firstAttribute="height" constant="42" id="zFs-dl-iU8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SygicIcons" family="SygicIcons" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="ghy-4p-wJQ"/>
+                                        <exclude reference="nL6-Ox-f4j"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="oth-m1-gtS" secondAttribute="trailing" constant="50" id="osM-C4-PZC"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="osM-C4-PZC"/>
+                            </mask>
+                        </variation>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="N7a-6P-XcQ" firstAttribute="top" secondItem="M0S-uS-dcq" secondAttribute="top" id="C4P-3r-c8q"/>
+                    <constraint firstAttribute="trailing" secondItem="N7a-6P-XcQ" secondAttribute="trailing" id="K77-hP-20T"/>
+                    <constraint firstAttribute="bottom" secondItem="N7a-6P-XcQ" secondAttribute="bottom" id="Tdw-Jp-mTE"/>
+                    <constraint firstItem="N7a-6P-XcQ" firstAttribute="leading" secondItem="M0S-uS-dcq" secondAttribute="leading" constant="8" id="gcq-ik-28I"/>
+                    <constraint firstItem="N7a-6P-XcQ" firstAttribute="top" secondItem="M0S-uS-dcq" secondAttribute="top" id="sA1-VP-5q3"/>
+                    <constraint firstAttribute="bottom" secondItem="N7a-6P-XcQ" secondAttribute="bottom" id="x67-2G-493"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="leftIcon" destination="chL-6n-5fu" id="Bmq-8S-VUR"/>
+                <outlet property="leftIconHeightConstraint" destination="eEc-Bb-fIC" id="mEM-Ge-Wmz"/>
+                <outlet property="leftIconWidthConstraint" destination="dfZ-IT-uml" id="28o-B2-dQR"/>
+                <outlet property="rightIcon" destination="oth-m1-gtS" id="2kk-uc-tuj"/>
+                <outlet property="subtitle" destination="2VS-hl-Lmn" id="frD-z9-nKO"/>
+                <outlet property="title" destination="UZT-5S-t0X" id="Hgt-yG-PZo"/>
+            </connections>
+            <point key="canvasLocation" x="-15.5" y="5"/>
+        </tableViewCell>
+    </objects>
+</document>
