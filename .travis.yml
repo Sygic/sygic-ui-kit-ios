@@ -23,7 +23,8 @@ jobs:
       script: pod spec lint
       deploy:
         provider: script
-        script: echo "spusteny deploy" #pod trunk push SygicUIKit.podspec
+        script: echo "spusteny deploy" #pod trunk push --verbose | ruby -e 'ARGF.each{ print "." }'
         on:
           tags: true
+          all_branches: true
     
