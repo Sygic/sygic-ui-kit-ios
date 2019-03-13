@@ -6,7 +6,6 @@ podfile: Example/Podfile
 #if: type == pull_request OR (type == push AND branch =~ /^release\/.*$/)
 
 before_install:
-- echo type
 - gem install cocoapods # Since Travis is not always on latest version
 - pod install --project-directory=Example # --repo-update
 
@@ -14,7 +13,7 @@ stages:
 - name: test
 #  if: type == pull_request OR (type == push AND branch =~ /^release\/.*$/)
 - name: deploy
-  if: tag IS present #type == push AND branch =~ /^release\/.*$/
+  if: tag =~ ^\d+\.\d+\.\d+$  #type == push AND branch =~ /^release\/.*$/
 
 jobs:
   include:
