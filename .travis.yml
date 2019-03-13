@@ -11,7 +11,7 @@ before_install:
 
 stages:
 - name: test
-- name: deploy
+- name: deploy cocoapod
   if: tag =~ ^\d+\.\d+\.\d+$
 
 jobs:
@@ -19,11 +19,11 @@ jobs:
     - stage: test
       script: set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO | xcpretty
     - script: pod lib lint
-    - stage: deploy
+    - stage: deploy cocoapod
       script: pod spec lint
       deploy:
         provider: script
-        script: echo "spusteny deploy" #pod trunk push --verbose | ruby -e 'ARGF.each{ print "." }'
+        script: pod trunk push --verbose # | ruby -e 'ARGF.each{ print "." }'
         on:
           tags: true
           all_branches: true
