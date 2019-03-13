@@ -23,7 +23,7 @@ jobs:
       script: pod spec lint
       deploy:
         provider: script
-        script: pod trunk push SygicUIKit.podspec
+        script: echo "spusteny deploy" #pod trunk push SygicUIKit.podspec
         on:
           tags: true
     
