@@ -18,7 +18,7 @@ class DetailCellTableTestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addChildViewController(searchResultsVC)
+        addChild(searchResultsVC)
         searchResultsVC.view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchResultsVC.view)
         searchResultsVC.view.coverWholeSuperview()
