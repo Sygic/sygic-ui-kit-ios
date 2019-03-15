@@ -1,3 +1,25 @@
+//// SYUIPinView.swift
+//
+// Copyright (c) 2019 Sygic a.s.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 import UIKit
 import QuartzCore
 
@@ -97,7 +119,7 @@ public class SYUIPinView: UIView {
         addIconView()
         
         actionButton.frame = backgroundView.frame.union(iconView.frame)
-        actionButton.addTarget(self, action: #selector(handleTap), for: UIControlEvents.touchUpInside)
+        actionButton.addTarget(self, action: #selector(handleTap), for: UIControl.Event.touchUpInside)
         addSubview(actionButton)
         
         backgroundView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
@@ -154,10 +176,10 @@ public class SYUIPinView: UIView {
         delegate?.pinStateHasChanged(self, isHighlighted: highlighted)
         
         if highlighted {
-            superview?.bringSubview(toFront: self)
+            superview?.bringSubviewToFront(self)
             
             if animated {
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.curveLinear, animations: {
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: UIView.AnimationOptions.curveLinear, animations: {
                     self.selectedState()
                 }, completion: { (_) in
                     completion?()
@@ -169,7 +191,7 @@ public class SYUIPinView: UIView {
         } else {
             
             if animated {
-                UIView.animate(withDuration: 0.2, delay: 0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+                UIView.animate(withDuration: 0.2, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                     self.deselectedState()
                 }, completion: { (_) in
                     completion?()

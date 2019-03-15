@@ -308,7 +308,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-SygicUIKit_Example/Pods-SygicUIKit_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-SygicUIKit_Example/Pods-SygicUIKit_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GradientView/GradientView.framework",
 				"${BUILT_PRODUCTS_DIR}/SygicUIKit/SygicUIKit.framework",
 			);
@@ -321,7 +321,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SygicUIKit_Example/Pods-SygicUIKit_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SygicUIKit_Example/Pods-SygicUIKit_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5D9087A5239BD540544ADCFC /* [CP] Check Pods Manifest.lock */ = {
@@ -354,7 +354,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-SygicUIKit_Tests/Pods-SygicUIKit_Tests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-SygicUIKit_Tests/Pods-SygicUIKit_Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
 			);
@@ -367,7 +367,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SygicUIKit_Tests/Pods-SygicUIKit_Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SygicUIKit_Tests/Pods-SygicUIKit_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		791066CF60D16A2C620FD3CF /* [CP] Check Pods Manifest.lock */ = {
@@ -495,7 +495,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -541,7 +541,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -562,7 +562,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sygic.demo.SygicUIKit-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -579,7 +579,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sygic.demo.SygicUIKit-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -637,7 +637,7 @@
 				607FACEE1AFB9204008FA782 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SygicUIKit_Example" */ = {
 			isa = XCConfigurationList;
@@ -646,7 +646,7 @@
 				607FACF11AFB9204008FA782 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SygicUIKit_Tests" */ = {
 			isa = XCConfigurationList;
@@ -655,7 +655,7 @@
 				607FACF41AFB9204008FA782 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
