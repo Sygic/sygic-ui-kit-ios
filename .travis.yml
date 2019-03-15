@@ -11,7 +11,7 @@ before_install:
 
 stages:
 - name: test
-- name: deploy
+- name: deploy cocoapod
   if: tag =~ ^\d+\.\d+\.\d+$
 
 jobs:
