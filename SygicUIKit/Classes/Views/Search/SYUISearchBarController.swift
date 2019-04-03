@@ -31,7 +31,9 @@ public protocol SYUISearchBarDelegate: class {
 public class SYUISearchBarController: UIViewController, SYUISearchBarDelegate {
     
     public weak var delegate: SYUISearchBarDelegate?
-    var searchBarView: SYUISearchBarProtocol = SYUISearchBarView()
+    public var searchText: String = ""
+    
+    private var searchBarView: SYUISearchBarProtocol = SYUISearchBarView()
     
     public override func loadView() {
         if let searchView = searchBarView as? UIView {
@@ -42,6 +44,7 @@ public class SYUISearchBarController: UIViewController, SYUISearchBarDelegate {
     
     public func prefillSearch(with text: String) {
         guard let searchView = searchBarView as? SYUISearchBarView else { return }
+        searchText = text
         searchView.searchBar.text = text
     }
     
@@ -54,6 +57,7 @@ public class SYUISearchBarController: UIViewController, SYUISearchBarDelegate {
     }
     
     public func search(textDidChange searchedText: String) {
+        searchText = searchedText
         delegate?.search(textDidChange: searchedText)
     }
     
