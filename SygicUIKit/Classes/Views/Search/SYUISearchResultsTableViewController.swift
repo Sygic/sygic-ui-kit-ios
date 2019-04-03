@@ -28,6 +28,7 @@ public protocol SYUISearchResultsProtocol {
     associatedtype T
     var data: [T] { get }
     var selectionBlock: ((T)->())? { get set }
+    var interactionBlock: (() -> ())? { get set }
 }
 
 
@@ -35,6 +36,7 @@ public protocol SYUISearchResultsProtocol {
 public class SYUISearchResultsViewController<Result>: UIViewController, SYUISearchResultsProtocol {
     public var data: [Result] = []
     public var selectionBlock: ((Result) -> ())?
+    public var interactionBlock: (() -> ())?
 }
 
 
@@ -96,4 +98,9 @@ public class SYUISearchResultsTableViewController<Result: SYUIDetailCellDataSour
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectionBlock?(data[indexPath.row])
     }
+    
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        interactionBlock?()
+    }
+    
 }
