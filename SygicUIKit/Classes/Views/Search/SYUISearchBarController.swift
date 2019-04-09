@@ -20,19 +20,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+/// Search bar output delegate
 public protocol SYUISearchBarDelegate: class {
+    
+    /// Tells the delegate that the user changed the search text.
+    ///
+    /// - Parameter searchedText: New text.
     func search(textDidChange searchedText: String)
+    
+    /// Tells the delegate when the user begins editing the search text.
     func searchDidBeginEditing()
+    
+    /// Tells the delegate that the user finished editing the search text.
     func searchDidEndEditing()
+    
+    /// Tells the delegate that the search button on keyboard was tapped.
     func searchSearchButtonClicked()
+    
+    /// Tells the delegate that the cancel button was tapped.
     func searchCancelButtonClicked()
 }
 
+/// Controller manages search bar input field.
 public class SYUISearchBarController: UIViewController, SYUISearchBarDelegate {
     
-    public weak var delegate: SYUISearchBarDelegate?
+    /// Text in search input field.
     public var searchText: String = ""
     
+    /// Search bar controller delegate.
+    public weak var delegate: SYUISearchBarDelegate?
+    
+    /// Custom view of search bar controller.
     private var searchBarView: SYUISearchBarProtocol = SYUISearchBarView()
     
     public override func loadView() {
@@ -42,6 +60,9 @@ public class SYUISearchBarController: UIViewController, SYUISearchBarDelegate {
         searchBarView.searchBarDelegate = self
     }
     
+    /// Prefill search input field.
+    ///
+    /// - Parameter text: Text for search input field.
     public func prefillSearch(with text: String) {
         guard let searchView = searchBarView as? SYUISearchBarView else { return }
         searchText = text

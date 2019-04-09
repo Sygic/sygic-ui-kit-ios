@@ -23,13 +23,19 @@
 import UIKit
 
 
+/// Search bar view output delegate. Same delegate is used in `SYUISearchBarController`.
+/// So `SYUISearchBarView` can be subclassed and search UI delegate will be same.
 public protocol SYUISearchBarProtocol {
     var searchBarDelegate: SYUISearchBarDelegate? { get set }
 }
 
+/// Search bar view object.
 public class SYUISearchBarView: UIView, UISearchBarDelegate, SYUISearchBarProtocol {
 
+    /// Search bar input field.
     public let searchBar = UISearchBar()
+    
+    /// Search bar view delegate.
     public weak var searchBarDelegate: SYUISearchBarDelegate?
     
     public override init(frame: CGRect) {
