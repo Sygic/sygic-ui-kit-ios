@@ -26,26 +26,28 @@ public protocol SYUISearchBarDelegate: class {
     /// Tells the delegate that the user changed the search text.
     ///
     /// - Parameter searchedText: New text.
-    func search(textDidChange searchedText: String)
+    func searchBar(textDidChange searchedText: String)
     
     /// Tells the delegate when the user begins editing the search text.
-    func searchDidBeginEditing()
+    func searchBarDidBeginEditing()
     
     /// Tells the delegate that the user finished editing the search text.
-    func searchDidEndEditing()
+    func searchBarDidEndEditing()
     
     /// Tells the delegate that the search button on keyboard was tapped.
-    func searchSearchButtonClicked()
+    func searchBarSearchButtonClicked()
     
     /// Tells the delegate that the cancel button was tapped.
-    func searchCancelButtonClicked()
+    func searchBarCancelButtonClicked()
 }
 
 /// Controller manages search bar input field.
 public class SYUISearchBarController: UIViewController, SYUISearchBarDelegate {
     
     /// Text in search input field.
-    public var searchText: String = ""
+    public var searchText: String {
+        return searchBarView.searchText
+    }
     
     /// Search bar controller delegate.
     public weak var delegate: SYUISearchBarDelegate?
@@ -64,9 +66,7 @@ public class SYUISearchBarController: UIViewController, SYUISearchBarDelegate {
     ///
     /// - Parameter text: Text for search input field.
     public func prefillSearch(with text: String) {
-        guard let searchView = searchBarView as? SYUISearchBarView else { return }
-        searchText = text
-        searchView.searchBar.text = text
+        searchBarView.searchText = text
     }
     
     public override func becomeFirstResponder() -> Bool {
@@ -77,25 +77,24 @@ public class SYUISearchBarController: UIViewController, SYUISearchBarDelegate {
         return view.resignFirstResponder()
     }
     
-    public func search(textDidChange searchedText: String) {
-        searchText = searchedText
-        delegate?.search(textDidChange: searchedText)
+    public func searchBar(textDidChange searchedText: String) {
+        delegate?.searchBar(textDidChange: searchedText)
     }
     
-    public func searchDidBeginEditing() {
-        delegate?.searchDidBeginEditing()
+    public func searchBarDidBeginEditing() {
+        delegate?.searchBarDidBeginEditing()
     }
     
-    public func searchDidEndEditing() {
-        delegate?.searchDidEndEditing()
+    public func searchBarDidEndEditing() {
+        delegate?.searchBarDidEndEditing()
     }
     
-    public func searchSearchButtonClicked() {
-        delegate?.searchSearchButtonClicked()
+    public func searchBarSearchButtonClicked() {
+        delegate?.searchBarSearchButtonClicked()
     }
     
-    public func searchCancelButtonClicked() {
-        delegate?.searchCancelButtonClicked()
+    public func searchBarCancelButtonClicked() {
+        delegate?.searchBarCancelButtonClicked()
     }
     
 }

@@ -23,9 +23,14 @@
 import UIKit
 
 
-/// Search bar view output delegate. Same delegate is used in `SYUISearchBarController`.
-/// So `SYUISearchBarView` can be subclassed and search UI delegate will be same.
+/// Search bar protocol. It's possible to create custom view for search input. Custom view must adopt
+/// this protocol. Because view type of `SYUISearchBarControllers` is `SYUISearchBarProtocol`.
 public protocol SYUISearchBarProtocol {
+    
+    /// Text in search input field.
+    var searchText: String { get set }
+    
+    /// Search bar handling for delegate. Same delegate is used in `SYUISearchBarController`.
     var searchBarDelegate: SYUISearchBarDelegate? { get set }
 }
 
@@ -37,6 +42,16 @@ public class SYUISearchBarView: UIView, UISearchBarDelegate, SYUISearchBarProtoc
     
     /// Search bar view delegate.
     public weak var searchBarDelegate: SYUISearchBarDelegate?
+    
+    /// Text in search input field.
+    public var searchText: String {
+        set {
+            searchBar.text = newValue
+        }
+        get {
+            return searchBar.text ?? ""
+        }
+    }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -63,23 +78,23 @@ public class SYUISearchBarView: UIView, UISearchBarDelegate, SYUISearchBarProtoc
     }
     
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchBarDelegate?.search(textDidChange: searchText)
+        searchBarDelegate?.searchBar(textDidChange: searchText)
     }
     
     public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBarDelegate?.searchDidBeginEditing()
+        searchBarDelegate?.searchBarDidBeginEditing()
     }
     
     public func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBarDelegate?.searchDidEndEditing()
+        searchBarDelegate?.searchBarDidEndEditing()
     }
     
     public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBarDelegate?.searchSearchButtonClicked()
+        searchBarDelegate?.searchBarSearchButtonClicked()
     }
     
     public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBarDelegate?.searchCancelButtonClicked()
+        searchBarDelegate?.searchBarCancelButtonClicked()
     }
 
 }
