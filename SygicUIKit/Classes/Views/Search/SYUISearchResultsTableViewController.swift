@@ -51,9 +51,11 @@ public class SYUISearchResultsTableViewController<Result: SYUIDetailCellDataSour
         }
     }
     
+    /// Table view of this table view controller.
+    public let tableView = UITableView()
+    
     // MARK: - Private Properties
     
-    private let tableView = UITableView()
     private let cellIdentifier = NSStringFromClass(SYUIDetailTableViewCell.self)
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
