@@ -69,6 +69,10 @@ public class SYUISearchBarController: UIViewController, SYUISearchBarDelegate {
         searchBarView.searchText = text
     }
     
+    public func showLoadingIndicator(_ show: Bool) {
+        searchBarView.showLoadingIndicator(show)
+    }
+    
     public override func becomeFirstResponder() -> Bool {
         return view.becomeFirstResponder()
     }
