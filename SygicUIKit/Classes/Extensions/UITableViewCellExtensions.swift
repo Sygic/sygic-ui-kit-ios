@@ -35,7 +35,7 @@ public extension UITableViewCell {
         return nil
     }
     
-    public func setupHighlightingView() {
+    func setupHighlightingView() {
         selectedBackgroundView = UIView()
         
         let highlightedView = FadingHighlightedBackgroundView(frame: .zero)
@@ -45,7 +45,7 @@ public extension UITableViewCell {
         highlightedView.coverWholeSuperview()
     }
     
-    public func highlightCell(_ highlighted: Bool, backgroundColor: UIColor?, foregroundColor: UIColor?) {
+    func highlightCell(_ highlighted: Bool, backgroundColor: UIColor?, foregroundColor: UIColor?) {
         guard let backgroundColor = backgroundColor, let foregroundColor = foregroundColor, let highlightingView = highlightingView else { return }
         let multiplier = SYUIColorSchemeManager.shared.brightnessMultiplier(for: backgroundColor, foregroundColor: foregroundColor)
         highlightingView.highlightColor = backgroundColor.adjustBrightness(with: multiplier)
