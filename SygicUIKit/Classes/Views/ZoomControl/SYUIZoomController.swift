@@ -47,7 +47,7 @@ public protocol SYUIZoomControllerDelegate: class {
     /// Zoom controller delegation of user interaction with zoom control.
     ///
     /// - Parameter activity: Activity based on user interaction.
-    func zoomController(wants activity: SYUIZoomActivity)
+    func zoomController(_ controller: SYUIZoomController, wants activity: SYUIZoomActivity)
 }
 
 
@@ -156,24 +156,24 @@ open class SYUIZoomController: SYUIExpandableButtonsController {
     }
     
     @objc private func toggle3DButtonPressed(button: SYUIExpandableButton) {
-        delegate?.zoomController(wants: .toggle3D)
+        delegate?.zoomController(self, wants: .toggle3D)
     }
     
     @objc private func zoomInButtonPressed(button: SYUIExpandableButton) {
-        delegate?.zoomController(wants: .zoomIn)
+        delegate?.zoomController(self, wants: .zoomIn)
     }
     
     @objc private func zoomOutButtonPressed(button: SYUIExpandableButton) {
-        delegate?.zoomController(wants: .zoomOut)
+        delegate?.zoomController(self, wants: .zoomOut)
     }
     
     @objc private func zoomInLongRecognized(recognizer: UILongPressGestureRecognizer) {
         switch recognizer.state {
         case .began:
-            delegate?.zoomController(wants: .startZoomIn)
+            delegate?.zoomController(self, wants: .startZoomIn)
             zoomingTimer = Timer.scheduledTimer(timeInterval: zoomingTimerInterval, target: self, selector: #selector(updateZoomingIn), userInfo: nil, repeats: true)
         case .ended:
-            delegate?.zoomController(wants: .stopZooming)
+            delegate?.zoomController(self, wants: .stopZooming)
             zoomingTimer?.invalidate()
         default:
             return
@@ -183,10 +183,10 @@ open class SYUIZoomController: SYUIExpandableButtonsController {
     @objc private func zoomOutLongRecognized(recognizer: UILongPressGestureRecognizer) {
         switch recognizer.state {
         case .began:
-            delegate?.zoomController(wants: .startZoomOut)
+            delegate?.zoomController(self, wants: .startZoomOut)
             zoomingTimer = Timer.scheduledTimer(timeInterval: zoomingTimerInterval, target: self, selector: #selector(updateZoomingOut), userInfo: nil, repeats: true)
         case .ended:
-            delegate?.zoomController(wants: .stopZooming)
+            delegate?.zoomController(self, wants: .stopZooming)
             zoomingTimer?.invalidate()
         default:
             return
@@ -194,11 +194,11 @@ open class SYUIZoomController: SYUIExpandableButtonsController {
     }
     
     @objc private func updateZoomingIn() {
-        delegate?.zoomController(wants: .zoomingIn)
+        delegate?.zoomController(self, wants: .zoomingIn)
     }
     
     @objc private func updateZoomingOut() {
-        delegate?.zoomController(wants: .zoomingOut)
+        delegate?.zoomController(self, wants: .zoomingOut)
     }
     
 }
