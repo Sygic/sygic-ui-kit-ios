@@ -82,7 +82,11 @@ extension ZoomTestViewController: SYUIZoomControllerDelegate {
             camera.pitch = controller.is3D ? 0 : 50
             mapView.setCamera(camera, animated: true)
             
-            controller.is3D = !controller.is3D
+            let is3D = !controller.is3D
+            zoomControl1.is3D = is3D
+            zoomControl2.is3D = is3D
+            zoomControl3.is3D = is3D
+            zoomControl4.is3D = is3D
             
         default:
             break
