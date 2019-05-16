@@ -308,7 +308,7 @@ extension SYUIBottomSheetView {
 
 public extension SYUIBottomSheetView {
     
-    public func animateIn(bounce: Bool = false, _ completion: (()->Void)?) {
+    func animateIn(bounce: Bool = false, _ completion: (()->Void)?) {
         topConstraint.constant = 0
         updateContentHeight(shouldMinimize: false)
         superview?.layoutIfNeeded()
@@ -339,7 +339,7 @@ public extension SYUIBottomSheetView {
         }
     }
     
-    public func animateOut(_ completion: (()->Void)?) {
+    func animateOut(_ completion: (()->Void)?) {
         topConstraint.constant = 0
         
         let duration = SYUIConstants.animationDuration
@@ -355,15 +355,15 @@ public extension SYUIBottomSheetView {
         }
     }
     
-    public func animateTo(_ offset: CGFloat, duration: TimeInterval) {
+    func animateTo(_ offset: CGFloat, duration: TimeInterval) {
         animateTo(offset, duration: duration, completion: nil)
     }
     
-    @objc public func animateTo(_ offset: CGFloat, duration: TimeInterval, completion: (()->Void)?) {
+    @objc func animateTo(_ offset: CGFloat, duration: TimeInterval, completion: (()->Void)?) {
         animateTo(offset, duration: duration, notifyDelegate: true, completion: completion)
     }
     
-    public func animateTo(_ offset: CGFloat, duration: TimeInterval, notifyDelegate: Bool, completion: (()->Void)?) {
+    func animateTo(_ offset: CGFloat, duration: TimeInterval, notifyDelegate: Bool, completion: (()->Void)?) {
         if notifyDelegate {
             self.sheetDelegate?.bottomSheetWillAnimate(self, to: offset, with: duration)
         }

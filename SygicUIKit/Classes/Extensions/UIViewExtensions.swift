@@ -25,7 +25,7 @@ import UIKit
 
 public extension UIView {
     
-    public class var statusBarHeight: CGFloat {
+    class var statusBarHeight: CGFloat {
         if UIApplication.shared.isStatusBarHidden {
             return 0
         }
@@ -124,7 +124,7 @@ public extension UIView {
     
     // MARK: - Safe areas
     
-    public var safeLeadingAnchor: NSLayoutXAxisAnchor {
+    var safeLeadingAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide.leadingAnchor
         } else {
@@ -132,7 +132,7 @@ public extension UIView {
         }
     }
     
-    public var safeTrailingAnchor: NSLayoutXAxisAnchor {
+    var safeTrailingAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide.trailingAnchor
         } else {
@@ -140,7 +140,7 @@ public extension UIView {
         }
     }
     
-    public var safeTopAnchor: NSLayoutYAxisAnchor {
+    var safeTopAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide.topAnchor
         } else {
@@ -148,7 +148,7 @@ public extension UIView {
         }
     }
     
-    public var safeBottomAnchor: NSLayoutYAxisAnchor {
+    var safeBottomAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide.bottomAnchor
         } else {
@@ -156,7 +156,7 @@ public extension UIView {
         }
     }
     
-    public var validSafeAreaInsets: UIEdgeInsets {
+    var validSafeAreaInsets: UIEdgeInsets {
         if #available(iOS 11.0, *) {
             return self.safeAreaInsets
         } else {
@@ -164,7 +164,7 @@ public extension UIView {
         }
     }
     
-    public var unsafeAreaStatusBarOffset: CGFloat {
+    var unsafeAreaStatusBarOffset: CGFloat {
         if #available(iOS 11.0, *) {
             // if using safeAreaLayoutGuide == we are safe
             return 0.0
@@ -187,12 +187,12 @@ public extension UIView {
     // MARK: Corners
     
     /// Round corners by default corner radius.
-    public func roundCorners() {
+    func roundCorners() {
         layer.cornerRadius = UIView.cornerRadius
     }
     
     /// Round corners by half of the size to create fully rounded corners.
-    public func fullRoundCorners() {
+    func fullRoundCorners() {
         let cornerRadius = min(bounds.width, bounds.height) / 2.0
         layer.cornerRadius = cornerRadius
     }
@@ -200,23 +200,23 @@ public extension UIView {
     // MARK: Shadows
     
     /// Creates `shadowPath` with default corner radius.
-    public func roundShadowPath() {
+    func roundShadowPath() {
         layer.shadowPath = UIBezierPath.init(roundedRect: bounds, cornerRadius: UIView.cornerRadius).cgPath
     }
     
     /// Creates `shadowPath` with fully rounded corners.
-    public func fullRoundShadowPath() {
+    func fullRoundShadowPath() {
         let cornerRadius = min(bounds.width, bounds.height) / 2.0
         layer.shadowPath = UIBezierPath.init(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
     }
     
     /// Adds default shadow for "floating" controls
-    public func setupDefaultShadow() {
+    func setupDefaultShadow() {
         setupShadow(with: UIView.shadowRadius)
     }
     
     /// Adds shadow with specific radius
-    public func setupShadow(with radius: CGFloat) {
+    func setupShadow(with radius: CGFloat) {
         layer.shadowColor = UIColor.shadow.cgColor
         layer.shadowOpacity = 1.0
         layer.shadowRadius = radius
@@ -225,7 +225,7 @@ public extension UIView {
     }
     
     /// Adds default shadow as transparent border from bottom and right side
-    public func setupShadowBorder() {
+    func setupShadowBorder() {
         layer.shadowColor = UIColor.barShadow.cgColor
         layer.shadowOpacity = 1.0
         layer.shadowRadius = 0.0
@@ -234,7 +234,7 @@ public extension UIView {
     }
     
     /// Adds default shadow as transparent border from top and right side
-    public func setupShadowTopBorder() {
+    func setupShadowTopBorder() {
         setupShadowBorder()
         layer.shadowOffset = CGSize(width: 1, height: -1)
     }

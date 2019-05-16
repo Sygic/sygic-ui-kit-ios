@@ -32,7 +32,15 @@ public protocol SYUISearchBarProtocol {
     
     /// Search bar handling for delegate. Same delegate is used in `SYUISearchBarController`.
     var searchBarDelegate: SYUISearchBarDelegate? { get set }
+    
+    /// Method to present activity indicator in searchBar while searching.
+    func showLoadingIndicator(_ show: Bool)
 }
+
+extension SYUISearchBarProtocol {
+    func showLoadingIndicator(_ show: Bool) {}
+}
+
 
 /// Search bar view object.
 public class SYUISearchBarView: UIView, UISearchBarDelegate, SYUISearchBarProtocol {
@@ -53,6 +61,8 @@ public class SYUISearchBarView: UIView, UISearchBarDelegate, SYUISearchBarProtoc
         }
     }
     
+    private let activityIndicator = UIActivityIndicatorView(style: .gray)
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -63,6 +73,11 @@ public class SYUISearchBarView: UIView, UISearchBarDelegate, SYUISearchBarProtoc
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         addSubview(searchBar)
         searchBar.coverWholeSuperview()
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(activityIndicator)
+        activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        activityIndicator.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -97,4 +112,17 @@ public class SYUISearchBarView: UIView, UISearchBarDelegate, SYUISearchBarProtoc
         searchBarDelegate?.searchBarCancelButtonClicked()
     }
 
+    public func showLoadingIndicator(_ show: Bool) {
+        var searchIcon: UIView?
+        if let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField {
+            searchIcon = textFieldInsideSearchBar.leftView
+        }
+        searchIcon?.isHidden = show
+        
+        if show {
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
+        }
+    }
 }

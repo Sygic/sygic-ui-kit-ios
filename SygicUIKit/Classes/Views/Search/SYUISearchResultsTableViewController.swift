@@ -37,6 +37,7 @@ public class SYUISearchResultsViewController<Result>: UIViewController, SYUISear
     public var data: [Result] = []
     public var selectionBlock: ((Result) -> ())?
     public var interactionBlock: (() -> ())?
+    public func showErrorMessage(_ message: String?) {}
 }
 
 
@@ -57,6 +58,9 @@ public class SYUISearchResultsTableViewController<Result: SYUIDetailCellDataSour
     // MARK: - Private Properties
     
     private let cellIdentifier = NSStringFromClass(SYUIDetailTableViewCell.self)
+    private let errorMessageView = SYUIErrorMessageView()
+    
+    // MARK: - Public Methods
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -68,12 +72,33 @@ public class SYUISearchResultsTableViewController<Result: SYUIDetailCellDataSour
         setupUI()
     }
     
+    public override func showErrorMessage(_ message: String?) {
+        errorMessageView.text = message
+        errorMessageView.isHidden = message == nil
+    }
+    
     // MARK: - Private Methods
     
     private func setupUI() {
+        setupErrorView()
+        setupTableView()
+    }
+    
+    private func setupErrorView() {
+        errorMessageView.translatesAutoresizingMaskIntoConstraints = false
+        errorMessageView.isHidden = true
+        view.addSubview(errorMessageView)
+        errorMessageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 100).isActive = true
+        errorMessageView.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor).isActive = true
+        errorMessageView.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor).isActive = true
+    }
+    
+    private func setupTableView() {
         let nib = UINib(nibName: SYUIDetailTableViewCell.nibName, bundle: Bundle(for: SYUIDetailTableViewCell.self))
         tableView.register(nib, forCellReuseIdentifier: NSStringFromClass(SYUIDetailTableViewCell.self))
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = .clear
+        tableView.tableFooterView = UIView()
         
         view.addSubview(tableView)
         tableView.coverWholeSuperview()
