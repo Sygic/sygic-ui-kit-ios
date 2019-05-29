@@ -97,8 +97,6 @@ open class SYUIPoiDetailViewController: UIViewController {
         view.addSubview(loadingIndicator)
         loadingIndicator.topAnchor.constraint(equalTo: view.topAnchor, constant: loadingIndicatorTopMargin).isActive = true
         loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        loadingIndicator.startAnimating()
         loadingIndicator.isHidden = true
     }
     
@@ -136,6 +134,11 @@ open class SYUIPoiDetailViewController: UIViewController {
     public func showLoadingIndicator(_ show: Bool) {
         poiDetailView.isHidden = show
         loadingIndicator.isHidden = !show
+        if show {
+            loadingIndicator.startAnimating()
+        } else {
+            loadingIndicator.stopAnimating()
+        }
     }
     
     // MARK: presentation handling
