@@ -24,7 +24,7 @@ import UIKit
 
 public extension UIView {
     
-    @discardableResult public func blur(with color: UIColor?, style: UIBlurEffect.Style, margin: CGFloat = 0.0) -> UIVisualEffectView {
+    @discardableResult func blur(with color: UIColor?, style: UIBlurEffect.Style, margin: CGFloat = 0.0) -> UIVisualEffectView {
         let effectView = blurEffectView(with: style)
         if let color = color, color != .clear {
             let colorOverlay = colorOverlayView(with: color)
@@ -37,7 +37,7 @@ public extension UIView {
         return effectView
     }
     
-    public func addBlurViewWithMapControlsBlurStyle(margin: CGFloat = 0.0) -> UIVisualEffectView? {
+    func addBlurViewWithMapControlsBlurStyle(margin: CGFloat = 0.0) -> UIVisualEffectView? {
         let effectView = blur(with: nil, style: .light, margin: margin)
         let colorOverlayView = self.colorOverlayView(with: .mapInfoBackground)
         colorOverlayView.backgroundColor = .mapInfoBackground

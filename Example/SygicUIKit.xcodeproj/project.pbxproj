@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A91342D579A2F69A06D503A /* Pods_SygicUIKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9EE2FD125B20E2C21310EB /* Pods_SygicUIKit_Tests.framework */; };
+		5803EE19222D6AC200A231C8 /* DetailCellTableTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5803EE18222D6AC200A231C8 /* DetailCellTableTestViewController.swift */; };
 		582BBAAB21C4098000846B1B /* SkinTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582BBAAA21C4098000846B1B /* SkinTestViewController.swift */; };
 		5856A92F21CD29E80068D125 /* Oswald-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5856A92E21CD29E80068D125 /* Oswald-Bold.ttf */; };
 		586437A6219DD25D00C160C2 /* PoiDetailTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586437A5219DD25D00C160C2 /* PoiDetailTestViewController.swift */; };
@@ -40,6 +41,7 @@
 		13020C89EA263BA493961572 /* Pods_SygicUIKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicUIKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E554132A4D4D1B93938CB9A /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		4EF2A05EC5D17767E41EE0CD /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		5803EE18222D6AC200A231C8 /* DetailCellTableTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCellTableTestViewController.swift; sourceTree = "<group>"; };
 		582BBAAA21C4098000846B1B /* SkinTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinTestViewController.swift; sourceTree = "<group>"; };
 		5856A92E21CD29E80068D125 /* Oswald-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Bold.ttf"; sourceTree = "<group>"; };
 		586437A5219DD25D00C160C2 /* PoiDetailTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoiDetailTestViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				CCA40B15219ABAC900514067 /* PinTestViewController.swift */,
 				586437A5219DD25D00C160C2 /* PoiDetailTestViewController.swift */,
 				582BBAAA21C4098000846B1B /* SkinTestViewController.swift */,
+				5803EE18222D6AC200A231C8 /* DetailCellTableTestViewController.swift */,
 				5CD0CB2C219F271B00343790 /* ZoomTestViewController.swift */,
 			);
 			name = Examples;
@@ -402,6 +405,7 @@
 				586437A6219DD25D00C160C2 /* PoiDetailTestViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				CC9742C2219C49EF009C8AB7 /* CompassTestViewController.swift in Sources */,
+				5803EE19222D6AC200A231C8 /* DetailCellTableTestViewController.swift in Sources */,
 				5CD0CB2D219F271B00343790 /* ZoomTestViewController.swift in Sources */,
 				CCA40B16219ABAC900514067 /* PinTestViewController.swift in Sources */,
 				58A963752195D70D001015CC /* BottomSheetTestViewController.swift in Sources */,

@@ -50,6 +50,19 @@ public class SYUIExpandableButtonsView: UIView {
     /// Returns if view is expanded.
     public var isExpanded = false
     
+    /// Direction to whitch buttons are expanded
+    public var direction: ExpandDirection = .trailing
+    
+    /// Directions to whitch buttons can be expanded
+    public enum ExpandDirection {
+        case top
+        case bottom
+        case leading
+        case trailing
+    }
+    
+    // MARK: - Public Methods
+    
     override public init(frame: CGRect) {
         super.init(frame: frame)
         initDefaults()
@@ -59,8 +72,6 @@ public class SYUIExpandableButtonsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Public Methods
-    
     /// Expand buttons with completion block.
     ///
     /// - Parameter completion: completion block called after buttons are expanded.
@@ -68,23 +79,26 @@ public class SYUIExpandableButtonsView: UIView {
         isExpanded = true
         removeConstraintsRelated(toSubview: toggleButton)
         
-        toggleButton.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        toggleButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        toggleButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        var constraintsToActivate = [NSLayoutConstraint]()
+        
+        constraintsToActivate.append(startingConstraint(toggleButton))
+        constraintsToActivate.append(contentsOf: sideConstraints(toggleButton))
         
         var previousButton = toggleButton
         for button in expandableButtons {
             addSubview(button)
             button.translatesAutoresizingMaskIntoConstraints = false
-            button.leadingAnchor.constraint(equalTo: previousButton.trailingAnchor, constant: 8.0).isActive = true
-            button.topAnchor.constraint(equalTo: topAnchor).isActive = true
-            button.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+
+            constraintsToActivate.append(connectingConstraint(for: button, connectingView: previousButton))
+            constraintsToActivate.append(contentsOf: sideConstraints(button))
             
             if expandableButtons.last == button {
-                button.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+                constraintsToActivate.append(finishingConstraint(button))
             }
             previousButton = button
         }
+        
+        NSLayoutConstraint.activate(constraintsToActivate)
         
         animateControlsShow { () -> () in
             completion?()
@@ -92,15 +106,18 @@ public class SYUIExpandableButtonsView: UIView {
     }
     
     /// Wrap buttons with animation.
-    public func wrapButtons() {
-        hideControlButtons(withCompletion: nil)
+    public func wrapButtons(_ completion: (() -> ())? = nil) {
+        isExpanded = false
+        animateControlsHide {
+            self.finalizeControlsHide(withCompletion: completion)
+        }
     }
     
     /// Wrap buttons without animation.
-    public func wrapButtonsWithoutAnimation() {
+    public func wrapButtonsWithoutAnimation(_ completion: (() -> ())? = nil) {
         isExpanded = false
         expandableButtons.forEach { self.setHidden(forButton: $0) }
-        finalizeControlsHide(withCompletion: nil)
+        finalizeControlsHide(withCompletion: completion)
     }
     
     // MARK: - Private Methods
@@ -131,13 +148,6 @@ public class SYUIExpandableButtonsView: UIView {
     }
     
     // MARK: Animations
-    
-    private func hideControlButtons(withCompletion completion: (() -> ())?) {
-        isExpanded = false
-        animateControlsHide {
-            self.finalizeControlsHide(withCompletion: completion)
-        }
-    }
     
     private func animateControlsShow(withCompletion completion: (() -> ())?) {
         removeAllAnimations()
@@ -216,4 +226,57 @@ public class SYUIExpandableButtonsView: UIView {
         button.layer.setAffineTransform(.identity)
     }
     
+    // MARK: - Constraints magic
+    
+    private func connectingConstraint(for button: UIView, connectingView: UIView, spacing: CGFloat = 8.0) -> NSLayoutConstraint {
+        switch direction {
+        case .top:
+            return button.bottomAnchor.constraint(equalTo: connectingView.topAnchor, constant: -spacing)
+        case .bottom:
+            return button.topAnchor.constraint(equalTo: connectingView.bottomAnchor, constant: spacing)
+        case .leading:
+            return button.trailingAnchor.constraint(equalTo: connectingView.leadingAnchor, constant: -spacing)
+        case .trailing:
+            return button.leadingAnchor.constraint(equalTo: connectingView.trailingAnchor, constant: spacing)
+        }
+    }
+    
+    private func sideConstraints(_ button: UIView) -> [NSLayoutConstraint] {
+        var constraints = [NSLayoutConstraint]()
+        if direction == .leading || direction == .trailing {
+            constraints.append(button.topAnchor.constraint(equalTo: topAnchor))
+            constraints.append(button.bottomAnchor.constraint(equalTo: bottomAnchor))
+        }
+        if direction == .top || direction == .bottom {
+            constraints.append(button.leadingAnchor.constraint(equalTo: leadingAnchor))
+            constraints.append(button.trailingAnchor.constraint(equalTo: trailingAnchor))
+        }
+        return constraints
+    }
+    
+    private func startingConstraint(_ button: UIView) -> NSLayoutConstraint {
+        switch direction {
+        case .top:
+            return button.bottomAnchor.constraint(equalTo: bottomAnchor)
+        case .bottom:
+            return button.topAnchor.constraint(equalTo: topAnchor)
+        case .leading:
+            return button.trailingAnchor.constraint(equalTo: trailingAnchor)
+        case .trailing:
+            return button.leadingAnchor.constraint(equalTo: leadingAnchor)
+        }
+    }
+    
+    private func finishingConstraint(_ button: UIView) -> NSLayoutConstraint {
+        switch direction {
+        case .top:
+            return button.topAnchor.constraint(equalTo: topAnchor)
+        case .bottom:
+            return button.bottomAnchor.constraint(equalTo: bottomAnchor)
+        case .leading:
+            return button.leadingAnchor.constraint(equalTo: leadingAnchor)
+        case .trailing:
+            return button.trailingAnchor.constraint(equalTo: trailingAnchor)
+        }
+    }
 }

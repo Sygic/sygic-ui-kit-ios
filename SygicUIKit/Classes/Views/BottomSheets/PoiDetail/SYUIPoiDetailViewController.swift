@@ -62,6 +62,10 @@ open class SYUIPoiDetailViewController: UIViewController {
     public weak var dataSource: SYUIPoiDetailDataSource? {
         didSet {
             reloadData()
+            if let dataSource = dataSource {
+                bottomSheetView.minimizedHeight = defaultMinimizedHeight + (SYUIActionButtonSize.normal.rawValue * CGFloat(dataSource.poiDetailNumberOfActionButtons))
+                bottomSheetView.minimize()
+            }
         }
     }
     /// Delegate
@@ -74,6 +78,8 @@ open class SYUIPoiDetailViewController: UIViewController {
     
     private var bottomSheetView: SYUIBottomSheetView!
     private let poiDetailView = SYUIPoiDetailView()
+    private let loadingIndicator = UIActivityIndicatorView(style: .gray)
+    private let loadingIndicatorTopMargin: CGFloat = 45
     
     // MARK: - Public Methods
     
@@ -86,6 +92,12 @@ open class SYUIPoiDetailViewController: UIViewController {
         poiDetailView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(poiDetailView)
         poiDetailView.coverWholeSuperview()
+        
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingIndicator)
+        loadingIndicator.topAnchor.constraint(equalTo: view.topAnchor, constant: loadingIndicatorTopMargin).isActive = true
+        loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loadingIndicator.isHidden = true
     }
     
     open override func viewDidLoad() {
@@ -114,6 +126,19 @@ open class SYUIPoiDetailViewController: UIViewController {
         guard let dataSource = dataSource, view == bottomSheetView else { return }
         bottomSheetView.minTopMargin = dataSource.poiDetailMaxTopOffset
         poiDetailView.reloadData()
+    }
+    
+    /// Show loading indicator instead of poi detail view.
+    ///
+    /// - Parameter show: Boolean parameter for showing loading indicator.
+    public func showLoadingIndicator(_ show: Bool) {
+        poiDetailView.isHidden = show
+        loadingIndicator.isHidden = !show
+        if show {
+            loadingIndicator.startAnimating()
+        } else {
+            loadingIndicator.stopAnimating()
+        }
     }
     
     // MARK: presentation handling

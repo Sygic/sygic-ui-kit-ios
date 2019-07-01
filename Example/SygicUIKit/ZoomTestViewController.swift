@@ -28,7 +28,10 @@ import SygicUIKit
 class ZoomTestViewController: UIViewController {
     
     private let mapView = MKMapView()
-    private let zoomControl = SYUIZoomController()
+    let zoomControl1 = SYUIZoomController()
+    let zoomControl2 = SYUIZoomController()
+    let zoomControl3 = SYUIZoomController()
+    let zoomControl4 = SYUIZoomController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,18 +41,35 @@ class ZoomTestViewController: UIViewController {
         mapView.coverWholeSuperview()
         mapView.isRotateEnabled = true
 
-        zoomControl.delegate = self
+        zoomControl1.delegate = self
+        view.addSubview(zoomControl1.expandableButtonsView)
+        zoomControl1.expandableButtonsView.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 16).isActive = true
+        zoomControl1.expandableButtonsView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -16).isActive = true
         
-        view.addSubview(zoomControl.expandableButtonsView)
-        zoomControl.expandableButtonsView.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 16).isActive = true
-        zoomControl.expandableButtonsView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -16).isActive = true
+        zoomControl2.expandableButtonsView.direction = .top
+        zoomControl2.delegate = self
+        view.addSubview(zoomControl2.expandableButtonsView)
+        zoomControl2.expandableButtonsView.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -16).isActive = true
+        zoomControl2.expandableButtonsView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -16).isActive = true
+        
+        zoomControl3.expandableButtonsView.direction = .leading
+        zoomControl3.delegate = self
+        view.addSubview(zoomControl3.expandableButtonsView)
+        zoomControl3.expandableButtonsView.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -16).isActive = true
+        zoomControl3.expandableButtonsView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 16).isActive = true
+        
+        zoomControl4.expandableButtonsView.direction = .bottom
+        zoomControl4.delegate = self
+        view.addSubview(zoomControl4.expandableButtonsView)
+        zoomControl4.expandableButtonsView.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 16).isActive = true
+        zoomControl4.expandableButtonsView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 16).isActive = true
     }
     
 }
 
 extension ZoomTestViewController: SYUIZoomControllerDelegate {
     
-    func zoomController(wants activity: SYUIZoomActivity) {
+    func zoomController(_ controller: SYUIZoomController, wants activity: SYUIZoomActivity) {
         switch activity {
         case .zoomIn, .zoomingIn:
             updateZoomIn()
@@ -59,10 +79,14 @@ extension ZoomTestViewController: SYUIZoomControllerDelegate {
             
         case .toggle3D:
             let camera = mapView.camera
-            camera.pitch = zoomControl.is3D ? 0 : 50
+            camera.pitch = controller.is3D ? 0 : 50
             mapView.setCamera(camera, animated: true)
             
-            zoomControl.is3D = !zoomControl.is3D
+            let is3D = !controller.is3D
+            zoomControl1.is3D = is3D
+            zoomControl2.is3D = is3D
+            zoomControl3.is3D = is3D
+            zoomControl4.is3D = is3D
             
         default:
             break
