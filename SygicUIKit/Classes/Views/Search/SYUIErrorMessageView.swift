@@ -23,6 +23,7 @@
 import UIKit
 
 
+/// Simple view with icon and message label suitable for showing error message within search results table
 public class SYUIErrorMessageView: UIView {
     public var text: String? {
         didSet {

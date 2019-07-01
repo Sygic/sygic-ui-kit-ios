@@ -53,6 +53,7 @@ public class SYUIExpandableButtonsView: UIView {
     /// Direction to whitch buttons are expanded
     public var direction: ExpandDirection = .trailing
     
+    /// Directions to whitch buttons can be expanded
     public enum ExpandDirection {
         case top
         case bottom
