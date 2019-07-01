@@ -52,5 +52,5 @@ limitations under the License.
 [marekdovjakGithub]: <https://github.com/marekdovjak>
 
 [SygicMapsKit]: <https://github.com/Sygic/sygic-maps-kit-ios>
-[SygicLogo]: <Assets/sygic_logo.png>
+[SygicLogo]: <https://raw.githubusercontent.com/Sygic/sygic-ui-kit-ios/master/Assets/sygic_logo.png>
 [CocoaPods]: <https://cocoapods.org>
