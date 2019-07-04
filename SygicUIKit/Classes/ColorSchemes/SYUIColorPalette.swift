@@ -78,13 +78,19 @@ public protocol SYUIColorPalette {
     
 }
 
+extension Bundle {
+    static var UIKit: Bundle {
+        return Bundle(for: SYUIActionButton.self)
+    }
+}
+
 // MARK: - Default values
 public extension SYUIColorPalette {
     
     // MARK: - Basic colors
     var background:         UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorBackground")!
+            return UIColor(named: "SYUIColorBackground", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xffffffff)
         }
@@ -92,77 +98,77 @@ public extension SYUIColorPalette {
     var mapBackground:      UIColor { return UIColor(argb: 0xffefefea) }
     var tableBackground:    UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorTableBackground")!
+            return UIColor(named: "SYUIColorTableBackground", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xffe1e7f2)
         }
     }
     var textInvert:         UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorTextInvert")!
+            return UIColor(named: "SYUIColorTextInvert", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xffffffff)
         }
     }
     var bar:                UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorBar")!
+            return UIColor(named: "SYUIColorBar", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xfff2f7ff)
         }
     }
     var border:             UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorBorder")!
+            return UIColor(named: "SYUIColorBorder", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xffd5dbe6)
         }
     }
     var textBody:           UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorTextBody")!
+            return UIColor(named: "SYUIColorTextBody", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xff5c6373)
         }
     }
     var textTitle:          UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorTextTitle")!
+            return UIColor(named: "SYUIColorTextTitle", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xff171c26)
         }
     }
     var action:             UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorAction")!
+            return UIColor(named: "SYUIColorAction", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xff0080ff)
         }
     }
     var error:              UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorError")!
+            return UIColor(named: "SYUIColorError", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xffe63939)
         }
     }
     var warning:            UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorWarning")!
+            return UIColor(named: "SYUIColorWarning", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xffe67300)
         }
     }
     var success:            UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorSuccess")!
+            return UIColor(named: "SYUIColorSuccess", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xff339900)
         }
     }
     var rating:             UIColor {
         if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIColorRating")!
+            return UIColor(named: "SYUIColorRating", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xfff2ae24)
         }

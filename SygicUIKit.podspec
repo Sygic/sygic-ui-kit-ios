@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'SygicUIKit/Classes/**/*'
-  s.resources = 'SygicUIKit/Resources/**/*.{xib,svg,jpg,png}'
+  s.resources = 'SygicUIKit/Resources/**/*.{xib,svg,jpg,png,xcassets}'
   s.frameworks = 'UIKit'
   s.resource_bundle = {
       'SygicUIKit' => ['SygicUIKit/Resources/**/*.{ttf}'],
@@ -32,5 +32,5 @@ Pod::Spec.new do |s|
   }
 
   s.dependency 'GradientView'
-  
+
 end
