@@ -39,10 +39,18 @@ public class SYUIExpandableButtonsView: UIView {
     public var toggleButton = SYUIExpandableButton(withType: .icon)
     
     /// Icon of button in expanded state.
-    public var toggleButtonExpandedIcon = SYUIIcon.viewControls
+    public var toggleButtonExpandedIcon = SYUIIcon.viewControls {
+        didSet {
+            toggleButton.setTitle(titleForToggleButton(), for: .normal)
+        }
+    }
     
     /// Icon of button in wrapped state.
-    public var toggleButtonWrappedIcon = SYUIIcon.close
+    public var toggleButtonWrappedIcon = SYUIIcon.close {
+        didSet {
+            toggleButton.setTitle(titleForToggleButton(), for: .normal)
+        }
+    }
     
     /// Array of expandable buttons.
     public var expandableButtons = [SYUIExpandableButton]()
