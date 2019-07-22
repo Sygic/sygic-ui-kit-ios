@@ -51,7 +51,7 @@ public extension SYUIFontFamily {
     var regular: String { return "InterUI-Regular" }
     var semiBold: String { return "InterUI-Medium" }
     var semiBoldItalic: String { return "InterUI-MediumItalic" }
-    var iconFont: String { return "SygicIcons" }
+    var iconFont: String { return "SYUISygicIcons" }
 }
 
 public struct DefaultFontFamily: SYUIFontFamily {

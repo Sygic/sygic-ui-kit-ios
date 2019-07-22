@@ -22,10 +22,6 @@
 
 public struct SYUIConstants {
     /**
-     Duration of map properties animation (lock to vehicle...)
-     */
-    public static let mapAnimationDuration: TimeInterval = 0.3
-    /**
      Duration of standard UIView animation
      */
     public static let animationDuration: TimeInterval = 0.2
