@@ -1,4 +1,4 @@
-osx_image: xcode10.1
+osx_image: xcode11
 language: objective-c
 # cache: cocoapods
 podfile: Example/Podfile
@@ -30,4 +30,3 @@ jobs:
         on:
           tags: true
           all_branches: true
-    
