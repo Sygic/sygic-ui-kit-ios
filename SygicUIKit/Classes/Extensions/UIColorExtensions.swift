@@ -93,6 +93,8 @@ public extension UIColor {
     
     static var signpostDefaultBackground: UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.signpostDefaultBackground }
     
+    static var midnightBlue: UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.midnightBlue }
+    
 }
 
 public extension UIColor {

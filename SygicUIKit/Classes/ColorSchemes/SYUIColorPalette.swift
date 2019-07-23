@@ -174,6 +174,14 @@ public extension SYUIColorPalette {
         }
     }
     
+    var midnightBlue:       UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIMidnightBlue", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xff2031ff)
+        }
+    }
+    
     // MARK: - Derived colors with opacity
     var textSign:           UIColor { return textTitle }
     var iconBackground:     UIColor { return textTitle.withAlphaComponent(0.1) }

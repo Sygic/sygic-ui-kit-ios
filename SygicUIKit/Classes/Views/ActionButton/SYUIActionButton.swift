@@ -56,12 +56,18 @@ public protocol SYUIActionButtonProperties {
     case error
     /// In case of alert.
     case alert
+    /// Primary action
+    case primary13
+    /// In case of error occured.
+    case error13
 }
 
 /// Action button sizes.
 public enum SYUIActionButtonSize: CGFloat {
     /// Normal size.
     case normal = 56.0
+    /// Infobar size.
+    case infobar = 48.0
     /// Compact size.
     case compact = 40.0
     
@@ -170,6 +176,14 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
                 view.removeFromSuperview()
                 rightIcon.isHidden = rightIcon.text == nil
             }
+        }
+    }
+    
+    /// Corner radius of button.
+    /// Affects only not fully rounded button styles: primary13, error13
+    public var partialCornerRadius: CGFloat = 16 {
+        didSet {
+            updateRoundedCorners()
         }
     }
     
@@ -301,13 +315,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         
         super.layoutSubviews()
 
-        fullRoundCorners()
-        backgroundView.fullRoundCorners()
-        borderView.fullRoundCorners()
-        
-        
-        blur?.fullRoundCorners()
-        blur?.clipsToBounds = true
+        updateRoundedCorners()
         
         if let countdownRoundView = countdownRoundView {
             addProgressSubview(countdownRoundView)
@@ -358,6 +366,20 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         
         stackView.spacing = hasTitle ? 8 : 0
         setNeedsLayout()
+    }
+    
+    private func updateRoundedCorners() {
+        if style == .primary13 || style == .error13 {
+            layer.cornerRadius = partialCornerRadius
+            backgroundView.layer.cornerRadius = partialCornerRadius
+            borderView.layer.cornerRadius = partialCornerRadius
+        } else {
+            fullRoundCorners()
+            backgroundView.fullRoundCorners()
+            borderView.fullRoundCorners()
+            blur?.fullRoundCorners()
+            blur?.clipsToBounds = true
+        }
     }
     
     // MARK: Default UI
@@ -433,7 +455,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     
     private func setShadow(for style: SYUIActionButtonStyle) {
         switch style {
-        case .plain, .loading:
+        case .plain, .loading, .primary13, .error13:
             layer.shadowOpacity = 0.0
         case .primary:
             layer.shadowOpacity = 1.0
@@ -542,6 +564,14 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
             borderView.isHidden = true
             rightAccessoryView = nil
             blur = addBlurViewWithMapControlsBlurStyle()
+        case .primary13:
+            backgroundColor = .midnightBlue
+            borderView.isHidden = true
+            rightAccessoryView = nil
+        case .error13:
+            backgroundColor = .red
+            borderView.isHidden = true
+            rightAccessoryView = nil
         }
         
         borderView.backgroundColor = .iconBackground

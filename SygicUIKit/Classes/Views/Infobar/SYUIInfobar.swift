@@ -27,63 +27,124 @@ public class SYUIInfobar: UIView {
     
     // MARK: - Public Properties
     
+    /// Action button layouted on the left side of infobar view
     public var leftButton: SYUIActionButton? {
         didSet {
-            updateLayout()
+            updateItemsLayout()
         }
     }
     
+    /// Action button layouted on the right side of infobar view
     public var rightButton: SYUIActionButton? {
         didSet {
-            updateLayout()
-        }
-    }
-    /// Max 3
-    public var items: [UIView] = [] {
-        didSet {
-            updateLayout()
+            updateItemsLayout()
         }
     }
     
+    /// Primary row items. Appearence is restricted by maxItemCount.
+    public var items: [UIView] = [] {
+        didSet {
+            updateItemsLayout()
+        }
+    }
+    
+    /// Secondary row items with separator between each item. Appearence is restricted by maxItemCount.
+    public var secondaryItems: [UIView] = [] {
+        didSet {
+            updateItemsLayout()
+        }
+    }
+    
+    /// Defines margin between edges and buttons
     public var edgeMargin: CGFloat = 8
-    public let maxItemCount: Int = 3
+    
+    /// Max infobar items in one row
+    public var maxItemCount: Int = 3
     
     // MARK: - Private Properties
     
+    private let height: CGFloat = 64
+    private let cornerRadius: CGFloat = 18
+    private let backgroundView = UIView()
     private let stackView = UIStackView()
+    private let lineStackView = UIStackView()
+    private let primaryStackView = UIStackView()
+    private let secondaryStackView = UIStackView()
     
     // MARK: - Public Methods
     
     convenience init() {
         self.init(frame: .zero)
-        heightAnchor.constraint(equalToConstant: 72).isActive = true
-        backgroundColor = .bar
-        roundCorners()
+        heightAnchor.constraint(equalToConstant: height).isActive = true
         
-        stackView.distribution = .equalSpacing
+        backgroundView.backgroundColor = .background
+        backgroundView.layer.cornerRadius = cornerRadius
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(backgroundView)
+        backgroundView.coverWholeSuperview()
+        
+        layer.shadowRadius = 8
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = .zero
+        layer.masksToBounds = false
+        
+        stackView.distribution = .fillProportionally
         stackView.alignment = .center
         stackView.layoutMargins = UIEdgeInsets(top: edgeMargin, left: edgeMargin, bottom: edgeMargin, right: edgeMargin)
+        stackView.spacing = edgeMargin
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         stackView.coverWholeSuperview()
+        
+        primaryStackView.distribution = .fillEqually
+        primaryStackView.alignment = .center
+        
+        secondaryStackView.distribution = .fillProportionally
+        secondaryStackView.alignment = .center
+        
+        lineStackView.distribution = .equalCentering
+        lineStackView.alignment = .fill
+        lineStackView.axis = .vertical
+        lineStackView.addArrangedSubview(primaryStackView)
+        lineStackView.addArrangedSubview(secondaryStackView)
     }
     
     // MARK: - Private Methods
     
-    private func updateLayout() {
+    private func updateItemsLayout() {
+        primaryStackView.removeAll()
+        secondaryStackView.removeAll()
         stackView.removeAll()
+        
+        if !items.isEmpty {
+            for (index, item) in items.enumerated() {
+                guard index < maxItemCount else { break }
+                primaryStackView.addArrangedSubview(item)
+            }
+            lineStackView.addArrangedSubview(primaryStackView)
+        }
+        
+        if !secondaryItems.isEmpty {
+            for (index, item) in secondaryItems.enumerated() {
+                guard index < maxItemCount else { break }
+                secondaryStackView.addArrangedSubview(item)
+                if index+1 < maxItemCount && index+1 < secondaryItems.count {
+                    secondaryStackView.addArrangedSubview(SYUIInfobarSecondaryItem(with: " | "))
+                }
+            }
+            lineStackView.addArrangedSubview(secondaryStackView)
+        }
         
         if let left = leftButton {
             stackView.addArrangedSubview(left)
         }
-        for (index, item) in items.enumerated() {
-            guard index < maxItemCount else { break }
-            stackView.addArrangedSubview(item)
-        }
+        stackView.addArrangedSubview(lineStackView)
         if let right = rightButton {
             stackView.addArrangedSubview(right)
         }
+        setNeedsLayout()
     }
 }
 
@@ -94,7 +155,7 @@ open class SYUIInfobarItem: UIView {
         }
     }
     
-    private let label: UILabel = {
+    let label: UILabel = {
         let label = UILabel()
         label.font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.heading)
         label.textColor = .textTitle
@@ -107,6 +168,24 @@ open class SYUIInfobarItem: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
         label.coverWholeSuperview()
+    }
+    
+    required public init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    convenience init(with text: String?) {
+        self.init(frame: .zero)
+        self.text = text
+        label.text = text
+    }
+}
+
+open class SYUIInfobarSecondaryItem: SYUIInfobarItem {
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+        label.font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.body)
+        label.textColor = .textBody
     }
     
     required public init?(coder: NSCoder) {

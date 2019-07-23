@@ -29,24 +29,29 @@ class InfobarTestViewController: UIViewController {
     let infobar = SYUIInfobar()
     
     var items: [(text: String, isOn: Bool)] = [
-        (text: "Left Button", isOn: false),
-        (text: "Item 1", isOn: true),
-        (text: "Item 2", isOn: true),
-        (text: "Item 3", isOn: false),
-        (text: "Item 4", isOn: false),
+        (text: "Left Button", isOn: true),
+        (text: "Item1", isOn: true),
+        (text: "Item2", isOn: false),
+        (text: "Item3", isOn: false),
+        (text: "SecItem1", isOn: true),
+        (text: "SecItem2", isOn: true),
+        (text: "SecItem3", isOn: false),
         (text: "Right Button", isOn: true),
     ]
     
     let leftButton: SYUIActionButton = {
         let button = SYUIActionButton()
+        button.style = .primary13
         button.icon = SYUIIcon.contextMenuIos
+        button.height = SYUIActionButtonSize.infobar.rawValue
         return button
     }()
     
     let rightButton: SYUIActionButton = {
         let button = SYUIActionButton()
-        button.style = .error
+        button.style = .error13
         button.icon = SYUIIcon.close
+        button.height = SYUIActionButtonSize.infobar.rawValue
         return button
     }()
 
@@ -77,17 +82,32 @@ class InfobarTestViewController: UIViewController {
         } else {
             infobar.leftButton = nil
         }
-        if items[5].isOn {
+        
+        if items[7].isOn {
             infobar.rightButton = rightButton
         } else {
             infobar.rightButton = nil
         }
+        
         infobar.items = {
             var itemViews: [UIView] = []
-            for i in 1...4 {
+            for i in 1...3 {
                 let item = items[i]
                 if item.isOn {
                     let itemView = SYUIInfobarItem()
+                    itemView.text = item.text
+                    itemViews.append(itemView)
+                }
+            }
+            return itemViews
+        }()
+        
+        infobar.secondaryItems = {
+            var itemViews: [UIView] = []
+            for i in 4...6 {
+                let item = items[i]
+                if item.isOn {
+                    let itemView = SYUIInfobarSecondaryItem()
                     itemView.text = item.text
                     itemViews.append(itemView)
                 }
