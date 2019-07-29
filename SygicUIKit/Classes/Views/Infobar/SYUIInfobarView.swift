@@ -22,8 +22,9 @@
 
 import UIKit
 
-/// TODO: neviem ci SYUIInfobarView nie je lepsie
-public class SYUIInfobar: UIView {
+
+/// Infobar view, ready to display list of SYUIInfobarItemView or custom UIView in two rows and two customizable buttons on both sides of view.
+public class SYUIInfobarView: UIView {
     
     // MARK: - Public Properties
     
@@ -54,6 +55,8 @@ public class SYUIInfobar: UIView {
             updateItemsLayout()
         }
     }
+    
+    public var secondaryItemsSeparator: String? = "|"
     
     /// Defines margin between edges and buttons
     public var edgeMargin: CGFloat = 8
@@ -130,8 +133,8 @@ public class SYUIInfobar: UIView {
             for (index, item) in secondaryItems.enumerated() {
                 guard index < maxItemCount else { break }
                 secondaryStackView.addArrangedSubview(item)
-                if index+1 < maxItemCount && index+1 < secondaryItems.count {
-                    secondaryStackView.addArrangedSubview(SYUIInfobarSecondaryItem(with: " | "))
+                if let separator = secondaryItemsSeparator, index+1 < maxItemCount && index+1 < secondaryItems.count {
+                    secondaryStackView.addArrangedSubview(SYUIInfobarSecondaryLabel(with: separator))
                 }
             }
             lineStackView.addArrangedSubview(secondaryStackView)
@@ -148,44 +151,30 @@ public class SYUIInfobar: UIView {
     }
 }
 
-open class SYUIInfobarItem: UIView {
-    public var text: String? {
-        didSet {
-            label.text = text
-        }
-    }
-    
-    let label: UILabel = {
-        let label = UILabel()
-        label.font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.heading)
-        label.textColor = .textTitle
-        label.textAlignment = .center
-        return label
-    }()
+public class SYUIInfobarLabel: UILabel {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
-        label.coverWholeSuperview()
+        font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.heading)
+        textColor = .textTitle
+        textAlignment = .center
     }
     
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    convenience init(with text: String?) {
+    public convenience init(with text: String?) {
         self.init(frame: .zero)
         self.text = text
-        label.text = text
     }
 }
 
-open class SYUIInfobarSecondaryItem: SYUIInfobarItem {
+public class SYUIInfobarSecondaryLabel: SYUIInfobarLabel {
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        label.font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.body)
-        label.textColor = .textBody
+        font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.body)
+        textColor = .textBody
     }
     
     required public init?(coder: NSCoder) {
