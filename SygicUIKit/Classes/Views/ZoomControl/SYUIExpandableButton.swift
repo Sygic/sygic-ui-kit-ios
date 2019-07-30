@@ -179,7 +179,6 @@ public class SYUIExpandableButton: UIButton {
     private func initDefaults() {
         iconColor = .textInvert
         blurView = addBlurViewWithMapControlsBlurStyle()
-        setupDefaultShadow()
         iconLabel = createIconLabel()
         addSubview(iconLabel)
         iconLabel.coverWholeSuperview()

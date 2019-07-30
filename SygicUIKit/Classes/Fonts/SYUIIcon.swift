@@ -264,7 +264,6 @@
 	public static let paste = "\u{e06b}"
 	public static let pasteAndroid = "\u{e06d}"
 	public static let patisserie = "\u{e342}"
-	public static let pause = "\u{e036}"
 	public static let peak = "\u{e35b}"
 	public static let petStore = "\u{e338}"
 	public static let philharmonic = "\u{e32f}"
@@ -275,7 +274,6 @@
 	public static let pizza = "\u{e34a}"
 	public static let places = "\u{e04f}"
 	public static let plane = "\u{e20b}"
-	public static let play = "\u{e034}"
 	public static let playGround = "\u{e35d}"
 	public static let poiBorder = "\u{e076}"
 	public static let police = "\u{e254}"
@@ -406,6 +404,14 @@
 	public static let zoo = "\u{e360}"
 	public static let zoomIn = "\u{e02d}"
 	public static let zoomOut = "\u{e02c}"
+    
+    public static var square: UIImage? { UIImage(named: "square", in: iconBundle, compatibleWith: nil) }
+    public static var play: UIImage? { UIImage(named: "controlsplay", in: iconBundle, compatibleWith: nil) }
+    public static var pause: UIImage? { UIImage(named: "controlspause", in: iconBundle, compatibleWith: nil) }
+    
+    public static var iconBundle: Bundle {
+        return Bundle(for: SYUIIcon.self)
+    }
 }
 
 
