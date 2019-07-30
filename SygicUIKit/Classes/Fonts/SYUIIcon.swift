@@ -405,11 +405,11 @@
 	public static let zoomIn = "\u{e02d}"
 	public static let zoomOut = "\u{e02c}"
     
-    public static var square: UIImage? { UIImage(named: "square", in: iconBundle, compatibleWith: nil) }
-    public static var play: UIImage? { UIImage(named: "controlsplay", in: iconBundle, compatibleWith: nil) }
-    public static var pause: UIImage? { UIImage(named: "controlspause", in: iconBundle, compatibleWith: nil) }
+    public static var square: UIImage? { UIImage(named: "square", in: iconsBundle, compatibleWith: nil) }
+    public static var play: UIImage? { UIImage(named: "controlsplay", in: iconsBundle, compatibleWith: nil) }
+    public static var pause: UIImage? { UIImage(named: "controlspause", in: iconsBundle, compatibleWith: nil) }
     
-    public static var iconBundle: Bundle {
+    private static var iconsBundle: Bundle {
         return Bundle(for: SYUIIcon.self)
     }
 }
