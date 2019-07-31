@@ -26,7 +26,7 @@ import SygicUIKit
 
 class InfobarTestViewController: UIViewController {
     
-    let infobar = SYUIInfobar()
+    let infobar = SYUIInfobarView()
     
     var items: [(text: String, isOn: Bool)] = [
         (text: "Left Button", isOn: true),
@@ -94,8 +94,7 @@ class InfobarTestViewController: UIViewController {
             for i in 1...3 {
                 let item = items[i]
                 if item.isOn {
-                    let itemView = SYUIInfobarItem()
-                    itemView.text = item.text
+                    let itemView = SYUIInfobarLabel(with: item.text)
                     itemViews.append(itemView)
                 }
             }
@@ -107,8 +106,7 @@ class InfobarTestViewController: UIViewController {
             for i in 4...6 {
                 let item = items[i]
                 if item.isOn {
-                    let itemView = SYUIInfobarSecondaryItem()
-                    itemView.text = item.text
+                    let itemView = SYUIInfobarSecondaryLabel(with: item.text)
                     itemViews.append(itemView)
                 }
             }
