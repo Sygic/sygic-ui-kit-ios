@@ -27,7 +27,7 @@ class SYUIPinViewLetter: SYUIPinViewIcon {
     override public var icon: String? {
         didSet {
             iconLabel.text = icon
-            iconLabel.font = SYUIFont.with(SYUIFont.bold, size: SYUIFontSize.poiIcon)
+            iconLabel.font = SYUIFont.with(.bold, size: SYUIFontSize.poiIcon)
         }
     }
     

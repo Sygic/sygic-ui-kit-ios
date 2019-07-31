@@ -349,7 +349,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         customTitleLabel.text = title
         customSubtitleLabel.text = subtitle
         rightIcon.text = icon
-        rightIcon.font = SYUIFont.with(SYUIFont.iconFont, size: iconSize)
+        rightIcon.font = SYUIFont.with(.icon, size: iconSize)
         rightIcon.textAlignment = iconAlignment
         updateStyle()
         capitalizeTitleIfNeeded()
@@ -387,7 +387,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     private func createDefaultUI() {
         setupBorder()
         setupBackgroundView()
-        rightIcon.font = SYUIFont.with(SYUIFont.iconFont, size: rightIconFontSize)
+        rightIcon.font = SYUIFont.with(.icon, size: rightIconFontSize)
         customTitleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         customTitleLabel.minimumScaleFactor = 0.6
         customTitleLabel.adjustsFontSizeToFitWidth = true
@@ -477,12 +477,12 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     
     private func setTitleLabelFont(for style: SYUIActionButtonStyle) {
         let titleSize = self.titleSize ?? SYUIFontSize.heading
-        customTitleLabel.font = SYUIFont.with(SYUIFont.semiBold, size: titleSize)
+        customTitleLabel.font = SYUIFont.with(.semiBold, size: titleSize)
     }
     
     private func setSubtitleLabelFont(for style: SYUIActionButtonStyle) {
         let subtitleSize = self.subtitleSize ?? SYUIFontSize.body
-        customSubtitleLabel.font = SYUIFont.with(SYUIFont.semiBold, size: subtitleSize)
+        customSubtitleLabel.font = SYUIFont.with(.semiBold, size: subtitleSize)
     }
     
     private func capitalizeTitleIfNeeded() {

@@ -32,7 +32,7 @@ public class SYUIFontManager {
     public static let shared = SYUIFontManager()
     
     /// Current using font family.
-    public var currentFontFamily: SYUIFontFamily = DefaultFontFamily()
+    public var currentFontFamily: SYUIFontFamily? = DefaultFontFamily()
     
     /// Current using font size.
     public var currentFontSize: SYUIFontSizeProtocol = DefaultFontSize()

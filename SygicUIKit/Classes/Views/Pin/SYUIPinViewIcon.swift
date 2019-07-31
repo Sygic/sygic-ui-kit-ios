@@ -33,7 +33,7 @@ class SYUIPinViewIcon: UIView {
     public var icon: String? {
         didSet {
             iconLabel.text = icon
-            iconLabel.font = SYUIFont.with(SYUIFont.iconFont, size: SYUIFontSize.poiIcon)
+            iconLabel.font = SYUIFont.with(.icon, size: SYUIFontSize.poiIcon)
         }
     }
     

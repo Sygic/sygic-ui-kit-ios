@@ -155,7 +155,7 @@ public class SYUIInfobarLabel: UILabel {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.heading)
+        font = SYUIFont.with(.semiBold, size: SYUIFontSize.heading)
         textColor = .textTitle
         textAlignment = .center
     }
@@ -173,7 +173,7 @@ public class SYUIInfobarLabel: UILabel {
 public class SYUIInfobarSecondaryLabel: SYUIInfobarLabel {
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.body)
+        font = SYUIFont.with(.semiBold, size: SYUIFontSize.body)
         textColor = .textBody
     }
     
