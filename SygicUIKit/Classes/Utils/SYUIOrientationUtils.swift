@@ -27,20 +27,6 @@ public enum SYUIDeviceOrientation {
     case portrait
     /// Landscape device orienatation.
     case landscape
-    
-    /// If orientation of a device is portrait.
-    ///
-    /// - Returns: Boolean value whether device is in portrait or not.
-    public func isPortrait() -> Bool {
-        return self == .portrait
-    }
-    
-    /// If orientation of a device is landscape.
-    ///
-    /// - Returns: Boolean value whether device is in landscape or not.
-    public func isLandscape() -> Bool {
-        return !isPortrait()
-    }
 }
 
 /// Device orientation utils.
@@ -54,10 +40,19 @@ public class SYUIDeviceOrientationUtils {
         return size.height > size.width ? .portrait : .landscape
     }
     
+    /// Returns given portrait or landscape size based on trait collection.
+    /// - Parameter portrait: Portrait orientation size.
+    /// - Parameter landscape: Landscape orientation size.
+    /// - Parameter traitCollection: Traint collection to determine correct return value.
+    /// - Returns: Orientation size based on actual trait collection.
     public static func orientationSize(for portrait: CGFloat, landscape: CGFloat, traitCollection: UITraitCollection) -> CGFloat {
-        return self.isLandscape(traitCollection) ? landscape : portrait
+        return self.isLandscapeLayout(traitCollection) ? landscape : portrait
     }
     
+    /// Returns given portrait or landscape size based on actual trait collection.
+    /// - Parameter portrait: Portraint orientation size.
+    /// - Parameter landscape: Landscape orientation size.
+    /// - Returns: Orientation size based on actual trait collection.
     public static func orientationSize(for portrait: CGFloat, landscape: CGFloat) -> CGFloat {
         guard let traitCollection = self.currentTraitCollection() else { return portrait }
         return self.orientationSize(for: portrait, landscape: landscape, traitCollection: traitCollection)
@@ -70,31 +65,26 @@ public class SYUIDeviceOrientationUtils {
         return UIApplication.shared.keyWindow?.traitCollection
     }
     
-    public static func isLandscape(_ traitCollection: UITraitCollection) -> Bool {
+    /// If layout should be for portrait orientation size based on trait collection.
+    /// - Parameter traitCollection: Traint collection to determine layout orientation.
+    public static func isPortraitLayout(_ traitCollection: UITraitCollection) -> Bool {
+        return (traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular)
+    }
+    
+    /// If defice is in portrait orientation based on status bar orientation.
+    public static func isPortraitStatusBar() -> Bool {
+        return UIApplication.shared.statusBarOrientation.isPortrait
+    }
+    
+    /// If layout should be for landscape orientation size based on trait collection.
+        /// - Parameter traitCollection: Traint collection to determine layout orientation.
+    public static func isLandscapeLayout(_ traitCollection: UITraitCollection) -> Bool {
+        return !isPortraitLayout(traitCollection)
+    }
+    
+    /// If defice is in landscape orientation based on status bar orientation.
+    public static func isLandscapeStatusBar() -> Bool {
         return UIApplication.shared.statusBarOrientation.isLandscape
-    }
-    
-    public static func isLandscape() -> Bool {
-        guard let traitCollection = self.currentTraitCollection() else { return false }
-        return self.isLandscape(traitCollection)
-    }
-    
-    public static func isPortrait(_ traitCollection: UITraitCollection) -> Bool {
-        return (traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass != traitCollection.horizontalSizeClass);
-    }
-
-    public static func isPortrait() -> Bool {
-        if let traitCollection = self.currentTraitCollection() {
-            return self.isPortrait(traitCollection)
-        }
-        return false
-    }
-    
-    /// Current device orientation.
-    ///
-    /// - Returns: Current device orientation.
-    public static func currentOrientation() -> UIInterfaceOrientation {
-        return UIApplication.shared.statusBarOrientation
     }
     
 }
