@@ -565,7 +565,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
             rightAccessoryView = nil
             blur = addBlurViewWithMapControlsBlurStyle()
         case .primary13:
-            backgroundColor = .midnightBlue
+            backgroundColor = .accentPrimary
             borderView.isHidden = true
             rightAccessoryView = nil
         case .error13:

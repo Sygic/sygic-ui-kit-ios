@@ -29,6 +29,8 @@ import Foundation
 public protocol SYUIColorPalette {
     
     // MARK: - Basic colors
+    var accentPrimary: UIColor { get }
+    var accentSecondary: UIColor { get }
     var background: UIColor { get }
     var mapBackground: UIColor { get }
     var tableBackground: UIColor { get }
@@ -88,6 +90,21 @@ extension Bundle {
 public extension SYUIColorPalette {
     
     // MARK: - Basic colors
+    
+    var accentPrimary:       UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIAccentPrimary", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xff2031ff)
+        }
+    }
+    var accentSecondary:       UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIAccentSecondary", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xff000000)
+        }
+    }
     var background:         UIColor {
         if #available(iOS 13.0, *) {
             return UIColor(named: "SYUIColorBackground", in: Bundle.UIKit, compatibleWith: nil)!
@@ -171,14 +188,6 @@ public extension SYUIColorPalette {
             return UIColor(named: "SYUIColorRating", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xfff2ae24)
-        }
-    }
-    
-    var midnightBlue:       UIColor {
-        if #available(iOS 13.0, *) {
-            return UIColor(named: "SYUIMidnightBlue", in: Bundle.UIKit, compatibleWith: nil)!
-        } else {
-            return UIColor(argb: 0xff2031ff)
         }
     }
     
