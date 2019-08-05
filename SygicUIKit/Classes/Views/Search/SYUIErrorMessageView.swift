@@ -67,7 +67,7 @@ public class SYUIErrorMessageView: UIView {
     
     private func setupTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.heading)
+        titleLabel.font = SYUIFont.with(.semiBold, size: SYUIFontSize.heading)
         titleLabel.textColor = .textTitle
         titleLabel.numberOfLines = 3
         titleLabel.textAlignment = .center

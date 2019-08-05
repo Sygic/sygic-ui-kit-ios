@@ -27,6 +27,8 @@ public struct SYUINightColorPalette: SYUIColorPalette {
 
     public init() {}
     
+    public var accentSecondary: UIColor { return UIColor(argb: 0xffffffff) }
+    public var accentBackground:UIColor { return UIColor(argb: 0xff000000) }
     public var background:      UIColor { return SYUIDefaultColorPalette().textTitle }
     public var tableBackground: UIColor { return UIColor(argb: 0xff242933) }
     public var textInvert:      UIColor { return UIColor(argb: 0xffe1e7f2) }
