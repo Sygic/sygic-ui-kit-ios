@@ -121,7 +121,7 @@ public class PoiDetailHeaderCell: UITableViewCell {
     }
     
     private func initializeTitleLabel() {
-        guard let font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.heading) else { return }
+        guard let font = SYUIFont.with(.semiBold, size: SYUIFontSize.heading) else { return }
         titleLabel = createLabel(with:font, color: .textTitle)
         contentView.addSubview(titleLabel)
         
@@ -132,7 +132,7 @@ public class PoiDetailHeaderCell: UITableViewCell {
     }
     
     private func initializeSubtitleLabel() {
-        guard let font = SYUIFont.with(SYUIFont.regular, size: SYUIFontSize.body) else { return }
+        guard let font = SYUIFont.with(.regular, size: SYUIFontSize.body) else { return }
         subtitleLabel = createLabel(with: font, color: .textBody)
         contentView.addSubview(subtitleLabel)
         
@@ -143,7 +143,7 @@ public class PoiDetailHeaderCell: UITableViewCell {
     }
     
     private func initializeRatingLabel() {
-        guard let font = SYUIFont.with(SYUIFont.regular, size: SYUIFontSize.bodyOld) else { return }
+        guard let font = SYUIFont.with(.regular, size: SYUIFontSize.bodyOld) else { return }
         ratingLabel = createLabel(with: font, color: .textBody)
         ratingLabel.baselineAdjustment = .alignCenters
         contentView.addSubview(ratingLabel)
@@ -224,7 +224,7 @@ public class PoiDetailHeaderCell: UITableViewCell {
     }
     
     private func textAttributes() -> [NSAttributedString.Key: Any] {
-        guard let font = SYUIFont.with(SYUIFont.regular, size: SYUIFontSize.bodyOld) else { return [:] }
+        guard let font = SYUIFont.with(.regular, size: SYUIFontSize.bodyOld) else { return [:] }
         return [.font: font, .foregroundColor: UIColor.textBody]
     }
     

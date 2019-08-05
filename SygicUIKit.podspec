@@ -24,10 +24,9 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'SygicUIKit/Classes/**/*'
-  s.resources = 'SygicUIKit/Resources/**/*.{xib,svg,jpg,png,xcassets}'
+  s.resources = 'SygicUIKit/Resources/**/*.{xib,jpg,png,xcassets,ttf}'
   s.frameworks = 'UIKit'
   s.resource_bundle = {
-      'SygicUIKit' => ['SygicUIKit/Resources/**/*.{ttf}'],
       'SygicUIKitStrings' => ['SygicUIKit/Resources/Langs/*.lproj/*.strings']
   }
 

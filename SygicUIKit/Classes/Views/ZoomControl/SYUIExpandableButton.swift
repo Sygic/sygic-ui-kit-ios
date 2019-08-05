@@ -202,9 +202,9 @@ public class SYUIExpandableButton: UIButton {
     private func buttonFont() -> UIFont {
         switch type {
         case .icon:
-            return SYUIFont.with(SYUIFont.iconFont, size: SYUIExpandableButton.fontSize)!
+            return SYUIFont.with(.icon, size: SYUIExpandableButton.fontSize)!
         case .text:
-            return SYUIFont.with(SYUIFont.semiBold, size: SYUIExpandableButton.fontSize)!
+            return SYUIFont.with(.semiBold, size: SYUIExpandableButton.fontSize)!
         }
     }
     

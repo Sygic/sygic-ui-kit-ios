@@ -35,23 +35,69 @@ public class SYUIFontSize {
 }
 
 public class SYUIFont {
-    public static var bold: String { return SYUIFontManager.shared.currentFontFamily.bold }
-    public static var boldItalic: String { return SYUIFontManager.shared.currentFontFamily.boldItalic }
-    public static var extraBold: String { return SYUIFontManager.shared.currentFontFamily.extraBold }
-    public static var extraBoldItalic: String { return SYUIFontManager.shared.currentFontFamily.extraBoldItalic }
-    public static var italic: String { return SYUIFontManager.shared.currentFontFamily.italic }
-    public static var light: String { return SYUIFontManager.shared.currentFontFamily.light }
-    public static var lightItalic: String { return SYUIFontManager.shared.currentFontFamily.lightItalic }
-    public static var regular: String { return SYUIFontManager.shared.currentFontFamily.regular }
-    public static var semiBold: String { return SYUIFontManager.shared.currentFontFamily.semiBold }
-    public static var semiBoldItalic: String { return SYUIFontManager.shared.currentFontFamily.semiBoldItalic }
-    public static var iconFont: String { return SYUIFontManager.shared.currentFontFamily.iconFont }
+    
+    public enum FontType {
+        case bold
+        case boldItalic
+        case extraBold
+        case extraBoldItalic
+        case italic
+        case light
+        case lightItalic
+        case regular
+        case semiBold
+        case semiBoldItalic
+        case icon
+        
+        public var fontName: String? {
+            switch self {
+            case .bold: return SYUIFont.bold
+            case .boldItalic: return SYUIFont.boldItalic
+            case .extraBold: return SYUIFont.extraBold
+            case .extraBoldItalic: return SYUIFont.extraBoldItalic
+            case .italic: return SYUIFont.italic
+            case .light: return SYUIFont.light
+            case .lightItalic: return SYUIFont.lightItalic
+            case .regular: return SYUIFont.regular
+            case .semiBold: return SYUIFont.semiBold
+            case .semiBoldItalic: return SYUIFont.semiBoldItalic
+            case .icon: return SYUIFont.iconFont
+            }
+        }
+    }
+    
+    public static var bold: String? { return SYUIFontManager.shared.currentFontFamily?.bold }
+    public static var boldItalic: String? { return SYUIFontManager.shared.currentFontFamily?.boldItalic }
+    public static var extraBold: String? { return SYUIFontManager.shared.currentFontFamily?.extraBold }
+    public static var extraBoldItalic: String? { return SYUIFontManager.shared.currentFontFamily?.extraBoldItalic }
+    public static var italic: String? { return SYUIFontManager.shared.currentFontFamily?.italic }
+    public static var light: String? { return SYUIFontManager.shared.currentFontFamily?.light }
+    public static var lightItalic: String? { return SYUIFontManager.shared.currentFontFamily?.lightItalic }
+    public static var regular: String? { return SYUIFontManager.shared.currentFontFamily?.regular }
+    public static var semiBold: String? { return SYUIFontManager.shared.currentFontFamily?.semiBold }
+    public static var semiBoldItalic: String? { return SYUIFontManager.shared.currentFontFamily?.semiBoldItalic }
+    public static var iconFont: String? { return SYUIFontManager.shared.currentFontFamily?.iconFont }
     
     public static func with(_ name: String, size: CGFloat) -> UIFont? {
         return UIFont(name: name, size: CGFloat(size))
     }
     
+    public static func with(_ type: FontType, size: CGFloat) -> UIFont? {
+        if let fontName = type.fontName {
+            return SYUIFont.with(fontName, size: size)
+        } else {
+            switch type {
+            case .bold, .extraBold, .semiBold: return UIFont.boldSystemFont(ofSize: size)
+            case .regular, .light: return UIFont.systemFont(ofSize: size)
+            case .italic, .lightItalic: return UIFont.italicSystemFont(ofSize: size)
+            default:
+                return nil
+            }
+        }
+    }
+    
     public static func iconFontWith(size: CGFloat) -> UIFont? {
-        return SYUIFont.with(iconFont, size: size)
+        guard let fontName = iconFont else { return nil }
+        return SYUIFont.with(fontName, size: size)
     }
 }

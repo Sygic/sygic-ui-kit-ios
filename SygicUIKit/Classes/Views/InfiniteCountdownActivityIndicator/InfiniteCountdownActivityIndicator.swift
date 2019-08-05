@@ -127,7 +127,7 @@ public class InfiniteCountdownActivityIndicator: UIView {
     
     private func initCountdownLabel() {
         countdownLabel.translatesAutoresizingMaskIntoConstraints = false
-        countdownLabel.font = SYUIFont.with(SYUIFont.semiBold, size: SYUIFontSize.headingOld)
+        countdownLabel.font = SYUIFont.with(.semiBold, size: SYUIFontSize.headingOld)
         countdownLabel.textAlignment = .center
         countdownLabel.textColor = color
         countdownLabel.minimumScaleFactor = 0.5
