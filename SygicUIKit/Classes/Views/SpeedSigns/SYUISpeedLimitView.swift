@@ -20,9 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+public protocol SYUISpeedLimit: UIView {
+    var speedLimit: Int { set get }
+}
 
 /// View that shows speed limit.
-class SYUISpeedLimitView: UIView {
+public class SYUISpeedLimitView: UIView, SYUISpeedLimit {
     
     // MARK: - Public Properties
     

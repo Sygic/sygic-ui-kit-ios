@@ -1,4 +1,4 @@
-//// SYUISpeedLimitNorthAmericaView.swift
+//// SYUISpeedLimitNorthView.swift
 //
 // Copyright (c) 2019 Sygic a.s.
 //
@@ -22,7 +22,7 @@
 
 
 /// View that shows speed limit for North America.
-class SYUISpeedLimitNorthAmericaView: UIView {
+public class SYUISpeedLimitAmericaView: UIView, SYUISpeedLimit {
     
     // MARK: - Public Properties
     

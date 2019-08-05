@@ -22,7 +22,7 @@
 
 
 /// View that shows current speed and units format.
-class CurrentSpeedView: UIView {
+public class SYUICurrentSpeedView: UIView {
     
     // MARK: - Public Properties
     
