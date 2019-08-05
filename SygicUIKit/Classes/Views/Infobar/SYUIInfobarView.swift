@@ -80,7 +80,7 @@ public class SYUIInfobarView: UIView {
         self.init(frame: .zero)
         heightAnchor.constraint(equalToConstant: height).isActive = true
         
-        backgroundView.backgroundColor = .background
+        backgroundView.backgroundColor = .accentBackground
         backgroundView.layer.cornerRadius = cornerRadius
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(backgroundView)

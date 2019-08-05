@@ -95,6 +95,7 @@ public extension UIColor {
     
     static var accentPrimary: UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.accentPrimary }
     static var accentSecondary: UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.accentSecondary }
+    static var accentBackground: UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.accentBackground }
     
 }
 
