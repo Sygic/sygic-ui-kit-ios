@@ -50,7 +50,7 @@ public class SYUIInfobarView: UIView {
     }
     
     /// Secondary row items with separator between each item. Appearence is restricted by maxItemCount.
-    public var secondaryItems: [UIView] = [] {
+    public var secondaryItems = [UIView]() {
         didSet {
             updateItemsLayout()
         }
