@@ -93,12 +93,10 @@ public class SYUIInfobarView: UIView {
         
         stackView.distribution = .fillProportionally
         stackView.alignment = .center
-        stackView.layoutMargins = UIEdgeInsets(top: edgeMargin, left: edgeMargin, bottom: edgeMargin, right: edgeMargin)
         stackView.spacing = edgeMargin
-        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
-        stackView.coverWholeSuperview()
+        stackView.coverWholeSuperview(withMargin: edgeMargin)
         
         primaryStackView.distribution = .fillEqually
         primaryStackView.alignment = .center
@@ -147,6 +145,7 @@ public class SYUIInfobarView: UIView {
         if let right = rightButton {
             stackView.addArrangedSubview(right)
         }
+        lineStackView.alignment = items.count > 1 ? .fill : .center
         setNeedsLayout()
     }
 }
