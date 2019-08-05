@@ -43,7 +43,7 @@ public class SYUIInfobarView: UIView {
     }
     
     /// Primary row items. Appearence is restricted by maxItemCount.
-    public var items: [UIView] = [] {
+    public var items = [UIView]() {
         didSet {
             updateItemsLayout()
         }
