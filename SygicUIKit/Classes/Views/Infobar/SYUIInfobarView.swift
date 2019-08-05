@@ -78,7 +78,6 @@ public class SYUIInfobarView: UIView {
     
     convenience init() {
         self.init(frame: .zero)
-        heightAnchor.constraint(equalToConstant: height).isActive = true
         
         backgroundView.backgroundColor = .accentBackground
         backgroundView.layer.cornerRadius = cornerRadius
@@ -104,11 +103,12 @@ public class SYUIInfobarView: UIView {
         primaryStackView.distribution = .fillEqually
         primaryStackView.alignment = .center
         
-        secondaryStackView.distribution = .fillProportionally
+        secondaryStackView.distribution = .equalSpacing
         secondaryStackView.alignment = .center
+        secondaryStackView.spacing = edgeMargin/2.0
         
         lineStackView.distribution = .equalCentering
-        lineStackView.alignment = .fill
+        lineStackView.alignment = .center
         lineStackView.axis = .vertical
         lineStackView.addArrangedSubview(primaryStackView)
         lineStackView.addArrangedSubview(secondaryStackView)
