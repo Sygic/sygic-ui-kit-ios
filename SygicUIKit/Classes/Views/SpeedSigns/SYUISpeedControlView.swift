@@ -44,8 +44,9 @@ public class SYUISpeedControlView: UIView {
     
     /// Updates current speed label.
     /// - Parameter speed: Current speed.
-    public func updateCurrentSpeed(with speed: Int) {
+    public func updateCurrentSpeed(with speed: Int, speeding: Bool) {
         currentSpeedView.currentSpeed = speed
+        currentSpeedView.speeding = speeding
     }
     
     /// Updates speed limit.

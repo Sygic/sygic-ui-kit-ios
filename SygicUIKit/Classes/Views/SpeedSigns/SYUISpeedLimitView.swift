@@ -39,7 +39,12 @@ public class SYUISpeedLimitView: UIView, SYUISpeedLimit {
     // MARK: - Private Properties
     
     private let speedLimitSize: CGFloat = 56
-    private let speedLimitLabel = UILabel()
+    
+    private let speedLimitLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .accentSecondary
+        return label
+    }()
     
     // MARK: - Public Methods
     
@@ -58,7 +63,7 @@ public class SYUISpeedLimitView: UIView, SYUISpeedLimit {
         layer.cornerRadius = speedLimitSize / 2
         layer.borderWidth = 6
         layer.borderColor = UIColor.red.cgColor
-        backgroundColor = .white
+        backgroundColor = .accentBackground
         widthAnchor.constraint(equalToConstant: speedLimitSize).isActive = true
         heightAnchor.constraint(equalToConstant: speedLimitSize).isActive = true
         

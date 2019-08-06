@@ -40,10 +40,22 @@ public class SYUICurrentSpeedView: UIView {
         }
     }
     
+    /// Actual current speed is highet then speed limit.
+    public var speeding = false {
+        didSet {
+            backgroundColor = speeding ? .error : .accentBackground
+        }
+    }
+    
     // MARK: - Private Properties
     
     private let currentSpeedSize: CGFloat = 56
-    private let currentSpeedLabel = UILabel()
+    
+    private let currentSpeedLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .accentSecondary
+        return label
+    }()
     
     private let units: UILabel = {
         let label = UILabel()
@@ -76,6 +88,7 @@ public class SYUICurrentSpeedView: UIView {
     private func initDefaults() {
         currentSpeed = 0
         unitsFormat = .kilometers
+        backgroundColor = .accentBackground
         
         layer.cornerRadius = currentSpeedSize / 2
         backgroundColor = .white

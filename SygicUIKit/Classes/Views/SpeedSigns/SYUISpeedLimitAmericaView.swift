@@ -35,7 +35,11 @@ public class SYUISpeedLimitAmericaView: UIView, SYUISpeedLimit {
     
     // MARK: - Private Properties
     
-    private let speedLimitLabel = UILabel()
+    private let speedLimitLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .accentSecondary
+        return label
+    }()
     
     private let innerBorder: UIView = {
         let innerView = UIView()
@@ -47,6 +51,7 @@ public class SYUISpeedLimitAmericaView: UIView, SYUISpeedLimit {
     
     private let limitText: UILabel = {
         let label = UILabel()
+        label.textColor = .accentSecondary
         label.attributedText = NSAttributedString(string: "LIMIT", attributes: [NSAttributedString.Key.font: UIFont(name: "DINCondensed-Bold", size: 16)!, NSAttributedString.Key.baselineOffset: -3])
         return label
     }()
