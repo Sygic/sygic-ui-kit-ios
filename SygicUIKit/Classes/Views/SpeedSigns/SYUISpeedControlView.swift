@@ -69,6 +69,12 @@ public class SYUISpeedControlView: UIView {
         speedLimitView.speedLimit = limit
     }
     
+    /// Update units for views.
+    /// - Parameter units: Units format.
+    public func updateUnits(_ units: SYUIDistanceUnits) {
+        currentSpeedView.unitsFormat = units
+    }
+    
     // MARK: - Private Methods
     
     private func initDefaults() {
