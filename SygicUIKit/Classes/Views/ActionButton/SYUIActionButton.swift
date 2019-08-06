@@ -56,12 +56,18 @@ public protocol SYUIActionButtonProperties {
     case error
     /// In case of alert.
     case alert
+    /// Primary action
+    case primary13
+    /// In case of error occured.
+    case error13
 }
 
 /// Action button sizes.
 public enum SYUIActionButtonSize: CGFloat {
     /// Normal size.
     case normal = 56.0
+    /// Infobar size.
+    case infobar = 48.0
     /// Compact size.
     case compact = 40.0
     
@@ -170,6 +176,14 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
                 view.removeFromSuperview()
                 rightIcon.isHidden = rightIcon.text == nil
             }
+        }
+    }
+    
+    /// Corner radius of button.
+    /// Affects only not fully rounded button styles: primary13, error13
+    public var partialCornerRadius: CGFloat = 16 {
+        didSet {
+            updateRoundedCorners()
         }
     }
     
@@ -301,13 +315,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         
         super.layoutSubviews()
 
-        fullRoundCorners()
-        backgroundView.fullRoundCorners()
-        borderView.fullRoundCorners()
-        
-        
-        blur?.fullRoundCorners()
-        blur?.clipsToBounds = true
+        updateRoundedCorners()
         
         if let countdownRoundView = countdownRoundView {
             addProgressSubview(countdownRoundView)
@@ -341,7 +349,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         customTitleLabel.text = title
         customSubtitleLabel.text = subtitle
         rightIcon.text = icon
-        rightIcon.font = SYUIFont.with(SYUIFont.iconFont, size: iconSize)
+        rightIcon.font = SYUIFont.with(.icon, size: iconSize)
         rightIcon.textAlignment = iconAlignment
         updateStyle()
         capitalizeTitleIfNeeded()
@@ -360,12 +368,26 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         setNeedsLayout()
     }
     
+    private func updateRoundedCorners() {
+        if style == .primary13 || style == .error13 {
+            layer.cornerRadius = partialCornerRadius
+            backgroundView.layer.cornerRadius = partialCornerRadius
+            borderView.layer.cornerRadius = partialCornerRadius
+        } else {
+            fullRoundCorners()
+            backgroundView.fullRoundCorners()
+            borderView.fullRoundCorners()
+            blur?.fullRoundCorners()
+            blur?.clipsToBounds = true
+        }
+    }
+    
     // MARK: Default UI
     
     private func createDefaultUI() {
         setupBorder()
         setupBackgroundView()
-        rightIcon.font = SYUIFont.with(SYUIFont.iconFont, size: rightIconFontSize)
+        rightIcon.font = SYUIFont.with(.icon, size: rightIconFontSize)
         customTitleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         customTitleLabel.minimumScaleFactor = 0.6
         customTitleLabel.adjustsFontSizeToFitWidth = true
@@ -433,7 +455,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     
     private func setShadow(for style: SYUIActionButtonStyle) {
         switch style {
-        case .plain, .loading:
+        case .plain, .loading, .primary13, .error13:
             layer.shadowOpacity = 0.0
         case .primary:
             layer.shadowOpacity = 1.0
@@ -455,12 +477,12 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     
     private func setTitleLabelFont(for style: SYUIActionButtonStyle) {
         let titleSize = self.titleSize ?? SYUIFontSize.heading
-        customTitleLabel.font = SYUIFont.with(SYUIFont.semiBold, size: titleSize)
+        customTitleLabel.font = SYUIFont.with(.semiBold, size: titleSize)
     }
     
     private func setSubtitleLabelFont(for style: SYUIActionButtonStyle) {
         let subtitleSize = self.subtitleSize ?? SYUIFontSize.body
-        customSubtitleLabel.font = SYUIFont.with(SYUIFont.semiBold, size: subtitleSize)
+        customSubtitleLabel.font = SYUIFont.with(.semiBold, size: subtitleSize)
     }
     
     private func capitalizeTitleIfNeeded() {
@@ -542,6 +564,14 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
             borderView.isHidden = true
             rightAccessoryView = nil
             blur = addBlurViewWithMapControlsBlurStyle()
+        case .primary13:
+            backgroundColor = .accentPrimary
+            borderView.isHidden = true
+            rightAccessoryView = nil
+        case .error13:
+            backgroundColor = .red
+            borderView.isHidden = true
+            rightAccessoryView = nil
         }
         
         borderView.backgroundColor = .iconBackground

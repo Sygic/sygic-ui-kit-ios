@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A91342D579A2F69A06D503A /* Pods_SygicUIKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9EE2FD125B20E2C21310EB /* Pods_SygicUIKit_Tests.framework */; };
+		43E3C4C522D767F4007B843E /* InfobarTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3C4C422D767F4007B843E /* InfobarTestViewController.swift */; };
 		5803EE19222D6AC200A231C8 /* DetailCellTableTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5803EE18222D6AC200A231C8 /* DetailCellTableTestViewController.swift */; };
 		582BBAAB21C4098000846B1B /* SkinTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582BBAAA21C4098000846B1B /* SkinTestViewController.swift */; };
 		5856A92F21CD29E80068D125 /* Oswald-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5856A92E21CD29E80068D125 /* Oswald-Bold.ttf */; };
@@ -40,6 +41,7 @@
 		0A7AF455316BEC5D0494A433 /* SygicUIKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SygicUIKit.podspec; path = ../SygicUIKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		13020C89EA263BA493961572 /* Pods_SygicUIKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicUIKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E554132A4D4D1B93938CB9A /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		43E3C4C422D767F4007B843E /* InfobarTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfobarTestViewController.swift; sourceTree = "<group>"; };
 		4EF2A05EC5D17767E41EE0CD /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		5803EE18222D6AC200A231C8 /* DetailCellTableTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCellTableTestViewController.swift; sourceTree = "<group>"; };
 		582BBAAA21C4098000846B1B /* SkinTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinTestViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				586437A5219DD25D00C160C2 /* PoiDetailTestViewController.swift */,
 				582BBAAA21C4098000846B1B /* SkinTestViewController.swift */,
 				5803EE18222D6AC200A231C8 /* DetailCellTableTestViewController.swift */,
+				43E3C4C422D767F4007B843E /* InfobarTestViewController.swift */,
 				5CD0CB2C219F271B00343790 /* ZoomTestViewController.swift */,
 			);
 			name = Examples;
@@ -393,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58A96370219480A9001015CC /* ButtonTestViewController.swift in Sources */,
+				43E3C4C522D767F4007B843E /* InfobarTestViewController.swift in Sources */,
 				58A9636E21947D4E001015CC /* RootTableViewController.swift in Sources */,
 				582BBAAB21C4098000846B1B /* SkinTestViewController.swift in Sources */,
 				586437A6219DD25D00C160C2 /* PoiDetailTestViewController.swift in Sources */,

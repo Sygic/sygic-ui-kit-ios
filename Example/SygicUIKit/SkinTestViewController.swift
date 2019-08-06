@@ -28,7 +28,7 @@ class CustomTestColorPallete: SYUIColorPalette {
 }
 
 struct CustomTestFontFamily: SYUIFontFamily {
-    public var semiBold: String { return "Oswald-Bold" }
+    public var semiBold: String? { return "Oswald-Bold" }
 }
 
 class SkinTestViewController: UIViewController {
@@ -50,7 +50,7 @@ class SkinTestViewController: UIViewController {
 
         setupButtons()
         
-        defaultFontFamily = SYUIFontManager.shared.currentFontFamily
+        defaultFontFamily = DefaultFontFamily()
         customFontFamily = CustomTestFontFamily()
         
         updateColors()
@@ -109,7 +109,7 @@ class SkinTestViewController: UIViewController {
         customSkinButton.translatesAutoresizingMaskIntoConstraints = false
         customSkinButton.title = "Custom skin demo"
         customSkinButton.style = .secondary
-        customSkinButton.titleLabel?.font = UIFont(name: CustomTestFontFamily().semiBold, size: SYUIFontSize.heading)
+        customSkinButton.titleLabel?.font = UIFont(name: CustomTestFontFamily().semiBold!, size: SYUIFontSize.heading)
         customSkinButton.addTarget(self, action: #selector(customSkinButtonPressed(_:)), for: .touchUpInside)
         
         view.addSubview(defaultSkinButton)
