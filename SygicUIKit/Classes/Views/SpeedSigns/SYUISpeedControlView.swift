@@ -27,9 +27,14 @@ public class SYUISpeedControlView: UIView {
     // MARK: - Private Properties
     
     private let currentSpeedView = SYUICurrentSpeedView()
-    private let speedLimitView = SYUISpeedLimitView()
-    private let speedLimitAmericaView = SYUISpeedLimitAmericaView()
-    private let speedLimitIndentFromCurrentSpeed: CGFloat = 12
+    private let speedLimit = SYUISpeedLimitView()
+    
+    private let controlsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = -12
+        return stackView
+    }()
     
     // MARK: - Public Methods
     
@@ -42,6 +47,18 @@ public class SYUISpeedControlView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public init(currentSpeed: Bool, speedLimit: Bool) {
+        super.init(frame: .zero)
+
+        initDefaults()
+        if speedLimit {
+            setupSpeedLimit()
+        }
+        if currentSpeed {
+            setupCurrentSpeedView()
+        }
+    }
+    
     /// Updates current speed label.
     /// - Parameter speed: Current speed.
     public func updateCurrentSpeed(with speed: Int, speeding: Bool) {
@@ -50,26 +67,21 @@ public class SYUISpeedControlView: UIView {
     }
     
     /// Updates speed limit.
+    ///
     /// - Parameter limit: Limit showed in speed limit view.
     /// - Parameter isAmerica: Boolean value for America or rest of the world speed limit.
     public func updateSpeedLimit(with limit: Int, isAmerica: Bool) {
         guard limit != 0 else {
-            speedLimitAmericaView.isHidden = true
-            speedLimitView.isHidden = true
+            speedLimit.isHidden = true
             return
         }
-        speedLimitAmericaView.isHidden = !isAmerica
-        speedLimitView.isHidden = isAmerica
-        var speedLimitView: SYUISpeedLimit
-        if isAmerica {
-            speedLimitView = speedLimitAmericaView
-        } else {
-            speedLimitView = self.speedLimitView
-        }
-        speedLimitView.speedLimit = limit
+        speedLimit.isHidden = false
+        speedLimit.isAmerica = isAmerica
+        speedLimit.speedLimit = limit
     }
     
     /// Update units for views.
+    ///
     /// - Parameter units: Units format.
     public func updateUnits(_ units: SYUIDistanceUnits) {
         currentSpeedView.unitsFormat = units
@@ -78,27 +90,19 @@ public class SYUISpeedControlView: UIView {
     // MARK: - Private Methods
     
     private func initDefaults() {
-        setupCurrentSpeedView()
-        setupSpeedLimit(speedLimitView: speedLimitView)
-        setupSpeedLimit(speedLimitView: speedLimitAmericaView)
+        addSubview(controlsStackView)
+        controlsStackView.translatesAutoresizingMaskIntoConstraints = false
+        controlsStackView.coverWholeSuperview()
     }
     
     private func setupCurrentSpeedView() {
-        addSubview(currentSpeedView)
         currentSpeedView.translatesAutoresizingMaskIntoConstraints = false
-        currentSpeedView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        currentSpeedView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        currentSpeedView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        controlsStackView.addArrangedSubview(currentSpeedView)
     }
     
-    private func setupSpeedLimit(speedLimitView: UIView) {
-        addSubview(speedLimitView)
-        speedLimitView.translatesAutoresizingMaskIntoConstraints = false
-        speedLimitView.centerXAnchor.constraint(equalTo: currentSpeedView.centerXAnchor).isActive = true
-        speedLimitView.bottomAnchor.constraint(equalTo: currentSpeedView.topAnchor, constant: speedLimitIndentFromCurrentSpeed).isActive = true
-        speedLimitView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        sendSubviewToBack(speedLimitView)
-        speedLimitView.isHidden = true
+    private func setupSpeedLimit() {
+        speedLimit.translatesAutoresizingMaskIntoConstraints = false
+        controlsStackView.addArrangedSubview(speedLimit)
     }
     
 }
