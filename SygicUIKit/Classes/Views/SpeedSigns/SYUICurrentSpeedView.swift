@@ -95,8 +95,8 @@ public class SYUICurrentSpeedView: UIView {
         widthAnchor.constraint(equalToConstant: currentSpeedSize).isActive = true
         heightAnchor.constraint(equalToConstant: currentSpeedSize).isActive = true
         
-        addSubview(labelStack)
         labelStack.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(labelStack)
         labelStack.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         labelStack.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }

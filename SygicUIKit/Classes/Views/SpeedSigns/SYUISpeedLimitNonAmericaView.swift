@@ -1,4 +1,4 @@
-//// SYUISpeedLimitView.swift
+//// SYUISpeedLimitNonAmericaView.swift
 //
 // Copyright (c) 2019 Sygic a.s.
 //
@@ -21,34 +21,31 @@
 // THE SOFTWARE.
 
 
-public protocol SYUISpeedLimit: UIView {
-    var speedLimit: Int { set get }
-}
-
 /// View that shows speed limit.
-public class SYUISpeedLimitView: UIView {
+public class SYUISpeedLimitNonAmericaView: UIView, SYUISpeedLimit {
     
-    public var speedLimit: Int = 0 {
+    // MARK: - Public Properties
+    
+    /// Actual speed limit displayed.
+    public var speedLimit = 0 {
         didSet {
-            if isAmerica {
-                speedLimitAmericaView.speedLimit = speedLimit
-            } else {
-                speedLimitNonAmericaView.speedLimit = speedLimit
-            }
+            speedLimitLabel.attributedText = NSAttributedString(string: String(speedLimit), attributes: [NSAttributedString.Key.font: UIFont(name: "DINCondensed-Bold", size: 30)!, NSAttributedString.Key.baselineOffset: -3])
         }
     }
     
-    public var isAmerica: Bool = false {
-        didSet {
-            speedLimitNonAmericaView.isHidden = isAmerica
-            speedLimitAmericaView.isHidden = !isAmerica
-        }
-    }
+    // MARK: - Private Properties
     
-    private let speedLimitNonAmericaView = SYUISpeedLimitNonAmericaView()
-    private let speedLimitAmericaView = SYUISpeedLimitAmericaView()
+    private let speedLimitSize: CGFloat = 56
     
-    public override init(frame: CGRect) {
+    private let speedLimitLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .accentSecondary
+        return label
+    }()
+    
+    // MARK: - Public Methods
+    
+    override init(frame: CGRect) {
         super.init(frame: frame)
         initDefaults()
     }
@@ -57,15 +54,20 @@ public class SYUISpeedLimitView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Private Methods
+    
     private func initDefaults() {
-        speedLimitNonAmericaView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(speedLimitNonAmericaView)
-        speedLimitNonAmericaView.coverWholeSuperview()
-        speedLimitAmericaView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(speedLimitAmericaView)
-        speedLimitAmericaView.coverWholeSuperview()
-        speedLimitNonAmericaView.isHidden = true
-        speedLimitAmericaView.isHidden = true
+        layer.cornerRadius = speedLimitSize / 2
+        layer.borderWidth = 6
+        layer.borderColor = UIColor.red.cgColor
+        backgroundColor = .accentBackground
+        widthAnchor.constraint(equalToConstant: speedLimitSize).isActive = true
+        heightAnchor.constraint(equalToConstant: speedLimitSize).isActive = true
+        
+        speedLimitLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(speedLimitLabel)
+        speedLimitLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        speedLimitLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
     
 }

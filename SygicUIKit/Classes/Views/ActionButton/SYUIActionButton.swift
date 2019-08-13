@@ -429,8 +429,8 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         rightAccessoryPlaceholder.translatesAutoresizingMaskIntoConstraints = false
         rightAccessoryPlaceholder.widthAnchor.constraint(equalToConstant: CGFloat(rightIconFontSize)).isActive = true
 
-        rightAccessoryPlaceholder.addSubview(rightIcon)
         rightIcon.translatesAutoresizingMaskIntoConstraints = false
+        rightAccessoryPlaceholder.addSubview(rightIcon)
         rightIcon.coverWholeSuperview()
         
         heightConstraint = heightAnchor.constraint(equalToConstant: 56.0)
