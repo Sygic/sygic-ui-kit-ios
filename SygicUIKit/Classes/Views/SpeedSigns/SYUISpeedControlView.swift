@@ -90,8 +90,8 @@ public class SYUISpeedControlView: UIView {
     // MARK: - Private Methods
     
     private func initDefaults() {
-        addSubview(controlsStackView)
         controlsStackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(controlsStackView)
         controlsStackView.coverWholeSuperview()
     }
     

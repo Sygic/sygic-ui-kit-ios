@@ -64,8 +64,8 @@ public class SYUISpeedLimitNonAmericaView: UIView, SYUISpeedLimit {
         widthAnchor.constraint(equalToConstant: speedLimitSize).isActive = true
         heightAnchor.constraint(equalToConstant: speedLimitSize).isActive = true
         
-        addSubview(speedLimitLabel)
         speedLimitLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(speedLimitLabel)
         speedLimitLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         speedLimitLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }

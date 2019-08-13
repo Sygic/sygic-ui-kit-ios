@@ -84,13 +84,13 @@ public class SYUISpeedLimitAmericaView: UIView, SYUISpeedLimit {
         widthAnchor.constraint(equalToConstant: 56).isActive = true
         heightAnchor.constraint(equalToConstant: 64).isActive = true
         
-        addSubview(stackLabel)
         stackLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stackLabel)
         stackLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         stackLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
-        addSubview(innerBorder)
         innerBorder.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(innerBorder)
         innerBorder.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3).isActive = true
         innerBorder.topAnchor.constraint(equalTo: topAnchor, constant: 3).isActive = true
         innerBorder.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -3).isActive = true

@@ -58,11 +58,11 @@ public class SYUISpeedLimitView: UIView {
     }
     
     private func initDefaults() {
-        addSubview(speedLimitNonAmericaView)
         speedLimitNonAmericaView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(speedLimitNonAmericaView)
         speedLimitNonAmericaView.coverWholeSuperview()
-        addSubview(speedLimitAmericaView)
         speedLimitAmericaView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(speedLimitAmericaView)
         speedLimitAmericaView.coverWholeSuperview()
         speedLimitNonAmericaView.isHidden = true
         speedLimitAmericaView.isHidden = true
