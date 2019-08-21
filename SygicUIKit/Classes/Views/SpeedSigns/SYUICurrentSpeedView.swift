@@ -82,7 +82,7 @@ public class SYUICurrentSpeedView: UIView {
     
     private lazy var progressView: SYUICircleGradientProgressView = {
         let progress = SYUICircleGradientProgressView()
-        progress.progressOffset = 0.3
+        progress.progressOffset = 0.25
         progress.dashWidth = 3
         progress.dashLength = 4
         progress.dashSpace = 1
