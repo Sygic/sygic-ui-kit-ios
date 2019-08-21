@@ -30,6 +30,4 @@ Pod::Spec.new do |s|
       'SygicUIKitStrings' => ['SygicUIKit/Resources/Langs/*.lproj/*.strings']
   }
 
-  s.dependency 'GradientView'
-
 end
