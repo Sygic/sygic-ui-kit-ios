@@ -78,6 +78,7 @@ public class SYUISpeedControlView: UIView {
         speedLimit.isHidden = false
         speedLimit.isAmerica = isAmerica
         speedLimit.speedLimit = limit
+        currentSpeedView.speedLimit = limit
     }
     
     /// Update units for views.
