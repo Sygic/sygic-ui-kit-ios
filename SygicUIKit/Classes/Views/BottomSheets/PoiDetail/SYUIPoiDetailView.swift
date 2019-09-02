@@ -21,7 +21,6 @@
 // THE SOFTWARE.
 
 import UIKit
-import GradientView
 
 
 /// Poi detail sections
@@ -91,7 +90,7 @@ class SYUIPoiDetailView: UIView {
     
     // MARK: - Private Properties
     
-    private let gradient = GradientView()
+    private let gradient = SYUIGradientView()
     
     // MARK: - Public Methods
     

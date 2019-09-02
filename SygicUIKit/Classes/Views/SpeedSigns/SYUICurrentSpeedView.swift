@@ -30,6 +30,14 @@ public class SYUICurrentSpeedView: UIView {
     public var currentSpeed = 0 {
         didSet {
             currentSpeedLabel.attributedText = NSAttributedString(string: String(currentSpeed), attributes: [NSAttributedString.Key.font: UIFont(name: "DINCondensed-Bold", size: 28)!, NSAttributedString.Key.baselineOffset: -3])
+            updateProgress()
+        }
+    }
+    
+    /// Current road speed limit to set maximum value in speed progress bar
+    public var speedLimit = 90 {
+        didSet {
+            updateProgress()
         }
     }
     
@@ -44,6 +52,7 @@ public class SYUICurrentSpeedView: UIView {
     public var speeding = false {
         didSet {
             backgroundColor = speeding ? .error : .accentBackground
+            progressView.isHidden = speeding
         }
     }
     
@@ -70,6 +79,16 @@ public class SYUICurrentSpeedView: UIView {
         stack.addArrangedSubview(currentSpeedLabel)
         stack.addArrangedSubview(units)
         return stack
+    }()
+    
+    private let progressView: SYUICircleGradientProgressView = {
+        let progress = SYUICircleGradientProgressView()
+        progress.progressOffset = 0.25
+        progress.dashWidth = 3
+        progress.dashLength = 4
+        progress.dashSpace = 1
+        progress.dashedBackground.strokeColor = UIColor.lightGray.cgColor
+        return progress
     }()
     
     // MARK: - Public Methods
@@ -99,6 +118,13 @@ public class SYUICurrentSpeedView: UIView {
         addSubview(labelStack)
         labelStack.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         labelStack.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(progressView)
+        progressView.coverWholeSuperview()
     }
     
+    private func updateProgress() {
+        progressView.progress = CGFloat(currentSpeed) / CGFloat(speedLimit)
+    }
 }
