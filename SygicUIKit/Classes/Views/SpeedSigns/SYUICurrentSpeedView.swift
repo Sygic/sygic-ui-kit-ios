@@ -34,6 +34,7 @@ public class SYUICurrentSpeedView: UIView {
         }
     }
     
+    /// Current road speed limit to set maximum value in speed progress bar
     public var speedLimit = 90 {
         didSet {
             updateProgress()
@@ -80,7 +81,7 @@ public class SYUICurrentSpeedView: UIView {
         return stack
     }()
     
-    private lazy var progressView: SYUICircleGradientProgressView = {
+    private let progressView: SYUICircleGradientProgressView = {
         let progress = SYUICircleGradientProgressView()
         progress.progressOffset = 0.25
         progress.dashWidth = 3

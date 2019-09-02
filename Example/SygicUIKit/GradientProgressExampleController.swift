@@ -27,7 +27,6 @@ import SygicUIKit
 class GradientProgressExampleController: UIViewController {
     
     var gradients = [SYUICircleGradientProgressView]()
-    var timer: Timer?
     var progress: Int = 0
     
     override func viewDidLoad() {
@@ -87,16 +86,13 @@ class GradientProgressExampleController: UIViewController {
         bigGradient.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         bigGradient.bottomAnchor.constraint(equalTo: view.safeBottomAnchor).isActive = true
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            self.updateProgress()
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
+            guard let weakSelf = self else {
+                timer.invalidate()
+                return
+            }
+            weakSelf.updateProgress()
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        if let t = timer, t.isValid {
-            t.invalidate()
-        }
-        super.viewWillDisappear(animated)
     }
     
     func updateProgress() {

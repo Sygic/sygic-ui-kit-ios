@@ -63,12 +63,11 @@ public class SYUICircleGradientProgressView: UIView {
     /// Progress value [0...1]
     public var progress: CGFloat = 0 {
         didSet {
-            let roundProgress = CGFloat.minimum(CGFloat.maximum(progress, 0), 1)
-            dashedBorder.strokeEnd = progressOffset/2.0 + roundProgress*(1-progressOffset)
+            updateProgress()
         }
     }
     
-    /// Offsett sets size of the circle segment that is not drawn [0...1].
+    /// Offset sets size of the circle segment that is not drawn [0...1].
     /// 0 ... whole circle is drawn, 0.5 ... only upper half of circle is drawn
     public var progressOffset: CGFloat = 0 {
         didSet {
@@ -153,14 +152,18 @@ public class SYUICircleGradientProgressView: UIView {
         shapeLayer.path = path.cgPath
     }
     
+    private func updateProgress() {
+        let roundProgress = CGFloat.minimum(CGFloat.maximum(progress, 0), 1)
+        dashedBorder.strokeEnd = progressOffset/2.0 + roundProgress*(1-progressOffset)
+    }
+    
     private func updateProgressOffset() {
         let offset = progressOffset/2.0
         dashedBackground.strokeStart = offset
         dashedBorder.strokeStart = offset
         dashedBackground.strokeEnd = 1-offset
         dashedBorder.strokeEnd = 1-offset
-        let p = progress
-        progress = p
+        updateProgress()
     }
     
     private func updateLayers() {

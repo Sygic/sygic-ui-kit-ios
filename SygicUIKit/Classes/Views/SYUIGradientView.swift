@@ -25,20 +25,20 @@ import Foundation
 
 public class SYUIGradientView: UIView {
     
-    /* An optional array of NSNumber objects defining the location of each
-    * gradient stop as a value in the range [0,1]. The values must be
-    * monotonically increasing. If a nil array is given, the stops are
-    * assumed to spread uniformly across the [0,1] range. When rendered,
-    * the colors are mapped to the output colorspace before being
-    * interpolated. Defaults to nil. Animatable. */
+    /// An optional array of NSNumber objects defining the location of each
+    /// gradient stop as a value in the range [0,1]. The values must be
+    /// gradient stop as a value in the range [0,1]. The values must be
+    /// assumed to spread uniformly across the [0,1] range. When rendered,
+    /// assumed to spread uniformly across the [0,1] range. When rendered,
+    /// interpolated. Defaults to nil. Animatable.
     public var locations: [NSNumber]? {
         didSet {
             gradientLayer.locations = locations
         }
     }
     
-    /* The array of CGColorRef objects defining the color of each gradient
-     * stop. Defaults to nil. Animatable. */
+    /// The array of CGColorRef objects defining the color of each gradient
+    /// stop. Defaults to nil. Animatable.
     public var colors = [UIColor]() {
         didSet {
             gradientLayer.colors = colors.map { $0.cgColor }
