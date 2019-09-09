@@ -38,11 +38,11 @@ public extension UIView {
     }
     
     func addBlurViewWithMapControlsBlurStyle(margin: CGFloat = 0.0) -> UIVisualEffectView? {
-        let effectView = blur(with: nil, style: .light, margin: margin)
-        let colorOverlayView = self.colorOverlayView(with: .mapInfoBackground)
-        colorOverlayView.backgroundColor = .mapInfoBackground
-        effectView.contentView.addSubview(colorOverlayView)
-        colorOverlayView.coverWholeSuperview()
+        var blurStyle: UIBlurEffect.Style = .light
+        if #available(iOS 13.0, *) {
+            blurStyle = .systemUltraThinMaterialDark
+        }
+        let effectView = blur(with: nil, style: blurStyle, margin: margin)
         return effectView
     }
     

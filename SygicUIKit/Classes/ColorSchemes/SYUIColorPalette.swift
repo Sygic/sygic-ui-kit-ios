@@ -29,6 +29,9 @@ import Foundation
 public protocol SYUIColorPalette {
     
     // MARK: - Basic colors
+    var accentPrimary: UIColor { get }
+    var accentSecondary: UIColor { get }
+    var accentBackground: UIColor { get }
     var background: UIColor { get }
     var mapBackground: UIColor { get }
     var tableBackground: UIColor { get }
@@ -78,23 +81,123 @@ public protocol SYUIColorPalette {
     
 }
 
+extension Bundle {
+    static var UIKit: Bundle {
+        return Bundle(for: SYUIActionButton.self)
+    }
+}
+
 // MARK: - Default values
 public extension SYUIColorPalette {
     
     // MARK: - Basic colors
-    var background:         UIColor { return UIColor(argb: 0xffffffff) }
+    
+    var accentPrimary:       UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIAccentPrimary", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xff2031ff)
+        }
+    }
+    var accentSecondary:       UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIAccentSecondary", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xff000000)
+        }
+    }
+    var accentBackground:       UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIAccentBackground", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xffffffff)
+        }
+    }
+    var background:         UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorBackground", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xffffffff)
+        }
+    }
     var mapBackground:      UIColor { return UIColor(argb: 0xffefefea) }
-    var tableBackground:    UIColor { return UIColor(argb: 0xffe1e7f2) }
-    var textInvert:         UIColor { return UIColor(argb: 0xffffffff) }
-    var bar:                UIColor { return UIColor(argb: 0xfff2f7ff) }
-    var border:             UIColor { return UIColor(argb: 0xffd5dbe6) }
-    var textBody:           UIColor { return UIColor(argb: 0xff5c6373) }
-    var textTitle:          UIColor { return UIColor(argb: 0xff171c26) }
-    var action:             UIColor { return UIColor(argb: 0xff0080ff) }
-    var error:              UIColor { return UIColor(argb: 0xffe63939) }
-    var warning:            UIColor { return UIColor(argb: 0xffe67300) }
-    var success:            UIColor { return UIColor(argb: 0xff339900) }
-    var rating:             UIColor { return UIColor(argb: 0xfff2ae24) }
+    var tableBackground:    UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorTableBackground", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xffe1e7f2)
+        }
+    }
+    var textInvert:         UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorTextInvert", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xffffffff)
+        }
+    }
+    var bar:                UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorBar", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xfff2f7ff)
+        }
+    }
+    var border:             UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorBorder", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xffd5dbe6)
+        }
+    }
+    var textBody:           UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorTextBody", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xff5c6373)
+        }
+    }
+    var textTitle:          UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorTextTitle", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xff171c26)
+        }
+    }
+    var action:             UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorAction", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xff0080ff)
+        }
+    }
+    var error:              UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorError", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xffe63939)
+        }
+    }
+    var warning:            UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorWarning", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xffe67300)
+        }
+    }
+    var success:            UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorSuccess", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xff339900)
+        }
+    }
+    var rating:             UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorRating", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xfff2ae24)
+        }
+    }
     
     // MARK: - Derived colors with opacity
     var textSign:           UIColor { return textTitle }

@@ -129,7 +129,7 @@ class PoiDetailTableViewCell: UITableViewCell {
         setupHighlightingView()
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = SYUIFont.with(SYUIFont.regular, size:SYUIFontSize.headingOld)
+        titleLabel.font = SYUIFont.with(.regular, size:SYUIFontSize.headingOld)
         titleLabel.textColor = .action
         contentView.addSubview(titleLabel)
     }
@@ -201,12 +201,12 @@ class PoiDetailSubtitleTableViewCell: PoiDetailTableViewCell {
         
     override fileprivate func createLayout() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = SYUIFont.with(SYUIFont.regular, size:SYUIFontSize.bodyOld)
+        titleLabel.font = SYUIFont.with(.regular, size:SYUIFontSize.bodyOld)
         titleLabel.textColor = .action
         contentView.addSubview(titleLabel)
         
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.font = SYUIFont.with(SYUIFont.regular, size:SYUIFontSize.headingOld)
+        subtitleLabel.font = SYUIFont.with(.regular, size:SYUIFontSize.headingOld)
         subtitleLabel.textColor = .textBody
         contentView.addSubview(subtitleLabel)
     }

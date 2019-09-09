@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SygicUIKit'
-  s.version          = '2.0.0'
+  s.version          = '3.0.0'
   s.summary          = 'UI components used by SygicMapsKit'
   s.swift_version    = '4.2'
 
@@ -21,16 +21,13 @@ Pod::Spec.new do |s|
   s.author           = { 'Sygic' => 'info@sygic.com' }
   s.source           = { :git => 'https://github.com/Sygic/sygic-ui-kit-ios.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '11.0'
 
   s.source_files = 'SygicUIKit/Classes/**/*'
-  s.resources = 'SygicUIKit/Resources/**/*.{xib,svg,jpg,png}'
+  s.resources = 'SygicUIKit/Resources/**/*.{xib,jpg,png,xcassets,ttf}'
   s.frameworks = 'UIKit'
   s.resource_bundle = {
-      'SygicUIKit' => ['SygicUIKit/Resources/**/*.{ttf}'],
       'SygicUIKitStrings' => ['SygicUIKit/Resources/Langs/*.lproj/*.strings']
   }
 
-  s.dependency 'GradientView'
-  
 end

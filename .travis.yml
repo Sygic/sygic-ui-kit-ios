@@ -1,4 +1,4 @@
-osx_image: xcode10.1
+osx_image: xcode11
 language: objective-c
 # cache: cocoapods
 podfile: Example/Podfile
@@ -18,7 +18,7 @@ jobs:
   include:
     - stage: test
       name: unit tests
-      script: set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator12.1 -destination 'platform=iOS Simulator,name=iPhone X,OS=12.1' ONLY_ACTIVE_ARCH=NO | xcpretty
+      script: set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator13.0 -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.0' ONLY_ACTIVE_ARCH=NO | xcpretty
     - stage: test
       name: pod test
       script: pod lib lint
@@ -30,4 +30,3 @@ jobs:
         on:
           tags: true
           all_branches: true
-    

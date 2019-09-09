@@ -25,56 +25,44 @@ import Foundation
 
 /// Font family protocol for define Font.
 public protocol SYUIFontFamily {
-    var bold: String { get }
-    var boldItalic: String { get }
-    var extraBold: String { get }
-    var extraBoldItalic: String { get }
-    var italic: String { get }
-    var light: String { get }
-    var lightItalic: String { get }
-    var regular: String { get }
-    var semiBold: String { get }
-    var semiBoldItalic: String { get }
-    var iconFont: String { get }
+    var bold: String? { get }
+    var boldItalic: String? { get }
+    var extraBold: String? { get }
+    var extraBoldItalic: String? { get }
+    var italic: String? { get }
+    var light: String? { get }
+    var lightItalic: String? { get }
+    var regular: String? { get }
+    var semiBold: String? { get }
+    var semiBoldItalic: String? { get }
+    var iconFont: String? { get }
 }
 
 // MARK: - Default values
 
 public extension SYUIFontFamily {
-    var bold: String { return "InterUI-Bold" }
-    var boldItalic: String { return "InterUI-BoldItalic" }
-    var extraBold: String { return "InterUI-Black" }
-    var extraBoldItalic: String { return "InterUI-BlackItalic" }
-    var italic: String { return "InterUI-Italic" }
-    var light: String { fatalError("Not implemented font") }
-    var lightItalic: String { fatalError("Not implemented font") }
-    var regular: String { return "InterUI-Regular" }
-    var semiBold: String { return "InterUI-Medium" }
-    var semiBoldItalic: String { return "InterUI-MediumItalic" }
-    var iconFont: String { return "SygicIcons" }
+    var bold: String? { nil }
+    var boldItalic: String? { nil }
+    var extraBold: String? { nil }
+    var extraBoldItalic: String? { nil }
+    var italic: String? { nil }
+    var light: String? { nil }
+    var lightItalic: String? { nil }
+    var regular: String? { nil }
+    var semiBold: String? { nil }
+    var semiBoldItalic: String? { nil }
+    var iconFont: String? { return "SYUISygicIcons" }
 }
 
 public struct DefaultFontFamily: SYUIFontFamily {
     public init() {
         guard let fontBundle = Bundle.fontBundle else { return }
-        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.bold, fontExtension: "ttf")
-        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.boldItalic, fontExtension: "ttf")
-        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.extraBold, fontExtension: "ttf")
-        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.extraBoldItalic, fontExtension: "ttf")
-        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.italic, fontExtension: "ttf")
-        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.regular, fontExtension: "ttf")
-        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.semiBold, fontExtension: "ttf")
-        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.semiBoldItalic, fontExtension: "ttf")
-        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.iconFont, fontExtension: "ttf")
+        _ = UIFont.registerFont(bundle: fontBundle, fontName: self.iconFont!, fontExtension: "ttf")
     }
 }
 
 extension Bundle {
     static var fontBundle: Bundle? {
-        let podBundle = Bundle(for: SYUIFont.self)
-        if let resourcesBundleUrl = podBundle.url(forResource: "SygicUIKit", withExtension: "bundle") {
-            return Bundle(url: resourcesBundleUrl)
-        }
-        return nil
+        return Bundle(for: SYUIFont.self)
     }
 }

@@ -23,6 +23,7 @@
 import Foundation
 
 public extension UIStackView {
+    /// Removes all arranded items and removes them from view hierarchy although.
     func removeAll() {
         let oldViews = arrangedSubviews
         for view in oldViews {
