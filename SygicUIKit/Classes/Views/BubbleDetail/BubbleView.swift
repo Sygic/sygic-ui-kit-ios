@@ -64,7 +64,7 @@ public class SYUIBubbleView: UIView {
     // MARK: Private properties
     
     private var minConstant: CGFloat { padding * 2 }
-    private var maxConstant: CGFloat { contentHeight + minConstant }
+    private var maxConstant: CGFloat { contentHeight + minConstant*2 }
     private var contentHeight: CGFloat { contentContainer.bounds.size.height }
     private var startOffset: CGFloat = 0
     private var variableConstraint: NSLayoutConstraint?
@@ -140,7 +140,7 @@ public class SYUIBubbleView: UIView {
         addSubview(contentContainer)
         contentContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding).isActive = true
         contentContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding).isActive = true
-        contentContainer.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: padding*2).isActive = true
+        contentContainer.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: minConstant).isActive = true
         sendSubviewToBack(contentContainer)
         
         if let color = backgroundColor {
@@ -161,7 +161,7 @@ public class SYUIBubbleView: UIView {
         actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding).isActive = true
         actionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding).isActive = true
         actionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding).isActive = true
-        variableConstraint = actionButton.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: padding*2)
+        variableConstraint = actionButton.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: minConstant)
         variableConstraint?.isActive = true
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
@@ -248,15 +248,18 @@ extension SYUIBubbleView {
     }
 }
 
+// MARK: ROW
+
 public class BubbleContentRow: UIView {
-    public private(set) var icon: UIImage?
-    public private(set) var title: String = ""
-    public private(set) var subtitle: String?
     
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.alignment = .center
+        stack.distribution = .fill
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        stack.spacing = 16
         return stack
     }()
     
@@ -266,22 +269,40 @@ public class BubbleContentRow: UIView {
         return stack
     }()
     
-    private let imageView = UIImageView()
-    private let titleLabel = UILabel()
-    private let subtitleLabel = UILabel()
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.tintColor = .accentPrimary
+        imageView.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1).isActive = true
+        return imageView
+    }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = SYUIFont.with(.regular, size: SYUIFontSize.headingOld)
+        label.textColor = .accentSecondary
+        return label
+    }()
+    
+    private let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = SYUIFont.with(.regular, size: SYUIFontSize.bodyOld)
+        label.textColor = .accentSecondary
+        return label
+    }()
     
     required init(with icon: UIImage, title: String, subtitle: String?) {
-        self.icon = icon
-        self.title = title
-        self.subtitle = subtitle
         super.init(frame: .zero)
-        
         imageView.image = icon
         titleLabel.text = title
         subtitleLabel.text = subtitle
         
+        heightAnchor.constraint(equalToConstant: 48).isActive = true
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         stackView.coverWholeSuperview()
+        
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(labelsStackView)
         labelsStackView.addArrangedSubview(titleLabel)
@@ -294,3 +315,5 @@ public class BubbleContentRow: UIView {
         super.init(coder: coder)
     }
 }
+
+// MARK: ACTION
