@@ -103,6 +103,13 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         }
     }
     
+    /// Image icon of an action button.
+    public var iconImage: UIImage? {
+        didSet {
+            updateLayout()
+        }
+    }
+    
     /// Height of an action button.
     public var height: CGFloat = SYUIActionButtonSize.normal.height {
         didSet {
@@ -172,9 +179,11 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
                 view.coverWholeSuperview()
                 rightAccessoryPlaceholder.bringSubviewToFront(view)
                 rightIcon.isHidden = true
+                iconImageView.isHidden = true
             } else if let view = rightAccessoryView {
                 view.removeFromSuperview()
                 rightIcon.isHidden = rightIcon.text == nil
+                iconImageView.isHidden = iconImage == nil
             }
         }
     }
@@ -200,7 +209,9 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
             if style == .plain {
                 customTitleLabel.textColor = isHighlighted ? UIColor.action.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.lighter) : .action
             } else if style == .blurred {
-                rightIcon.textColor = isHighlighted ? UIColor.textInvert.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.darker) : .textInvert
+                let color = isHighlighted ? UIColor.textInvert.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.darker) : .textInvert
+                rightIcon.textColor = color
+                iconImageView.tintColor = color
             } else {
                 let multiplier = SYUIColorSchemeManager.shared.brightnessMultiplier(for: backgroundColor, foregroundColor: customTitleLabel.textColor)
                 let highlightedColor = isHighlighted ? backgroundColor.adjustBrightness(with: multiplier) : backgroundColor
@@ -219,7 +230,9 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
             } else {
                 backgroundColor = .iconBackground
                 customTitleLabel.textColor = .mapInfoBackground
-                rightIcon.textColor = .mapInfoBackground
+                let iconColor: UIColor = .mapInfoBackground
+                rightIcon.textColor = iconColor
+                iconImageView.tintColor = iconColor
                 if let activityIndicator = rightAccessoryView as? UIActivityIndicatorView {
                     activityIndicator.color = .mapInfoBackground
                 }
@@ -235,9 +248,10 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     private var leftMarginConstraint: NSLayoutConstraint?
     private var rightMarginConstraint: NSLayoutConstraint?
     private var iconCenterXConstraint: NSLayoutConstraint?
+    private var iconImageViewWidthConstraint: NSLayoutConstraint?
     private var heightConstraint: NSLayoutConstraint?
     private var widthConstraint: NSLayoutConstraint?
-    private var rightIconFontSize: CGFloat = 24.0
+    private var rightIconFontSize: CGFloat { iconSize }
     private let backgroundView = FadingHighlightedBackgroundView(frame: .zero)
     private let rightAccessoryPlaceholder = UIView()
     private let borderView = UIView()
@@ -247,6 +261,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     private let customTitleLabel = UILabel()
     private let customSubtitleLabel = UILabel()
     private let rightIcon = UILabel()
+    private let iconImageView = UIImageView()
     private let stackView = UIStackView()
     private let labelsStackView = UIStackView()
 
@@ -263,9 +278,10 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     }
     
     private var hasRightIcon: Bool {
-        guard let rightIconText = rightIcon.text else { return false }
-        
-        return !rightIconText.isEmpty
+        if let rightIconText = rightIcon.text, !rightIconText.isEmpty {
+            return true
+        }
+        return iconImageView.image != nil
     }
     
     private var hasOnlyIcon: Bool {
@@ -304,11 +320,11 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         DispatchQueue.main.async {
             self.customTitleLabel.isHidden = self.customTitleLabel.text == nil
         }
-        let alignment: NSTextAlignment = (rightIcon.text?.isEmpty ?? true && rightAccessoryView == nil) ? .center : .left
+        let alignment: NSTextAlignment = (!hasRightIcon && rightAccessoryView == nil) ? .center : .left
         customTitleLabel.textAlignment = alignment
         customSubtitleLabel.textAlignment = alignment
         
-        rightAccessoryPlaceholder.isHidden = rightIcon.text?.isEmpty ?? true && rightAccessoryView == nil
+        rightAccessoryPlaceholder.isHidden = !hasRightIcon && rightAccessoryView == nil
         rightIcon.textAlignment = .center
         customTitleLabel.baselineAdjustment = .alignCenters
         customSubtitleLabel.baselineAdjustment = .alignCenters
@@ -351,6 +367,9 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         rightIcon.text = icon
         rightIcon.font = SYUIFont.with(.icon, size: iconSize)
         rightIcon.textAlignment = iconAlignment
+        iconImageView.image = iconImage
+        iconImageViewWidthConstraint?.constant = iconSize
+        iconImageViewWidthConstraint?.isActive = iconImage != nil
         updateStyle()
         capitalizeTitleIfNeeded()
         if accessibilityIdentifier == nil {
@@ -432,6 +451,12 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         rightIcon.translatesAutoresizingMaskIntoConstraints = false
         rightAccessoryPlaceholder.addSubview(rightIcon)
         rightIcon.coverWholeSuperview()
+        
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        rightAccessoryPlaceholder.addSubview(iconImageView)
+        iconImageView.centerInSuperview()
+        iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor, multiplier: 1).isActive = true
+        iconImageViewWidthConstraint = iconImageView.widthAnchor.constraint(equalToConstant: iconSize)
         
         heightConstraint = heightAnchor.constraint(equalToConstant: 56.0)
         heightConstraint?.isActive = true
@@ -561,6 +586,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
             customTitleLabel.isHidden = true
             customSubtitleLabel.isHidden = true
             rightIcon.textColor = .textInvert
+            iconImageView.tintColor = .textInvert
             borderView.isHidden = true
             rightAccessoryView = nil
             blur = addBlurViewWithMapControlsBlurStyle()
@@ -578,6 +604,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         customTitleLabel.textColor = textColor
         customSubtitleLabel.textColor = textColor
         rightIcon.textColor = textColor
+        iconImageView.tintColor = textColor
         setTitleLabelFont(for: style)
         setSubtitleLabelFont(for: style)
         setShadow(for: style)

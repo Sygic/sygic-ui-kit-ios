@@ -408,6 +408,12 @@
     public static var square: UIImage? { UIImage(named: "square", in: iconsBundle, compatibleWith: nil) }
     public static var play: UIImage? { UIImage(named: "controlsplay", in: iconsBundle, compatibleWith: nil) }
     public static var pause: UIImage? { UIImage(named: "controlspause", in: iconsBundle, compatibleWith: nil) }
+    public static var browser: UIImage? { UIImage(named: "browsersafarifull", in: iconsBundle, compatibleWith: nil) }
+    public static var getDirection: UIImage? { UIImage(named: "getdirection", in: iconsBundle, compatibleWith: nil) }
+    public static var heartFull: UIImage? { UIImage(named: "heartFull", in: iconsBundle, compatibleWith: nil) }
+    public static var mailFull: UIImage? { UIImage(named: "mailFull", in: iconsBundle, compatibleWith: nil) }
+    public static var phone: UIImage? { UIImage(named: "phone", in: iconsBundle, compatibleWith: nil) }
+    public static var pointOnMap: UIImage? { UIImage(named: "pointonmap", in: iconsBundle, compatibleWith: nil) }
     
     private static var iconsBundle: Bundle {
         return Bundle(for: SYUIIcon.self)
