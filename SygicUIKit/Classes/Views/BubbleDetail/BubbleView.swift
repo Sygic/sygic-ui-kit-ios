@@ -78,8 +78,21 @@ public class SYUIBubbleView: UIView {
         return view
     }()
     
-    private let contentContainer = UIStackView()
-    private let contentActionsContainer = UIStackView()
+    private let contentContainer: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        return stack
+    }()
+    
+    private lazy var contentActionsContainer: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .fillEqually
+        stack.spacing = padding
+        return stack
+    }()
+    
+    private let gradient = SYUIGradientView()
     
     // MARK: Public methods
     
@@ -97,19 +110,38 @@ public class SYUIBubbleView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         let isLandscape = SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection)
         updateConstraints(landscapeLayout: isLandscape)
+        if let color = backgroundColor {
+            gradient.colors = [color.withAlphaComponent(0), color]
+        }
     }
     
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         updateDragIndicatorColor(true)
     }
-    
+
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         updateDragIndicatorColor(false)
     }
     
-    public func addContent(with icon: UIImage, title: String, subtitle: String? = nil) {
+    public func addContentActionButton(title: String, icon: UIImage?, enabled isEnabled: Bool, action: (()->())?) {
+        let button = SYUIBubbleContentActionButton()
+        button.titleLabel.text = title
+        button.imageView.image = icon
+        button.isEnabled = isEnabled
+        button.addTarget(self, action: #selector(emptySelectorr(_:)), for: .touchUpInside)
+        if contentActionsContainer.arrangedSubviews.count == 0 {
+            contentContainer.setCustomSpacing(padding, after: contentActionsContainer)
+        }
+        contentActionsContainer.addArrangedSubview(button)
+    }
+    
+    @objc public func emptySelectorr(_ button: Any) {
+        print("action")
+    }
+    
+    public func addContent(with icon: UIImage, title: String, subtitle: String?) {
         let view = BubbleContentRow(with: icon, title: title, subtitle: subtitle)
         contentContainer.addArrangedSubview(view)
     }
@@ -142,19 +174,16 @@ public class SYUIBubbleView: UIView {
         contentContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding).isActive = true
         contentContainer.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: minConstant).isActive = true
         sendSubviewToBack(contentContainer)
+        contentContainer.addArrangedSubview(contentActionsContainer)
         
-        if let color = backgroundColor {
-            let gradient = SYUIGradientView()
-            gradient.colors = [color.withAlphaComponent(0), color]
-            gradient.locations = [0, NSNumber(value: 2.0/9.0)]
-            gradient.backgroundColor = .clear
-            gradient.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(gradient)
-            gradient.heightAnchor.constraint(equalToConstant: 64).isActive = true
-            gradient.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-            gradient.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
-            gradient.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
-        }
+        gradient.locations = [0, NSNumber(value: 0.1)]
+        gradient.backgroundColor = .clear
+        gradient.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(gradient)
+        gradient.heightAnchor.constraint(equalToConstant: 64).isActive = true
+        gradient.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        gradient.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
+        gradient.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
             
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(actionButton)
@@ -167,7 +196,7 @@ public class SYUIBubbleView: UIView {
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         addGestureRecognizer(panGestureRecognizer)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
-        addGestureRecognizer(tapGestureRecognizer)
+        headerStackView.addGestureRecognizer(tapGestureRecognizer)
     }
     
     @objc private func tapGestureRecognized(_ recognizer: UITapGestureRecognizer) {
@@ -184,6 +213,7 @@ public class SYUIBubbleView: UIView {
              .possible:
             guard let constraint = variableConstraint else { return }
             startOffset = constraint.constant
+            updateDragIndicatorColor(true)
         case .changed:
             let offset = startOffset-translation.y
             variableConstraint?.constant = min(maxConstant, max(minConstant, offset))
@@ -291,7 +321,7 @@ public class BubbleContentRow: UIView {
         return label
     }()
     
-    required init(with icon: UIImage, title: String, subtitle: String?) {
+    public required init(with icon: UIImage, title: String, subtitle: String?) {
         super.init(frame: .zero)
         imageView.image = icon
         titleLabel.text = title
@@ -317,3 +347,76 @@ public class BubbleContentRow: UIView {
 }
 
 // MARK: ACTION
+
+public class SYUIBubbleContentActionButton: UIControl {
+    
+    public let imageView = UIImageView()
+    
+    public let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = SYUIFont.with(.regular, size: SYUIFontSize.bodyOld)
+        return label
+    }()
+    
+    public override var tintColor: UIColor? {
+        didSet {
+            guard let color = tintColor else { return }
+            imageView.tintColor = color
+            titleLabel.textColor = color
+        }
+    }
+    
+    public override var isEnabled: Bool {
+        didSet {
+            tintColor = isEnabled ? .accentPrimary : .gray
+        }
+    }
+    
+    public override var isHighlighted: Bool {
+        didSet {
+            guard isHighlighted != oldValue, let contentColor = tintColor else { return }
+            let multiplier = SYUIColorSchemeManager.shared.brightnessMultiplier(for: originalBackgroundColor, foregroundColor: contentColor)
+            let highlightedColor = isHighlighted ? originalBackgroundColor.adjustBrightness(with: multiplier) : originalBackgroundColor
+            backgroundColor = highlightedColor
+        }
+    }
+    
+    private let margin: CGFloat = 8
+    private let originalBackgroundColor: UIColor = .veryLightPink
+    
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        backgroundColor = .veryLightPink
+        layer.cornerRadius = 16
+        tintColor = .accentPrimary
+        
+        heightAnchor.constraint(equalToConstant: 64).isActive = true
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: margin, leading: margin, bottom: margin, trailing: margin)
+        stackView.spacing = margin
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stackView)
+        stackView.coverWholeSuperview()
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.isUserInteractionEnabled = false
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    public override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        return super.beginTracking(touch, with: event)
+    }
+    
+    public override func sendAction(_ action: Selector, to target: Any?, for event: UIEvent?) {
+        super.sendAction(action, to: target, for: event)
+    }
+}
