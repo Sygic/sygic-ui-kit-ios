@@ -82,6 +82,15 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     
     // MARK: - Public Properties
     
+    public typealias ActionBlock = (_ sender: SYUIActionButton)->()
+    
+    /// Action block triggered on touchUpInside button event
+    public var action: ActionBlock? {
+        didSet {
+            addTarget(self, action: #selector(actionBlockSelector(_:)), for: .touchUpInside)
+        }
+    }
+    
     /// Title of an action button.
     public var title: String? {
         didSet {
@@ -608,6 +617,10 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         setTitleLabelFont(for: style)
         setSubtitleLabelFont(for: style)
         setShadow(for: style)
+    }
+    
+    @objc private func actionBlockSelector(_ sender: SYUIActionButton) {
+        action?(sender)
     }
 }
 

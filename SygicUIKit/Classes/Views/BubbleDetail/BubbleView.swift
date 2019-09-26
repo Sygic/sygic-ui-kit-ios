@@ -25,14 +25,6 @@ import UIKit
 public class SYUIBubbleView: UIView {
 
     // MARK: Public properties
-    public var actionButton: SYUIActionButton = {
-        let button = SYUIActionButton()
-        button.style = .primary13
-        button.title = LS("Get direction")
-        button.icon = SYUIIcon.directions
-        button.height = SYUIActionButtonSize.infobar.height
-        return button
-    }()
     
     public var headerStackView: UIStackView = {
         let stack = UIStackView()
@@ -92,6 +84,14 @@ public class SYUIBubbleView: UIView {
         return stack
     }()
     
+    private lazy var buttonsContainer: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .fillEqually
+        stack.spacing = padding
+        return stack
+    }()
+    
     private let gradient = SYUIGradientView()
     
     // MARK: Public methods
@@ -110,9 +110,7 @@ public class SYUIBubbleView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         let isLandscape = SYUIDeviceOrientationUtils.isLandscapeLayout(traitCollection)
         updateConstraints(landscapeLayout: isLandscape)
-        if let color = backgroundColor {
-            gradient.colors = [color.withAlphaComponent(0), color]
-        }
+        updateGradientColors()
     }
     
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -125,25 +123,26 @@ public class SYUIBubbleView: UIView {
         updateDragIndicatorColor(false)
     }
     
-    public func addContentActionButton(title: String, icon: UIImage?, enabled isEnabled: Bool, action: (()->())?) {
+    public func addContentActionButton(title: String, icon: UIImage?, enabled isEnabled: Bool, action: SYUIBubbleContentActionButton.Action?) {
         let button = SYUIBubbleContentActionButton()
         button.titleLabel.text = title
         button.imageView.image = icon
         button.isEnabled = isEnabled
-        button.addTarget(self, action: #selector(emptySelectorr(_:)), for: .touchUpInside)
+        button.action = action
+        
         if contentActionsContainer.arrangedSubviews.count == 0 {
             contentContainer.setCustomSpacing(padding, after: contentActionsContainer)
         }
         contentActionsContainer.addArrangedSubview(button)
     }
     
-    @objc public func emptySelectorr(_ button: Any) {
-        print("action")
-    }
-    
     public func addContent(with icon: UIImage, title: String, subtitle: String?) {
         let view = BubbleContentRow(with: icon, title: title, subtitle: subtitle)
         contentContainer.addArrangedSubview(view)
+    }
+    
+    public func addActionButton(_ button: SYUIActionButton) {
+        buttonsContainer.addArrangedSubview(button)
     }
     
     // MARK: Private methods
@@ -175,23 +174,34 @@ public class SYUIBubbleView: UIView {
         contentContainer.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: minConstant).isActive = true
         sendSubviewToBack(contentContainer)
         contentContainer.addArrangedSubview(contentActionsContainer)
+            
+        buttonsContainer.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(buttonsContainer)
+        buttonsContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding).isActive = true
+        buttonsContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding).isActive = true
+        buttonsContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding).isActive = true
+        variableConstraint = buttonsContainer.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: minConstant)
+        variableConstraint?.isActive = true
         
-        gradient.locations = [0, NSNumber(value: 0.1)]
-        gradient.backgroundColor = .clear
+        gradient.locations = [0, 1]
         gradient.translatesAutoresizingMaskIntoConstraints = false
+        updateGradientColors()
         addSubview(gradient)
-        gradient.heightAnchor.constraint(equalToConstant: 64).isActive = true
-        gradient.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        gradient.heightAnchor.constraint(equalToConstant: padding*2).isActive = true
+        gradient.bottomAnchor.constraint(equalTo: buttonsContainer.topAnchor).isActive = true
         gradient.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
         gradient.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
-            
-        actionButton.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(actionButton)
-        actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding).isActive = true
-        actionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding).isActive = true
-        actionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding).isActive = true
-        variableConstraint = actionButton.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: minConstant)
-        variableConstraint?.isActive = true
+        
+        let contentCover = UIView()
+        contentCover.backgroundColor = .accentBackground
+        contentCover.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(contentCover)
+        contentCover.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        contentCover.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        contentCover.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        contentCover.topAnchor.constraint(equalTo: buttonsContainer.topAnchor).isActive = true
+        
+        bringSubviewToFront(buttonsContainer)
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         addGestureRecognizer(panGestureRecognizer)
@@ -243,13 +253,18 @@ public class SYUIBubbleView: UIView {
         let alpha: CGFloat = active ? 0.3 : 0.1
         dragIndicator.backgroundColor = UIColor.accentSecondary.withAlphaComponent(alpha)
     }
+    
+    private func updateGradientColors() {
+        guard let color = backgroundColor else { return }
+        gradient.colors = [color.withAlphaComponent(0), color]
+    }
 }
 
 // MARK: - Layout Orientation
 
 extension SYUIBubbleView {
     
-    public func addToView(_ parentView: UIView, landscapeLayout: Bool = true, animated: Bool = false) {
+    public func addToView(_ parentView: UIView, landscapeLayout: Bool = true, animated: Bool = false, completion: ((_ finished: Bool)->())? = nil) {
         translatesAutoresizingMaskIntoConstraints = false
         parentView.addSubview(self)
         centerYAnchor.constraint(equalTo: parentView.safeBottomAnchor, constant: -margin).isActive = true
@@ -261,9 +276,13 @@ extension SYUIBubbleView {
         if animated {
             layoutIfNeeded()
             alpha = 0
-            UIView.animate(withDuration: SYUIConstants.animationDuration) {
+            UIView.animate(withDuration: SYUIConstants.animationDuration, animations: {
                 self.alpha = 1
+            }) { finished in
+                completion?(finished)
             }
+        } else {
+            completion?(true)
         }
     }
     
@@ -350,13 +369,9 @@ public class BubbleContentRow: UIView {
 
 public class SYUIBubbleContentActionButton: UIControl {
     
-    public let imageView = UIImageView()
+    public typealias Action = (_ sender: SYUIBubbleContentActionButton)->()
     
-    public let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = SYUIFont.with(.regular, size: SYUIFontSize.bodyOld)
-        return label
-    }()
+    public var action: Action?
     
     public override var tintColor: UIColor? {
         didSet {
@@ -380,6 +395,14 @@ public class SYUIBubbleContentActionButton: UIControl {
             backgroundColor = highlightedColor
         }
     }
+    
+    public let imageView = UIImageView()
+    
+    public let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = SYUIFont.with(.regular, size: SYUIFontSize.bodyOld)
+        return label
+    }()
     
     private let margin: CGFloat = 8
     private let originalBackgroundColor: UIColor = .veryLightPink
@@ -406,6 +429,8 @@ public class SYUIBubbleContentActionButton: UIControl {
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(titleLabel)
         stackView.isUserInteractionEnabled = false
+        
+        addTarget(self, action: #selector(tapAction), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -418,5 +443,9 @@ public class SYUIBubbleContentActionButton: UIControl {
     
     public override func sendAction(_ action: Selector, to target: Any?, for event: UIEvent?) {
         super.sendAction(action, to: target, for: event)
+    }
+    
+    @objc private func tapAction() {
+        action?(self)
     }
 }
