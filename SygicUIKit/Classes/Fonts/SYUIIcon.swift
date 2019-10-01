@@ -255,7 +255,6 @@
 	public static let offline = "\u{e018}"
 	public static let ok = "\u{e02e}"
 	public static let opera = "\u{e330}"
-	public static let options = "\u{e015}"
 	public static let POIPoi = "\u{e075}"
 	public static let parfumes = "\u{e33e}"
 	public static let park = "\u{e35c}"
@@ -414,6 +413,7 @@
     public static var mailFull: UIImage? { UIImage(named: "mailFull", in: iconsBundle, compatibleWith: nil) }
     public static var phone: UIImage? { UIImage(named: "phone", in: iconsBundle, compatibleWith: nil) }
     public static var pointOnMap: UIImage? { UIImage(named: "pointonmap", in: iconsBundle, compatibleWith: nil) }
+    public static var options: UIImage? { UIImage(named: "options", in: iconsBundle, compatibleWith: nil) }
     
     private static var iconsBundle: Bundle {
         return Bundle(for: SYUIIcon.self)

@@ -58,6 +58,8 @@ public protocol SYUIActionButtonProperties {
     case alert
     /// Primary action
     case primary13
+    /// Secondary action.
+    case secondary13
     /// In case of error occured.
     case error13
 }
@@ -198,7 +200,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     }
     
     /// Corner radius of button.
-    /// Affects only not fully rounded button styles: primary13, error13
+    /// Affects only not fully rounded button styles: primary13, secondary13, error13
     public var partialCornerRadius: CGFloat = 16 {
         didSet {
             updateRoundedCorners()
@@ -237,13 +239,15 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
                 let style = self.style
                 self.style = style
             } else {
+                let disabledColor: UIColor = .mapInfoBackground
                 backgroundColor = .iconBackground
-                customTitleLabel.textColor = .mapInfoBackground
-                let iconColor: UIColor = .mapInfoBackground
+                layer.borderColor = disabledColor.cgColor
+                customTitleLabel.textColor = disabledColor
+                let iconColor: UIColor = disabledColor
                 rightIcon.textColor = iconColor
                 iconImageView.tintColor = iconColor
                 if let activityIndicator = rightAccessoryView as? UIActivityIndicatorView {
-                    activityIndicator.color = .mapInfoBackground
+                    activityIndicator.color = disabledColor
                 }
                 borderView.isHidden = true
                 setShadow(for: .plain)
@@ -397,7 +401,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     }
     
     private func updateRoundedCorners() {
-        if style == .primary13 || style == .error13 {
+        if style == .primary13 || style == .secondary13 || style == .error13 {
             layer.cornerRadius = partialCornerRadius
             backgroundView.layer.cornerRadius = partialCornerRadius
             borderView.layer.cornerRadius = partialCornerRadius
@@ -489,7 +493,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     
     private func setShadow(for style: SYUIActionButtonStyle) {
         switch style {
-        case .plain, .loading, .primary13, .error13:
+        case .plain, .loading, .primary13, .secondary13, .error13:
             layer.shadowOpacity = 0.0
         case .primary:
             layer.shadowOpacity = 1.0
@@ -559,6 +563,8 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     private func updateStyle() {
         blur?.removeFromSuperview()
         var textColor: UIColor = .textInvert
+        var borderColor: UIColor = .iconBackground
+        var layerBorderWidth: CGFloat = 0
         
         switch style {
         case .primary:
@@ -603,13 +609,22 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
             backgroundColor = .accentPrimary
             borderView.isHidden = true
             rightAccessoryView = nil
+        case .secondary13:
+            backgroundColor = .accentBackground
+            textColor = .accentPrimary
+            borderColor = .accentPrimary
+            layerBorderWidth = 2
+            borderView.isHidden = true
+            rightAccessoryView = nil
         case .error13:
             backgroundColor = .red
             borderView.isHidden = true
             rightAccessoryView = nil
         }
         
-        borderView.backgroundColor = .iconBackground
+        layer.borderWidth = layerBorderWidth
+        layer.borderColor = borderColor.cgColor
+        borderView.backgroundColor = borderColor
         customTitleLabel.textColor = textColor
         customSubtitleLabel.textColor = textColor
         rightIcon.textColor = textColor
