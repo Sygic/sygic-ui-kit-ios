@@ -77,6 +77,23 @@ public class SYUIBubbleView: UIView {
         return stack
     }()
     
+    private lazy var headerScrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.isPagingEnabled = true
+        scroll.showsHorizontalScrollIndicator = false
+        scroll.showsVerticalScrollIndicator = false
+        scroll.delegate = self
+        return scroll
+    }()
+    
+    private let pager: UIPageControl = {
+        let pager = UIPageControl()
+        pager.currentPageIndicatorTintColor = .accentPrimary
+        pager.pageIndicatorTintColor = .powderBlue
+        pager.hidesForSinglePage = true
+        return pager
+    }()
+    
     private let gradient = SYUIGradientView()
     
     // MARK: Public methods
@@ -118,6 +135,8 @@ public class SYUIBubbleView: UIView {
         header.titleLabel.text = title
         header.descriptionLabel.text = description
         headerStackView.addArrangedSubview(header)
+        header.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
+        pager.numberOfPages = headerStackView.arrangedSubviews.count
     }
     
     public func addContentActionButton(title: String, icon: UIImage?, enabled isEnabled: Bool, action: SYUIBubbleContentActionButton.Action?) {
@@ -154,17 +173,22 @@ public class SYUIBubbleView: UIView {
         dragIndicator.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         updateDragIndicatorColor(false)
         
+        headerScrollView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(headerScrollView)
+        headerScrollView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        headerScrollView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        headerScrollView.topAnchor.constraint(equalTo: topAnchor, constant: margin*3).isActive = true
+
         headerStackView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(headerStackView)
-        headerStackView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        headerStackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        headerStackView.topAnchor.constraint(equalTo: topAnchor, constant: margin*3).isActive = true
+        headerScrollView.addSubview(headerStackView)
+        headerStackView.coverWholeSuperview()
+        headerStackView.heightAnchor.constraint(equalTo: headerScrollView.heightAnchor, multiplier: 1.0).isActive = true
         
         contentContainer.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentContainer)
         contentContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin).isActive = true
         contentContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
-        contentContainer.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: minConstant).isActive = true
+        contentContainer.topAnchor.constraint(equalTo: headerScrollView.bottomAnchor, constant: minConstant).isActive = true
         sendSubviewToBack(contentContainer)
         contentContainer.addArrangedSubview(contentActionsContainer)
             
@@ -173,7 +197,7 @@ public class SYUIBubbleView: UIView {
         buttonsContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin).isActive = true
         buttonsContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
         buttonsContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
-        variableConstraint = buttonsContainer.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: minConstant)
+        variableConstraint = buttonsContainer.topAnchor.constraint(equalTo: headerScrollView.bottomAnchor, constant: minConstant)
         variableConstraint?.isActive = true
         
         gradient.locations = [0, 1]
@@ -193,6 +217,11 @@ public class SYUIBubbleView: UIView {
         contentCover.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         contentCover.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         contentCover.topAnchor.constraint(equalTo: buttonsContainer.topAnchor).isActive = true
+        
+        pager.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(pager)
+        pager.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        pager.topAnchor.constraint(equalTo: headerScrollView.bottomAnchor, constant: -12).isActive = true
         
         bringSubviewToFront(buttonsContainer)
         
@@ -253,6 +282,13 @@ public class SYUIBubbleView: UIView {
     }
 }
 
+extension SYUIBubbleView: UIScrollViewDelegate {
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        pager.currentPage = Int(scrollView.contentOffset.x/scrollView.bounds.size.width)
+    }
+}
+
 // MARK: - Layout Orientation
 
 extension SYUIBubbleView {
@@ -289,6 +325,7 @@ extension SYUIBubbleView {
         }
     }
 }
+
 
 // MARK: ROW
 

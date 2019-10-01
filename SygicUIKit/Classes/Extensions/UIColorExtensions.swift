@@ -97,7 +97,7 @@ public extension UIColor {
     static var accentSecondary: UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.accentSecondary }
     static var accentBackground: UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.accentBackground }
     static var veryLightPink: UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.veryLightPink }
-    
+    static var powderBlue: UIColor {  return SYUIColorSchemeManager.shared.currentColorPalette.powderBlue }
 }
 
 public extension UIColor {
