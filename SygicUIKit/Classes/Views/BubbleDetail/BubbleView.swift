@@ -26,24 +26,48 @@ public class SYUIBubbleView: UIView {
 
     // MARK: Public properties
     
+    /// Default BubbleView margin constant
     public static let margin: CGFloat = 8
     
-    public lazy var headerStackView: UIStackView = {
+    /// Paging indicates if headers will resize automatically according bubbleView width and headerScrollView paging is activated
+    public var paging: Bool = true {
+        didSet {
+            headerScrollView.isPagingEnabled = paging
+        }
+    }
+    
+    /// Width constraint created and modified by `addToView(_:landscapeLayout:animated:completion:)`
+    public var widthConstraint: NSLayoutConstraint?
+    
+    /// Trailing constraint created by `addToView(_:landscapeLayout:animated:completion:)`
+    public var trailingConstraint: NSLayoutConstraint?
+    
+    /// StackView container for multiple header views.
+    /// Recomended to use `addHeader(with title:, _ description:)` or `addHeader(_ view:)` methods to manage headerStackView content.
+    public let headerStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         return stack
     }()
     
-    public var widthConstraint: NSLayoutConstraint?
-    public var trailingConstraint: NSLayoutConstraint?
-    
+    /// StackView for additional dragable expanding content
     public let contentContainer: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         return stack
     }()
     
+    /// StackView container for action buttons inside dragable expanding contentContainer
     public lazy var contentActionsContainer: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .fillEqually
+        stack.spacing = margin
+        return stack
+    }()
+    
+    /// StackView container for main action buttons
+    public lazy var buttonsContainer: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.distribution = .fillEqually
@@ -58,23 +82,15 @@ public class SYUIBubbleView: UIView {
     private var maxConstant: CGFloat { contentHeight == 0 ? minConstant : contentHeight + minConstant*2 }
     private var contentHeight: CGFloat { contentContainer.bounds.size.height }
     private var startOffset: CGFloat = 0
+    private var topConstraint: NSLayoutConstraint?
     private var variableConstraint: NSLayoutConstraint?
     
     private let dragIndicator: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 3
         view.widthAnchor.constraint(equalToConstant: 82).isActive = true
         view.heightAnchor.constraint(equalToConstant: 6).isActive = true
         return view
-    }()
-    
-    private lazy var buttonsContainer: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fillEqually
-        stack.spacing = margin
-        return stack
     }()
     
     private lazy var headerScrollView: UIScrollView = {
@@ -130,16 +146,30 @@ public class SYUIBubbleView: UIView {
         updateDragIndicatorColor(false)
     }
     
+    /// Creates and adds `SYUIBubbleHeader` with provided attributes into headerStackView
     public func addHeader(with title: String?, _ description: String?) {
         let header = SYUIBubbleHeader()
         header.titleLabel.text = title
         header.descriptionLabel.text = description
-        headerStackView.addArrangedSubview(header)
-        header.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
+        addHeader(header)
+    }
+    
+    /// Adds provided UIView as subview into headerStackView. When `paging`property of bubbleView is true width constraint od header view is activated.
+    /// - Parameter headerView: header view
+    public func addHeader(_ headerView: UIView) {
+        headerStackView.addArrangedSubview(headerView)
+        if paging {
+            headerView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
+        }
         pager.numberOfPages = headerStackView.arrangedSubviews.count
     }
     
-    public func addContentActionButton(title: String, icon: UIImage?, enabled isEnabled: Bool, action: SYUIBubbleContentActionButton.Action?) {
+    /// Creates and adds `SYUIBubbleContentActionButton` with provided attributes inside expandable content container
+    /// - Parameter title: title string
+    /// - Parameter icon: icon image
+    /// - Parameter isEnabled: enables user interactions with button
+    /// - Parameter action: touchUpInside event action block
+    public func addContentActionButton(title: String, icon: UIImage?, enabled isEnabled: Bool = true, action: SYUIBubbleContentActionButton.Action?) {
         let button = SYUIBubbleContentActionButton()
         button.titleLabel.text = title
         button.imageView.image = icon
@@ -151,11 +181,17 @@ public class SYUIBubbleView: UIView {
         contentActionsContainer.addArrangedSubview(button)
     }
     
+    /// Creates and adds `SYUIBubbleContentRow` with provided attributes inside expandable content container
+    /// - Parameter icon: icon image
+    /// - Parameter title: title string
+    /// - Parameter subtitle: subtitle string
     public func addContent(with icon: UIImage, title: String, subtitle: String?) {
-        let view = BubbleContentRow(with: icon, title: title, subtitle: subtitle)
+        let view = SYUIBubbleContentRow(with: icon, title: title, subtitle: subtitle)
         contentContainer.addArrangedSubview(view)
     }
     
+    /// Adds provided button inside buttons container
+    /// - Parameter button: action button
     public func addActionButton(_ button: SYUIActionButton) {
         buttonsContainer.addArrangedSubview(button)
     }
@@ -168,35 +204,11 @@ public class SYUIBubbleView: UIView {
         clipsToBounds = true
         layer.anchorPoint = CGPoint(x: 0.5, y: 1)
         
-        addSubview(dragIndicator)
-        dragIndicator.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
-        dragIndicator.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        updateDragIndicatorColor(false)
+        setupDragIndicator()
+        setupHeaderContainers()
+        setupContentContainer()
+        setupButtonsContainer()
         
-        headerScrollView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(headerScrollView)
-        headerScrollView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        headerScrollView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        headerScrollView.topAnchor.constraint(equalTo: topAnchor, constant: margin*3).isActive = true
-
-        headerStackView.translatesAutoresizingMaskIntoConstraints = false
-        headerScrollView.addSubview(headerStackView)
-        headerStackView.coverWholeSuperview()
-        headerStackView.heightAnchor.constraint(equalTo: headerScrollView.heightAnchor, multiplier: 1.0).isActive = true
-        
-        contentContainer.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(contentContainer)
-        contentContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin).isActive = true
-        contentContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
-        contentContainer.topAnchor.constraint(equalTo: headerScrollView.bottomAnchor, constant: minConstant).isActive = true
-        sendSubviewToBack(contentContainer)
-        contentContainer.addArrangedSubview(contentActionsContainer)
-            
-        buttonsContainer.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(buttonsContainer)
-        buttonsContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin).isActive = true
-        buttonsContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
-        buttonsContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
         variableConstraint = buttonsContainer.topAnchor.constraint(equalTo: headerScrollView.bottomAnchor, constant: minConstant)
         variableConstraint?.isActive = true
         
@@ -229,6 +241,44 @@ public class SYUIBubbleView: UIView {
         addGestureRecognizer(panGestureRecognizer)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
         headerStackView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    private func setupDragIndicator() {
+        dragIndicator.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(dragIndicator)
+        dragIndicator.topAnchor.constraint(equalTo: topAnchor, constant: margin).isActive = true
+        dragIndicator.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        updateDragIndicatorColor(false)
+    }
+    
+    private func setupHeaderContainers() {
+        headerScrollView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(headerScrollView)
+        headerScrollView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        headerScrollView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        headerScrollView.topAnchor.constraint(equalTo: topAnchor, constant: margin*3).isActive = true
+        
+        headerStackView.translatesAutoresizingMaskIntoConstraints = false
+        headerScrollView.addSubview(headerStackView)
+        headerStackView.coverWholeSuperview()
+        headerStackView.heightAnchor.constraint(equalTo: headerScrollView.heightAnchor, multiplier: 1.0).isActive = true
+    }
+    
+    private func setupContentContainer() {
+        contentContainer.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(contentContainer)
+        contentContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin).isActive = true
+        contentContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
+        contentContainer.topAnchor.constraint(equalTo: headerScrollView.bottomAnchor, constant: minConstant).isActive = true
+        contentContainer.addArrangedSubview(contentActionsContainer)
+    }
+    
+    private func setupButtonsContainer() {
+        buttonsContainer.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(buttonsContainer)
+        buttonsContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin).isActive = true
+        buttonsContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
+        buttonsContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
     }
     
     @objc private func tapGestureRecognized(_ recognizer: UITapGestureRecognizer) {
@@ -293,6 +343,11 @@ extension SYUIBubbleView: UIScrollViewDelegate {
 
 extension SYUIBubbleView {
     
+    /// Interface to place and autolayout bubble view inside provided parentView
+    /// - Parameter parentView: parentView to insert bubbleView as subview
+    /// - Parameter landscapeLayout: if true, bubble view will stick to the side of parentView as compact layout
+    /// - Parameter animated: simple alpha fade animation
+    /// - Parameter completion: completion block called after all animations
     public func addToView(_ parentView: UIView, landscapeLayout: Bool = true, animated: Bool = false, completion: ((_ finished: Bool)->())? = nil) {
         translatesAutoresizingMaskIntoConstraints = false
         parentView.addSubview(self)
@@ -315,6 +370,8 @@ extension SYUIBubbleView {
         }
     }
     
+    /// Updates superview placement of bubbleView. Should be called when traitCollection does change
+    /// - Parameter landscapeLayout: if true, bubble view will stick to the side of parentView as compact layout
     public func updateConstraints(landscapeLayout: Bool) {
         if landscapeLayout {
             trailingConstraint?.isActive = false
@@ -323,196 +380,5 @@ extension SYUIBubbleView {
             widthConstraint?.isActive = false
             trailingConstraint?.isActive = true
         }
-    }
-}
-
-
-// MARK: ROW
-
-public class BubbleContentRow: UIView {
-    
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.alignment = .center
-        stack.distribution = .fill
-        stack.isLayoutMarginsRelativeArrangement = true
-        stack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        stack.spacing = 16
-        return stack
-    }()
-    
-    private let labelsStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        return stack
-    }()
-    
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.tintColor = .accentPrimary
-        imageView.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1).isActive = true
-        return imageView
-    }()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = SYUIFont.with(.regular, size: SYUIFontSize.headingOld)
-        label.textColor = .accentSecondary
-        return label
-    }()
-    
-    private let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = SYUIFont.with(.regular, size: SYUIFontSize.bodyOld)
-        label.textColor = .accentSecondary
-        return label
-    }()
-    
-    public required init(with icon: UIImage, title: String, subtitle: String?) {
-        super.init(frame: .zero)
-        imageView.image = icon
-        titleLabel.text = title
-        subtitleLabel.text = subtitle
-        
-        heightAnchor.constraint(equalToConstant: 48).isActive = true
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(stackView)
-        stackView.coverWholeSuperview()
-        
-        stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(labelsStackView)
-        labelsStackView.addArrangedSubview(titleLabel)
-        if subtitle != nil {
-            labelsStackView.addArrangedSubview(subtitleLabel)
-        }
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-}
-
-// MARK: ACTION
-
-public class SYUIBubbleContentActionButton: UIControl {
-    
-    public typealias Action = (_ sender: SYUIBubbleContentActionButton)->()
-    
-    public var action: Action?
-    
-    public override var tintColor: UIColor? {
-        didSet {
-            guard let color = tintColor else { return }
-            imageView.tintColor = color
-            titleLabel.textColor = color
-        }
-    }
-    
-    public override var isEnabled: Bool {
-        didSet {
-            tintColor = isEnabled ? .accentPrimary : .gray
-        }
-    }
-    
-    public override var isHighlighted: Bool {
-        didSet {
-            guard isHighlighted != oldValue, let contentColor = tintColor else { return }
-            let multiplier = SYUIColorSchemeManager.shared.brightnessMultiplier(for: originalBackgroundColor, foregroundColor: contentColor)
-            let highlightedColor = isHighlighted ? originalBackgroundColor.adjustBrightness(with: multiplier) : originalBackgroundColor
-            backgroundColor = highlightedColor
-        }
-    }
-    
-    public let imageView = UIImageView()
-    
-    public let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = SYUIFont.with(.regular, size: SYUIFontSize.bodyOld)
-        return label
-    }()
-    
-    private var margin: CGFloat { SYUIBubbleView.margin }
-    private let originalBackgroundColor: UIColor = .veryLightPink
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        backgroundColor = .veryLightPink
-        layer.cornerRadius = 16
-        tintColor = .accentPrimary
-        
-        heightAnchor.constraint(equalToConstant: 64).isActive = true
-        
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .center
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: margin, leading: margin, bottom: margin, trailing: margin)
-        stackView.spacing = margin
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(stackView)
-        stackView.coverWholeSuperview()
-        stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.isUserInteractionEnabled = false
-        
-        addTarget(self, action: #selector(tapAction), for: .touchUpInside)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    public override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        return super.beginTracking(touch, with: event)
-    }
-    
-    public override func sendAction(_ action: Selector, to target: Any?, for event: UIEvent?) {
-        super.sendAction(action, to: target, for: event)
-    }
-    
-    @objc private func tapAction() {
-        action?(self)
-    }
-}
-
-// MARK: ACTION
-
-public class SYUIBubbleHeader: UIStackView {
-    
-    public var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = SYUIFont.with(SYUIFont.FontType.bold, size: SYUIFontSize.headingOld)
-        label.textColor = .accentSecondary
-        return label
-    }()
-    
-    public var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = SYUIFont.with(SYUIFont.FontType.regular, size: SYUIFontSize.bodyOld)
-        label.textColor = .accentSecondary
-        return label
-    }()
-    
-    override public init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        let margin = SYUIBubbleView.margin
-        
-        axis = .vertical
-        isLayoutMarginsRelativeArrangement = true
-        directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: margin*2, bottom: 0, trailing: margin*2)
-        spacing = margin
-        
-        addArrangedSubview(descriptionLabel)
-        addArrangedSubview(titleLabel)
-    }
-    
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
     }
 }
