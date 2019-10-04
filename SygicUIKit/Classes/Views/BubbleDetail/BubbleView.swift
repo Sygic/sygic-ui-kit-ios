@@ -22,12 +22,24 @@
 
 import UIKit
 
+
+public protocol SYUIBubbleViewDelegate: class {
+    func bubbleView(_ view: SYUIBubbleView, didScrollHeader pageIndex: Int)
+}
+
+public extension SYUIBubbleViewDelegate {
+    func bubbleView(_ view: SYUIBubbleView, didScrollHeader pageIndex: Int) {}
+}
+
+
 public class SYUIBubbleView: UIView {
 
     // MARK: Public properties
     
     /// Default BubbleView margin constant
     public static let margin: CGFloat = 8
+    
+    public weak var delegate: SYUIBubbleViewDelegate?
     
     /// Paging indicates if headers will resize automatically according bubbleView width and headerScrollView paging is activated
     public var paging: Bool = true {
@@ -196,6 +208,13 @@ public class SYUIBubbleView: UIView {
         buttonsContainer.addArrangedSubview(button)
     }
     
+    public func updateHeaderCurrentPage(_ pageIndex: Int, animated: Bool = true) {
+        guard paging else { return }
+        let pageWidth = headerScrollView.bounds.size.width
+        headerScrollView.setContentOffset(CGPoint(x: pageWidth*CGFloat(pageIndex), y: 0), animated: animated)
+        pager.currentPage = pageIndex
+    }
+    
     // MARK: Private methods
     
     private func setupUI() {
@@ -335,7 +354,9 @@ public class SYUIBubbleView: UIView {
 extension SYUIBubbleView: UIScrollViewDelegate {
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        pager.currentPage = Int(scrollView.contentOffset.x/scrollView.bounds.size.width)
+        let pageIndex = Int(scrollView.contentOffset.x/scrollView.bounds.size.width)
+        pager.currentPage = pageIndex
+        delegate?.bubbleView(self, didScrollHeader: pageIndex)
     }
 }
 
