@@ -64,3 +64,9 @@ extension String {
     }
         
 }
+
+public extension Array where Element == String {
+    func compactConcate(separator: String = "") -> String {
+        return self.compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: separator)
+    }
+}
