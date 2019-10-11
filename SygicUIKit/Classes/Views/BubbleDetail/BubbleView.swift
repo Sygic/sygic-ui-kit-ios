@@ -90,8 +90,8 @@ public class SYUIBubbleView: UIView {
     // MARK: Private properties
     
     private var margin: CGFloat { SYUIBubbleView.margin }
-    private var minConstant: CGFloat { margin * 2 }
-    private var maxConstant: CGFloat { contentHeight == 0 ? minConstant : contentHeight + minConstant*2 }
+    private var minConstant: CGFloat { !pager.isHidden ? margin*3 : margin*2 }
+    private var maxConstant: CGFloat { contentHeight == 0 ? minConstant : contentHeight + minConstant + margin*2 }
     private var contentHeight: CGFloat { contentContainer.bounds.size.height }
     private var startOffset: CGFloat = 0
     private var topConstraint: NSLayoutConstraint?
@@ -173,7 +173,12 @@ public class SYUIBubbleView: UIView {
         if paging {
             headerView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
         }
-        pager.numberOfPages = headerStackView.arrangedSubviews.count
+        let oldPages = pager.numberOfPages
+        let newPages = headerStackView.arrangedSubviews.count
+        pager.numberOfPages = newPages
+        if newPages > 1 && oldPages <= 1 {
+            variableConstraint?.constant = minConstant
+        }
     }
     
     /// Creates and adds `SYUIBubbleContentActionButton` with provided attributes inside expandable content container
@@ -181,7 +186,7 @@ public class SYUIBubbleView: UIView {
     /// - Parameter icon: icon image
     /// - Parameter isEnabled: enables user interactions with button
     /// - Parameter action: touchUpInside event action block
-    public func addContentActionButton(title: String, icon: UIImage?, enabled isEnabled: Bool = true, action: SYUIBubbleContentActionButton.Action?) {
+    public func addContentActionButton(title: String, icon: UIImage?, enabled isEnabled: Bool = true, action: SYUIActionBlock?) {
         let button = SYUIBubbleContentActionButton()
         button.titleLabel.text = title
         button.imageView.image = icon
@@ -197,8 +202,9 @@ public class SYUIBubbleView: UIView {
     /// - Parameter icon: icon image
     /// - Parameter title: title string
     /// - Parameter subtitle: subtitle string
-    public func addContent(with icon: UIImage, title: String, subtitle: String?) {
+    public func addContent(with icon: UIImage, title: String, subtitle: String?, action: SYUIActionBlock? = nil) {
         let view = SYUIBubbleContentRow(with: icon, title: title, subtitle: subtitle)
+        view.action = action
         contentContainer.addArrangedSubview(view)
     }
     
@@ -252,7 +258,7 @@ public class SYUIBubbleView: UIView {
         pager.translatesAutoresizingMaskIntoConstraints = false
         addSubview(pager)
         pager.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        pager.topAnchor.constraint(equalTo: headerScrollView.bottomAnchor, constant: -12).isActive = true
+        pager.topAnchor.constraint(equalTo: headerScrollView.bottomAnchor, constant: -margin).isActive = true
         
         bringSubviewToFront(buttonsContainer)
         

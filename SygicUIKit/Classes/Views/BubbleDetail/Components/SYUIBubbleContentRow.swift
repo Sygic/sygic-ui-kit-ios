@@ -23,7 +23,19 @@
 import Foundation
 
 
-public class SYUIBubbleContentRow: UIView {
+public class SYUIBubbleContentRow: UIControl {
+    
+    public var action: SYUIActionBlock?
+    
+    public override var isHighlighted: Bool {
+        didSet {
+            guard action != nil, isHighlighted != oldValue, let contentColor = tintColor else { return }
+            let originalBackgroundColor: UIColor = .accentBackground
+            let multiplier = SYUIColorSchemeManager.shared.brightnessMultiplier(for: originalBackgroundColor, foregroundColor: contentColor)
+            let highlightedColor = isHighlighted ? originalBackgroundColor.adjustBrightness(with: multiplier) : originalBackgroundColor
+            backgroundColor = highlightedColor
+        }
+    }
     
     private let stackView: UIStackView = {
         let stack = UIStackView()
@@ -73,6 +85,7 @@ public class SYUIBubbleContentRow: UIView {
         heightAnchor.constraint(equalToConstant: 48).isActive = true
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.isUserInteractionEnabled = false
         addSubview(stackView)
         stackView.coverWholeSuperview()
         
@@ -82,9 +95,15 @@ public class SYUIBubbleContentRow: UIView {
         if subtitle != nil {
             labelsStackView.addArrangedSubview(subtitleLabel)
         }
+        
+        addTarget(self, action: #selector(touchUpInsideListener), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    @objc private func touchUpInsideListener() {
+        action?(self)
     }
 }

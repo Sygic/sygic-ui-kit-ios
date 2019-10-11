@@ -27,10 +27,8 @@ public class SYUIBubbleContentActionButton: UIControl {
     
     //MARK: Public properties
     
-    public typealias Action = (_ sender: SYUIBubbleContentActionButton)->()
-    
     /// "On tap" action block
-    public var action: Action?
+    public var action: SYUIActionBlock?
     
     public override var tintColor: UIColor? {
         didSet {

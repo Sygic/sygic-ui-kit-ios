@@ -79,15 +79,15 @@ public enum SYUIActionButtonSize: CGFloat {
     }
 }
 
+public typealias SYUIActionBlock = (_ sender: Any)->()
+
 ///General purpose action button. Configurable with `SYUIActionButtonProperties`.
 public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     
     // MARK: - Public Properties
     
-    public typealias ActionBlock = (_ sender: SYUIActionButton)->()
-    
     /// Action block triggered on touchUpInside button event
-    public var action: ActionBlock? {
+    public var action: SYUIActionBlock? {
         didSet {
             addTarget(self, action: #selector(actionBlockSelector(_:)), for: .touchUpInside)
         }
