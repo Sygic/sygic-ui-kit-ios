@@ -69,7 +69,11 @@ public class SYUIBubbleLoadingHeader: UIView {
         
         heightAnchor.constraint(equalToConstant: 44).isActive = true
         
-        let spinny = UIActivityIndicatorView(style: .gray)
+        var spinnyStyle: UIActivityIndicatorView.Style = .gray
+        if #available(iOS 12.0, *), traitCollection.userInterfaceStyle == .dark {
+            spinnyStyle = .white
+        }
+        let spinny = UIActivityIndicatorView(style: spinnyStyle)
         spinny.translatesAutoresizingMaskIntoConstraints = false
         addSubview(spinny)
         spinny.centerInSuperview()
