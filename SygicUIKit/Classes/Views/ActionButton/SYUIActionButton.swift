@@ -214,6 +214,15 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         }
     }
     
+    public override var tintColor: UIColor! {
+        didSet {
+            customTitleLabel.textColor = tintColor
+            customSubtitleLabel.tintColor = tintColor
+            rightIcon.textColor = tintColor
+            iconImageView.tintColor = tintColor
+        }
+    }
+    
     public override var isHighlighted: Bool {
         didSet {
             guard let backgroundColor = originalBackgroundColor, isHighlighted != oldValue else { return }
@@ -302,7 +311,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     }
     
     private var shouldCapitalizeTitle: Bool {
-        return hasTitle && !hasRightIcon && rightAccessoryView == nil && style != .plain
+        return hasTitle && !hasRightIcon && rightAccessoryView == nil && style != .plain && style != .primary13 && style != .secondary13 && style != .error13
     }
     
     private var horizontalMargin: CGFloat = 16.0 {

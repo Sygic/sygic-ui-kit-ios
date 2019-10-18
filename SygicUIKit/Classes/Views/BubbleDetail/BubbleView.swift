@@ -87,6 +87,14 @@ public class SYUIBubbleView: UIView {
         return stack
     }()
     
+    public lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+        UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
+    }()
+    
+    public lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
+    }()
+    
     // MARK: Private properties
     
     private var margin: CGFloat { SYUIBubbleView.margin }
@@ -114,11 +122,12 @@ public class SYUIBubbleView: UIView {
         return scroll
     }()
     
-    private let pager: UIPageControl = {
+    private lazy var pager: UIPageControl = {
         let pager = UIPageControl()
         pager.currentPageIndicatorTintColor = .accentPrimary
         pager.pageIndicatorTintColor = .powderBlue
         pager.hidesForSinglePage = true
+        pager.addTarget(self, action: #selector(pagerDidChange(_:)), for: .valueChanged)
         return pager
     }()
     
@@ -228,23 +237,14 @@ public class SYUIBubbleView: UIView {
         layer.cornerRadius = 24
         clipsToBounds = true
         layer.anchorPoint = CGPoint(x: 0.5, y: 1)
-        
         setupDragIndicator()
         setupHeaderContainers()
         setupContentContainer()
         setupButtonsContainer()
+        setupGradient()
         
         variableConstraint = buttonsContainer.topAnchor.constraint(equalTo: headerScrollView.bottomAnchor, constant: minConstant)
         variableConstraint?.isActive = true
-        
-        gradient.locations = [0, 1]
-        gradient.translatesAutoresizingMaskIntoConstraints = false
-        updateGradientColors()
-        addSubview(gradient)
-        gradient.heightAnchor.constraint(equalToConstant: margin*2).isActive = true
-        gradient.bottomAnchor.constraint(equalTo: buttonsContainer.topAnchor).isActive = true
-        gradient.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
-        gradient.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
         
         let contentCover = UIView()
         contentCover.backgroundColor = .accentBackground
@@ -262,9 +262,7 @@ public class SYUIBubbleView: UIView {
         
         bringSubviewToFront(buttonsContainer)
         
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         addGestureRecognizer(panGestureRecognizer)
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
         headerStackView.addGestureRecognizer(tapGestureRecognizer)
     }
     
@@ -304,6 +302,17 @@ public class SYUIBubbleView: UIView {
         buttonsContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin).isActive = true
         buttonsContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -margin).isActive = true
         buttonsContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -margin).isActive = true
+    }
+    
+    private func setupGradient() {
+        gradient.locations = [0, 1]
+        gradient.translatesAutoresizingMaskIntoConstraints = false
+        updateGradientColors()
+        addSubview(gradient)
+        gradient.heightAnchor.constraint(equalToConstant: margin*2).isActive = true
+        gradient.bottomAnchor.constraint(equalTo: buttonsContainer.topAnchor).isActive = true
+        gradient.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
+        gradient.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
     }
     
     @objc private func tapGestureRecognized(_ recognizer: UITapGestureRecognizer) {
@@ -355,6 +364,12 @@ public class SYUIBubbleView: UIView {
         guard let color = backgroundColor else { return }
         gradient.colors = [color.withAlphaComponent(0), color]
     }
+    
+    @objc private func pagerDidChange(_ pager: UIPageControl) {
+        let scrollOffset = CGFloat(pager.currentPage)*headerScrollView.bounds.size.width
+        headerScrollView.setContentOffset(CGPoint(x: scrollOffset, y: 0), animated: true)
+        delegate?.bubbleView(self, didScrollHeader: pager.currentPage)
+    }
 }
 
 extension SYUIBubbleView: UIScrollViewDelegate {
@@ -383,6 +398,7 @@ extension SYUIBubbleView {
         widthConstraint?.isActive = false
         widthConstraint = widthAnchor.constraint(equalTo: parentView.widthAnchor, multiplier: 0.4)
         trailingConstraint = trailingAnchor.constraint(equalTo: parentView.safeTrailingAnchor, constant: -margin*2)
+        trailingConstraint?.priority = .defaultHigh
         updateConstraints(landscapeLayout: landscapeLayout)
         if animated {
             layoutIfNeeded()

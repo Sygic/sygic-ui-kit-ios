@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-@objcMembers public class SYUIIcon: NSObject {
+public class SYUIIcon {
 	public static let none = ""
 	public static let ARNavigation = "\u{e10a}"
 	public static let ATM = "\u{e314}"
@@ -414,6 +414,8 @@
     public static var phone: UIImage? { UIImage(named: "phone", in: iconsBundle, compatibleWith: nil) }
     public static var pointOnMap: UIImage? { UIImage(named: "pointonmap", in: iconsBundle, compatibleWith: nil) }
     public static var options: UIImage? { UIImage(named: "options", in: iconsBundle, compatibleWith: nil) }
+    public static var binFilled: UIImage? { UIImage(named: "binFilled", in: iconsBundle, compatibleWith: nil) }
+    public static var pinFull: UIImage? { UIImage(named: "pin", in: iconsBundle, compatibleWith: nil) }
     
     private static var iconsBundle: Bundle {
         return Bundle(for: SYUIIcon.self)
