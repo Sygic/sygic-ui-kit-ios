@@ -416,6 +416,7 @@ public class SYUIIcon {
     public static var options: UIImage? { UIImage(named: "options", in: iconsBundle, compatibleWith: nil) }
     public static var binFilled: UIImage? { UIImage(named: "binFilled", in: iconsBundle, compatibleWith: nil) }
     public static var pinFull: UIImage? { UIImage(named: "pin", in: iconsBundle, compatibleWith: nil) }
+    public static var locationEmpty: UIImage? { UIImage(named: "locationEmpty", in: iconsBundle, compatibleWith: nil) }
     
     private static var iconsBundle: Bundle {
         return Bundle(for: SYUIIcon.self)
