@@ -106,6 +106,7 @@ public class SYUISearchBarView: UIView, UISearchBarDelegate, SYUISearchBarProtoc
     
     public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBarDelegate?.searchBarSearchButtonClicked()
+        searchBar.resignFirstResponder()
     }
     
     public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

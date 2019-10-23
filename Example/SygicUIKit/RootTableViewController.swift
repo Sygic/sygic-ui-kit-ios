@@ -29,6 +29,7 @@ class RootTableViewController: UITableViewController {
         "Action Buttons",
         "Pins",
         "Compass",
+        "Bubble View",
         "Bottom Sheet",
         "Poi Detail Bottom Sheet",
         "Skins",
@@ -57,18 +58,20 @@ class RootTableViewController: UITableViewController {
         case 2:
             navigationController?.pushViewController(CompassTestViewController(), animated: true)
         case 3:
-            navigationController?.pushViewController(BottomSheetTestViewController(), animated: true)
+            navigationController?.pushViewController(BubbleViewController(), animated: true)
         case 4:
-            navigationController?.pushViewController(PoiDetailTestViewController(), animated: true)
+            navigationController?.pushViewController(BottomSheetTestViewController(), animated: true)
         case 5:
-            navigationController?.pushViewController(SkinTestViewController(), animated: true)
+            navigationController?.pushViewController(PoiDetailTestViewController(), animated: true)
         case 6:
-            navigationController?.pushViewController(DetailCellTableTestViewController(), animated: true)
+            navigationController?.pushViewController(SkinTestViewController(), animated: true)
         case 7:
-            navigationController?.pushViewController(InfobarTestViewController(), animated: true)
+            navigationController?.pushViewController(DetailCellTableTestViewController(), animated: true)
         case 8:
-            navigationController?.pushViewController(GradientProgressExampleController(), animated: true)
+            navigationController?.pushViewController(InfobarTestViewController(), animated: true)
         case 9:
+            navigationController?.pushViewController(GradientProgressExampleController(), animated: true)
+        case 10:
             navigationController?.pushViewController(ZoomTestViewController(), animated: true)
         default:
             break

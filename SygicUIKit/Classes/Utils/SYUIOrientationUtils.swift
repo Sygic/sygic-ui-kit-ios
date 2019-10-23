@@ -77,7 +77,7 @@ public class SYUIDeviceOrientationUtils {
     }
     
     /// If layout should be for landscape orientation size based on trait collection.
-        /// - Parameter traitCollection: Traint collection to determine layout orientation.
+    /// - Parameter traitCollection: Traint collection to determine layout orientation.
     public static func isLandscapeLayout(_ traitCollection: UITraitCollection) -> Bool {
         return !isPortraitLayout(traitCollection)
     }

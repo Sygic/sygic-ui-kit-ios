@@ -68,6 +68,7 @@ class ButtonTestViewController: UIViewController {
         let array = [primaryButton,
                      primarySubtitledButton,
                      secondaryButton,
+                     primaryTitleImageButton,
                      primaryButton2,
                      secondaryButton2,
                      primaryButton3,
@@ -79,7 +80,8 @@ class ButtonTestViewController: UIViewController {
                      secondaryButton6,
                      primaryProgressBarButton,
                      secondaryProgressBarButton,
-                     plainButton]
+                     plainButton,
+        ]
 
         for button in array {
             addButton(button)
@@ -94,6 +96,9 @@ class ButtonTestViewController: UIViewController {
 
         setConstraint(for: progressRoundButton, width: 56.0)
         buttonStack.addArrangedSubview(progressRoundButton)
+        
+        setConstraint(for: primaryImageButton, width: 56.0)
+        buttonStack.addArrangedSubview(primaryImageButton)
     }
 
     private func addButton(_ actionButton: SYUIActionButton) {
@@ -106,17 +111,16 @@ class ButtonTestViewController: UIViewController {
         view.widthAnchor.constraint(equalToConstant: width).isActive = true
     }
 
-    private var primaryButton: SYUIActionButton {
+    private var primaryButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = ""
         button.title = "primary"
         button.style = SYUIActionButtonStyle.primary
         button.isEnabled = true
-
         return button
-    }
+    }()
 
-    private var primarySubtitledButton: SYUIActionButton {
+    private var primarySubtitledButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = ""
         button.title = "primary"
@@ -124,45 +128,45 @@ class ButtonTestViewController: UIViewController {
         button.style = SYUIActionButtonStyle.primary
         button.isEnabled = true
         return button
-    }
+    }()
 
-    private var secondaryButton: SYUIActionButton {
+    private var secondaryButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = ""
         button.title = "secondary"
         button.style = SYUIActionButtonStyle.secondary
         button.isEnabled = true
         return button
-    }
+    }()
 
-    private var primaryButton2: SYUIActionButton {
+    private var primaryButton2: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = SYUIIcon.directionsAction
         button.title = "Get directions Get directions"
         button.style = SYUIActionButtonStyle.primary
         button.isEnabled = true
         return button
-    }
+    }()
 
-    private var secondaryButton2: SYUIActionButton {
+    private var secondaryButton2: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = SYUIIcon.pinPlace
         button.title = "Add waypoint"
         button.style = SYUIActionButtonStyle.secondary
         button.isEnabled = true
         return button
-    }
+    }()
 
-    private var blurredButton: SYUIActionButton {
+    private var blurredButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = SYUIIcon.close
         button.title = ""
         button.style = SYUIActionButtonStyle.blurred
         button.isEnabled = true
         return button
-    }
+    }()
 
-    private var primaryButton3: SYUIActionButton {
+    private var primaryButton3: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = SYUIIcon.directionsAction
         button.title = "Done"
@@ -170,9 +174,9 @@ class ButtonTestViewController: UIViewController {
         button.isEnabled = true
         button.height = 40
         return button
-    }
+    }()
 
-    private var secondaryButton3: SYUIActionButton {
+    private var secondaryButton3: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = SYUIIcon.pinPlace
         button.title = "Add waypoint"
@@ -180,72 +184,72 @@ class ButtonTestViewController: UIViewController {
         button.isEnabled = true
         button.height = 40
         return button
-    }
+    }()
 
-    private var primaryButton4: SYUIActionButton {
+    private var primaryButton4: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = ""
         button.title = "Label"
         button.style = SYUIActionButtonStyle.primary
         button.isEnabled = false
         return button
-    }
+    }()
 
-    private var secondaryButton4: SYUIActionButton {
+    private var secondaryButton4: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = SYUIIcon.directionsAction
         button.title = "Label"
         button.style = SYUIActionButtonStyle.secondary
         button.isEnabled = false
         return button
-    }
+    }()
 
-    private var loadingButton: SYUIActionButton {
+    private var loadingButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = ""
         button.title = "Calculating route"
         button.style = SYUIActionButtonStyle.loading
         button.isEnabled = false
         return button
-    }
+    }()
 
-    private var primaryButton5: SYUIActionButton {
+    private var primaryButton5: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = SYUIIcon.directionsAction
         button.title = ""
         button.style = SYUIActionButtonStyle.primary
         button.isEnabled = true
         return button
-    }
+    }()
 
-    private var secondaryButton5: SYUIActionButton {
+    private var secondaryButton5: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = SYUIIcon.directionsAction
         button.title = ""
         button.style = SYUIActionButtonStyle.secondary
         button.isEnabled = true
         return button
-    }
+    }()
 
-    private var primaryButton6: SYUIActionButton {
+    private var primaryButton6: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = ""
         button.title = "Error"
         button.style = SYUIActionButtonStyle.error
         button.isEnabled = true
         return button
-    }
+    }()
 
-    private var secondaryButton6: SYUIActionButton {
+    private var secondaryButton6: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = ""
         button.title = "Alert"
         button.style = SYUIActionButtonStyle.alert
         button.isEnabled = true
         return button
-    }
+    }()
 
-    private var progressRoundButton: SYUIActionButton {
+    private var progressRoundButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = SYUIIcon.close
         button.title = ""
@@ -253,9 +257,9 @@ class ButtonTestViewController: UIViewController {
         button.isEnabled = true
         button.countdown = 9.0
         return button
-    }
+    }()
 
-    private var primaryProgressBarButton: SYUIActionButton {
+    private var primaryProgressBarButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = ""
         button.title = "Start"
@@ -263,9 +267,9 @@ class ButtonTestViewController: UIViewController {
         button.isEnabled = true
         button.countdown = 9.0
         return button
-    }
+    }()
 
-    private var secondaryProgressBarButton: SYUIActionButton {
+    private var secondaryProgressBarButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = ""
         button.title = "Resume"
@@ -273,14 +277,29 @@ class ButtonTestViewController: UIViewController {
         button.isEnabled = true
         button.countdown = 9.0
         return button
-    }
+    }()
 
-    private var plainButton: SYUIActionButton {
+    private var plainButton: SYUIActionButton = {
         let button = SYUIActionButton()
         button.icon = ""
         button.title = "Forgot password"
         button.style = SYUIActionButtonStyle.plain
         button.isEnabled = true
         return button
-    }
+    }()
+    
+    private var primaryImageButton: SYUIActionButton = {
+        let button = SYUIActionButton()
+        button.iconImage = SYUIIcon.phone
+        button.style = SYUIActionButtonStyle.primary
+        button.isEnabled = true
+        return button
+    }()
+    
+    private var primaryTitleImageButton: SYUIActionButton = {
+        let button = SYUIActionButton()
+        button.iconImage = SYUIIcon.getDirection
+        button.title = "Button with image"
+        return button
+    }()
 }

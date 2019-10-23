@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-@objcMembers public class SYUIIcon: NSObject {
+public class SYUIIcon {
 	public static let none = ""
 	public static let ARNavigation = "\u{e10a}"
 	public static let ATM = "\u{e314}"
@@ -255,7 +255,6 @@
 	public static let offline = "\u{e018}"
 	public static let ok = "\u{e02e}"
 	public static let opera = "\u{e330}"
-	public static let options = "\u{e015}"
 	public static let POIPoi = "\u{e075}"
 	public static let parfumes = "\u{e33e}"
 	public static let park = "\u{e35c}"
@@ -408,6 +407,16 @@
     public static var square: UIImage? { UIImage(named: "square", in: iconsBundle, compatibleWith: nil) }
     public static var play: UIImage? { UIImage(named: "controlsplay", in: iconsBundle, compatibleWith: nil) }
     public static var pause: UIImage? { UIImage(named: "controlspause", in: iconsBundle, compatibleWith: nil) }
+    public static var browser: UIImage? { UIImage(named: "browsersafarifull", in: iconsBundle, compatibleWith: nil) }
+    public static var getDirection: UIImage? { UIImage(named: "getdirection", in: iconsBundle, compatibleWith: nil) }
+    public static var heartFull: UIImage? { UIImage(named: "heartFull", in: iconsBundle, compatibleWith: nil) }
+    public static var mailFull: UIImage? { UIImage(named: "mailFull", in: iconsBundle, compatibleWith: nil) }
+    public static var phone: UIImage? { UIImage(named: "phone", in: iconsBundle, compatibleWith: nil) }
+    public static var pointOnMap: UIImage? { UIImage(named: "pointonmap", in: iconsBundle, compatibleWith: nil) }
+    public static var options: UIImage? { UIImage(named: "options", in: iconsBundle, compatibleWith: nil) }
+    public static var binFilled: UIImage? { UIImage(named: "binFilled", in: iconsBundle, compatibleWith: nil) }
+    public static var pinFull: UIImage? { UIImage(named: "pin", in: iconsBundle, compatibleWith: nil) }
+    public static var locationEmpty: UIImage? { UIImage(named: "locationEmpty", in: iconsBundle, compatibleWith: nil) }
     
     private static var iconsBundle: Bundle {
         return Bundle(for: SYUIIcon.self)
