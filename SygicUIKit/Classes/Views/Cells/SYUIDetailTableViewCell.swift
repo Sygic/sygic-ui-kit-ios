@@ -58,13 +58,13 @@ public protocol SYUIDetailCellDataSource {
 extension SYUIDetailCellDataSource {
     /// default attributes for detail cell title label
     public static var defaultTitleAttributes: [NSAttributedString.Key: Any] {
-        return [.foregroundColor: UIColor.textTitle,
-                .font: SYUIFont.with(.semiBold, size: SYUIFontSize.headingOld)!]
+        return [.foregroundColor: UIColor.accentSecondary,
+                .font: SYUIFont.with(.regular, size: SYUIFontSize.headingOld)!]
     }
     
     /// default attributes for detail cell subtitle label
     public static var defaultSubtitleAttributes: [NSAttributedString.Key: Any] {
-        return [.foregroundColor: UIColor.textBody,
+        return [.foregroundColor: UIColor.accentSecondary,
                 .font: SYUIFont.with(.regular, size: SYUIFontSize.bodyOld)!]
     }
 }
