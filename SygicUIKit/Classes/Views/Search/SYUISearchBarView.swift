@@ -93,24 +93,24 @@ public class SYUISearchBarView: UIView, UISearchBarDelegate, SYUISearchBarProtoc
     }
     
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchBarDelegate?.searchBar(textDidChange: searchText)
+        searchBarDelegate?.searchBar(self, textDidChange: searchText)
     }
     
     public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBarDelegate?.searchBarDidBeginEditing()
+        searchBarDelegate?.searchBarDidBeginEditing(self)
     }
     
     public func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBarDelegate?.searchBarDidEndEditing()
+        searchBarDelegate?.searchBarDidEndEditing(self)
     }
     
     public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBarDelegate?.searchBarSearchButtonClicked()
+        searchBarDelegate?.searchBarSearchButtonClicked(self)
         searchBar.resignFirstResponder()
     }
     
     public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBarDelegate?.searchBarCancelButtonClicked()
+        searchBarDelegate?.searchBarCancelButtonClicked(self)
     }
 
     public func showLoadingIndicator(_ show: Bool) {

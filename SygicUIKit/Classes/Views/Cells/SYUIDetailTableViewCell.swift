@@ -44,9 +44,9 @@ public protocol SYUIDetailCellDataSource {
     /// cell height
     var height: CGFloat { get }
     /// attributed title
-    var title: NSMutableAttributedString? { get }
+    var detailCellTitle: NSMutableAttributedString? { get }
     /// optional attributed subtitle
-    var subtitle: NSMutableAttributedString? { get }
+    var detailCellSubtitle: NSMutableAttributedString? { get }
     /// optional left icon attributes
     var leftIcon: SYUIDetailCellIconDataSource? { get }
     /// optional right icon attributes
@@ -131,8 +131,8 @@ public class SYUIDetailTableViewCell: UITableViewCell {
     public func setup(with cellViewModel: SYUIDetailCellDataSource) {
         backgroundColor = cellViewModel.backgroundColor
         
-        title.attributedText = cellViewModel.title
-        subtitle.attributedText = cellViewModel.subtitle
+        title.attributedText = cellViewModel.detailCellTitle
+        subtitle.attributedText = cellViewModel.detailCellSubtitle
         setup(iconLabel: leftIcon, from: cellViewModel.leftIcon)
         setup(iconLabel: rightIcon, from: cellViewModel.rightIcon)
         
