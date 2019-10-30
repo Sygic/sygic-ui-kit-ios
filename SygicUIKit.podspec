@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SygicUIKit'
-  s.version          = '3.0.0'
+  s.version          = '4.0.0'
   s.summary          = 'UI components used by SygicMapsKit'
   s.swift_version    = '4.2'
 

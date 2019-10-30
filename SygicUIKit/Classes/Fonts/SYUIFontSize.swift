@@ -34,7 +34,7 @@ public protocol SYUIFontSizeProtocol {
 
 // MARK: - Default values
 public extension SYUIFontSizeProtocol {
-    var bodyOld: CGFloat { return 14.0 }
+    var bodyOld: CGFloat { return 13.0 }
     var body: CGFloat { return 16.0 }
     var headingOld: CGFloat { return 17.0 }
     var heading: CGFloat { return 20.0 }

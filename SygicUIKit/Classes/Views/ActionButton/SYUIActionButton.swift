@@ -58,6 +58,8 @@ public protocol SYUIActionButtonProperties {
     case alert
     /// Primary action
     case primary13
+    /// Secondary action.
+    case secondary13
     /// In case of error occured.
     case error13
 }
@@ -77,10 +79,19 @@ public enum SYUIActionButtonSize: CGFloat {
     }
 }
 
+public typealias SYUIActionBlock = (_ sender: Any)->()
+
 ///General purpose action button. Configurable with `SYUIActionButtonProperties`.
 public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     
     // MARK: - Public Properties
+    
+    /// Action block triggered on touchUpInside button event
+    public var action: SYUIActionBlock? {
+        didSet {
+            addTarget(self, action: #selector(actionBlockSelector(_:)), for: .touchUpInside)
+        }
+    }
     
     /// Title of an action button.
     public var title: String? {
@@ -98,6 +109,13 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     
     /// Icon of an action button.
     public var icon: String? {
+        didSet {
+            updateLayout()
+        }
+    }
+    
+    /// Image icon of an action button.
+    public var iconImage: UIImage? {
         didSet {
             updateLayout()
         }
@@ -172,15 +190,17 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
                 view.coverWholeSuperview()
                 rightAccessoryPlaceholder.bringSubviewToFront(view)
                 rightIcon.isHidden = true
+                iconImageView.isHidden = true
             } else if let view = rightAccessoryView {
                 view.removeFromSuperview()
                 rightIcon.isHidden = rightIcon.text == nil
+                iconImageView.isHidden = iconImage == nil
             }
         }
     }
     
     /// Corner radius of button.
-    /// Affects only not fully rounded button styles: primary13, error13
+    /// Affects only not fully rounded button styles: primary13, secondary13, error13
     public var partialCornerRadius: CGFloat = 16 {
         didSet {
             updateRoundedCorners()
@@ -194,13 +214,24 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         }
     }
     
+    public override var tintColor: UIColor! {
+        didSet {
+            customTitleLabel.textColor = tintColor
+            customSubtitleLabel.tintColor = tintColor
+            rightIcon.textColor = tintColor
+            iconImageView.tintColor = tintColor
+        }
+    }
+    
     public override var isHighlighted: Bool {
         didSet {
             guard let backgroundColor = originalBackgroundColor, isHighlighted != oldValue else { return }
             if style == .plain {
                 customTitleLabel.textColor = isHighlighted ? UIColor.action.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.lighter) : .action
             } else if style == .blurred {
-                rightIcon.textColor = isHighlighted ? UIColor.textInvert.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.darker) : .textInvert
+                let color = isHighlighted ? UIColor.textInvert.adjustBrightness(with: SYUIColorSchemeManager.shared.brightnessMultiplier.darker) : .textInvert
+                rightIcon.textColor = color
+                iconImageView.tintColor = color
             } else {
                 let multiplier = SYUIColorSchemeManager.shared.brightnessMultiplier(for: backgroundColor, foregroundColor: customTitleLabel.textColor)
                 let highlightedColor = isHighlighted ? backgroundColor.adjustBrightness(with: multiplier) : backgroundColor
@@ -217,11 +248,15 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
                 let style = self.style
                 self.style = style
             } else {
+                let disabledColor: UIColor = .mapInfoBackground
                 backgroundColor = .iconBackground
-                customTitleLabel.textColor = .mapInfoBackground
-                rightIcon.textColor = .mapInfoBackground
+                layer.borderColor = disabledColor.cgColor
+                customTitleLabel.textColor = disabledColor
+                let iconColor: UIColor = disabledColor
+                rightIcon.textColor = iconColor
+                iconImageView.tintColor = iconColor
                 if let activityIndicator = rightAccessoryView as? UIActivityIndicatorView {
-                    activityIndicator.color = .mapInfoBackground
+                    activityIndicator.color = disabledColor
                 }
                 borderView.isHidden = true
                 setShadow(for: .plain)
@@ -235,9 +270,10 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     private var leftMarginConstraint: NSLayoutConstraint?
     private var rightMarginConstraint: NSLayoutConstraint?
     private var iconCenterXConstraint: NSLayoutConstraint?
+    private var iconImageViewWidthConstraint: NSLayoutConstraint?
     private var heightConstraint: NSLayoutConstraint?
     private var widthConstraint: NSLayoutConstraint?
-    private var rightIconFontSize: CGFloat = 24.0
+    private var rightIconFontSize: CGFloat { iconSize }
     private let backgroundView = FadingHighlightedBackgroundView(frame: .zero)
     private let rightAccessoryPlaceholder = UIView()
     private let borderView = UIView()
@@ -247,6 +283,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     private let customTitleLabel = UILabel()
     private let customSubtitleLabel = UILabel()
     private let rightIcon = UILabel()
+    private let iconImageView = UIImageView()
     private let stackView = UIStackView()
     private let labelsStackView = UIStackView()
 
@@ -263,9 +300,10 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     }
     
     private var hasRightIcon: Bool {
-        guard let rightIconText = rightIcon.text else { return false }
-        
-        return !rightIconText.isEmpty
+        if let rightIconText = rightIcon.text, !rightIconText.isEmpty {
+            return true
+        }
+        return iconImageView.image != nil
     }
     
     private var hasOnlyIcon: Bool {
@@ -273,7 +311,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     }
     
     private var shouldCapitalizeTitle: Bool {
-        return hasTitle && !hasRightIcon && rightAccessoryView == nil && style != .plain
+        return hasTitle && !hasRightIcon && rightAccessoryView == nil && style != .plain && style != .primary13 && style != .secondary13 && style != .error13
     }
     
     private var horizontalMargin: CGFloat = 16.0 {
@@ -304,11 +342,11 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         DispatchQueue.main.async {
             self.customTitleLabel.isHidden = self.customTitleLabel.text == nil
         }
-        let alignment: NSTextAlignment = (rightIcon.text?.isEmpty ?? true && rightAccessoryView == nil) ? .center : .left
+        let alignment: NSTextAlignment = (!hasRightIcon && rightAccessoryView == nil) ? .center : .left
         customTitleLabel.textAlignment = alignment
         customSubtitleLabel.textAlignment = alignment
         
-        rightAccessoryPlaceholder.isHidden = rightIcon.text?.isEmpty ?? true && rightAccessoryView == nil
+        rightAccessoryPlaceholder.isHidden = !hasRightIcon && rightAccessoryView == nil
         rightIcon.textAlignment = .center
         customTitleLabel.baselineAdjustment = .alignCenters
         customSubtitleLabel.baselineAdjustment = .alignCenters
@@ -351,6 +389,9 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         rightIcon.text = icon
         rightIcon.font = SYUIFont.with(.icon, size: iconSize)
         rightIcon.textAlignment = iconAlignment
+        iconImageView.image = iconImage
+        iconImageViewWidthConstraint?.constant = iconSize
+        iconImageViewWidthConstraint?.isActive = iconImage != nil
         updateStyle()
         capitalizeTitleIfNeeded()
         if accessibilityIdentifier == nil {
@@ -369,7 +410,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     }
     
     private func updateRoundedCorners() {
-        if style == .primary13 || style == .error13 {
+        if style == .primary13 || style == .secondary13 || style == .error13 {
             layer.cornerRadius = partialCornerRadius
             backgroundView.layer.cornerRadius = partialCornerRadius
             borderView.layer.cornerRadius = partialCornerRadius
@@ -433,6 +474,12 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
         rightAccessoryPlaceholder.addSubview(rightIcon)
         rightIcon.coverWholeSuperview()
         
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        rightAccessoryPlaceholder.addSubview(iconImageView)
+        iconImageView.centerInSuperview()
+        iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor, multiplier: 1).isActive = true
+        iconImageViewWidthConstraint = iconImageView.widthAnchor.constraint(equalToConstant: iconSize)
+        
         heightConstraint = heightAnchor.constraint(equalToConstant: 56.0)
         heightConstraint?.isActive = true
         
@@ -455,7 +502,7 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     
     private func setShadow(for style: SYUIActionButtonStyle) {
         switch style {
-        case .plain, .loading, .primary13, .error13:
+        case .plain, .loading, .primary13, .secondary13, .error13:
             layer.shadowOpacity = 0.0
         case .primary:
             layer.shadowOpacity = 1.0
@@ -525,6 +572,8 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
     private func updateStyle() {
         blur?.removeFromSuperview()
         var textColor: UIColor = .textInvert
+        var borderColor: UIColor = .iconBackground
+        var layerBorderWidth: CGFloat = 0
         
         switch style {
         case .primary:
@@ -561,11 +610,19 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
             customTitleLabel.isHidden = true
             customSubtitleLabel.isHidden = true
             rightIcon.textColor = .textInvert
+            iconImageView.tintColor = .textInvert
             borderView.isHidden = true
             rightAccessoryView = nil
             blur = addBlurViewWithMapControlsBlurStyle()
         case .primary13:
             backgroundColor = .accentPrimary
+            borderView.isHidden = true
+            rightAccessoryView = nil
+        case .secondary13:
+            backgroundColor = .accentBackground
+            textColor = .accentPrimary
+            borderColor = .accentPrimary
+            layerBorderWidth = 2
             borderView.isHidden = true
             rightAccessoryView = nil
         case .error13:
@@ -574,13 +631,20 @@ public class SYUIActionButton: UIButton, SYUIActionButtonProperties {
             rightAccessoryView = nil
         }
         
-        borderView.backgroundColor = .iconBackground
+        layer.borderWidth = layerBorderWidth
+        layer.borderColor = borderColor.cgColor
+        borderView.backgroundColor = borderColor
         customTitleLabel.textColor = textColor
         customSubtitleLabel.textColor = textColor
         rightIcon.textColor = textColor
+        iconImageView.tintColor = textColor
         setTitleLabelFont(for: style)
         setSubtitleLabelFont(for: style)
         setShadow(for: style)
+    }
+    
+    @objc private func actionBlockSelector(_ sender: SYUIActionButton) {
+        action?(sender)
     }
 }
 

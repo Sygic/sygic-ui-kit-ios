@@ -40,8 +40,7 @@ public class SYUISpeedLimitView: UIView {
     
     public var isAmerica: Bool = false {
         didSet {
-            speedLimitNonAmericaView.isHidden = isAmerica
-            speedLimitAmericaView.isHidden = !isAmerica
+            setupSpeedLimit(for: isAmerica)
         }
     }
     
@@ -59,13 +58,19 @@ public class SYUISpeedLimitView: UIView {
     
     private func initDefaults() {
         speedLimitNonAmericaView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(speedLimitNonAmericaView)
-        speedLimitNonAmericaView.coverWholeSuperview()
         speedLimitAmericaView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(speedLimitAmericaView)
-        speedLimitAmericaView.coverWholeSuperview()
-        speedLimitNonAmericaView.isHidden = true
-        speedLimitAmericaView.isHidden = true
+    }
+    
+    private func setupSpeedLimit(for isAmerica: Bool) {
+        speedLimitNonAmericaView.removeFromSuperview()
+        speedLimitAmericaView.removeFromSuperview()
+        if isAmerica {
+            addSubview(speedLimitAmericaView)
+            speedLimitAmericaView.coverWholeSuperview()
+        } else {
+            addSubview(speedLimitNonAmericaView)
+            speedLimitNonAmericaView.coverWholeSuperview()
+        }
     }
     
 }

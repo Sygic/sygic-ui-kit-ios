@@ -26,19 +26,19 @@ public protocol SYUISearchBarDelegate: class {
     /// Tells the delegate that the user changed the search text.
     ///
     /// - Parameter searchedText: New text.
-    func searchBar(textDidChange searchedText: String)
+    func searchBar(_ searchBar: SYUISearchBarProtocol, textDidChange searchedText: String)
     
     /// Tells the delegate when the user begins editing the search text.
-    func searchBarDidBeginEditing()
+    func searchBarDidBeginEditing(_ searchBar: SYUISearchBarProtocol)
     
     /// Tells the delegate that the user finished editing the search text.
-    func searchBarDidEndEditing()
+    func searchBarDidEndEditing(_ searchBar: SYUISearchBarProtocol)
     
     /// Tells the delegate that the search button on keyboard was tapped.
-    func searchBarSearchButtonClicked()
+    func searchBarSearchButtonClicked(_ searchBar: SYUISearchBarProtocol)
     
     /// Tells the delegate that the cancel button was tapped.
-    func searchBarCancelButtonClicked()
+    func searchBarCancelButtonClicked(_ searchBar: SYUISearchBarProtocol)
 }
 
 /// Controller manages search bar input field.
@@ -81,24 +81,24 @@ public class SYUISearchBarController: UIViewController, SYUISearchBarDelegate {
         return view.resignFirstResponder()
     }
     
-    public func searchBar(textDidChange searchedText: String) {
-        delegate?.searchBar(textDidChange: searchedText)
+    public func searchBar(_ searchBar: SYUISearchBarProtocol, textDidChange searchedText: String) {
+        delegate?.searchBar(searchBar, textDidChange: searchedText)
     }
     
-    public func searchBarDidBeginEditing() {
-        delegate?.searchBarDidBeginEditing()
+    public func searchBarDidBeginEditing(_ searchBar: SYUISearchBarProtocol) {
+        delegate?.searchBarDidBeginEditing(searchBar)
     }
     
-    public func searchBarDidEndEditing() {
-        delegate?.searchBarDidEndEditing()
+    public func searchBarDidEndEditing(_ searchBar: SYUISearchBarProtocol) {
+        delegate?.searchBarDidEndEditing(searchBar)
     }
     
-    public func searchBarSearchButtonClicked() {
-        delegate?.searchBarSearchButtonClicked()
+    public func searchBarSearchButtonClicked(_ searchBar: SYUISearchBarProtocol) {
+        delegate?.searchBarSearchButtonClicked(searchBar)
     }
     
-    public func searchBarCancelButtonClicked() {
-        delegate?.searchBarCancelButtonClicked()
+    public func searchBarCancelButtonClicked(_ searchBar: SYUISearchBarProtocol) {
+        delegate?.searchBarCancelButtonClicked(searchBar)
     }
     
 }

@@ -78,7 +78,8 @@ public protocol SYUIColorPalette {
     var poiGroupEmergency       : UIColor { get }
     
     var signpostDefaultBackground: UIColor { get }
-    
+    var veryLightPink           : UIColor { get }
+    var powderBlue              : UIColor { get }
 }
 
 extension Bundle {
@@ -196,6 +197,22 @@ public extension SYUIColorPalette {
             return UIColor(named: "SYUIColorRating", in: Bundle.UIKit, compatibleWith: nil)!
         } else {
             return UIColor(argb: 0xfff2ae24)
+        }
+    }
+    
+    var veryLightPink:      UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorVeryLightPink", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xffd8d8d8)
+        }
+    }
+    
+    var powderBlue:         UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "SYUIColorPowderBlue", in: Bundle.UIKit, compatibleWith: nil)!
+        } else {
+            return UIColor(argb: 0xffbfd2f5)
         }
     }
     

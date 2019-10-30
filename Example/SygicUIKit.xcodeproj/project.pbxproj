@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A91342D579A2F69A06D503A /* Pods_SygicUIKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9EE2FD125B20E2C21310EB /* Pods_SygicUIKit_Tests.framework */; };
 		43161C4C230D290B00E00BDF /* GradientProgressExampleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43161C4B230D290B00E00BDF /* GradientProgressExampleController.swift */; };
+		433725F4235F415C001AF959 /* BubbleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433725F3235F415C001AF959 /* BubbleViewController.swift */; };
 		43E3C4C522D767F4007B843E /* InfobarTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3C4C422D767F4007B843E /* InfobarTestViewController.swift */; };
 		5803EE19222D6AC200A231C8 /* DetailCellTableTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5803EE18222D6AC200A231C8 /* DetailCellTableTestViewController.swift */; };
 		582BBAAB21C4098000846B1B /* SkinTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582BBAAA21C4098000846B1B /* SkinTestViewController.swift */; };
@@ -43,6 +44,7 @@
 		13020C89EA263BA493961572 /* Pods_SygicUIKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SygicUIKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E554132A4D4D1B93938CB9A /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		43161C4B230D290B00E00BDF /* GradientProgressExampleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientProgressExampleController.swift; sourceTree = "<group>"; };
+		433725F3235F415C001AF959 /* BubbleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleViewController.swift; sourceTree = "<group>"; };
 		43E3C4C422D767F4007B843E /* InfobarTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfobarTestViewController.swift; sourceTree = "<group>"; };
 		4EF2A05EC5D17767E41EE0CD /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		5803EE18222D6AC200A231C8 /* DetailCellTableTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCellTableTestViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 		582BBAAC21C409E700846B1B /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				433725F3235F415C001AF959 /* BubbleViewController.swift */,
 				58A963742195D70D001015CC /* BottomSheetTestViewController.swift */,
 				58A9636F219480A9001015CC /* ButtonTestViewController.swift */,
 				CC9742C1219C49EF009C8AB7 /* CompassTestViewController.swift */,
@@ -399,6 +402,7 @@
 				58A96370219480A9001015CC /* ButtonTestViewController.swift in Sources */,
 				43161C4C230D290B00E00BDF /* GradientProgressExampleController.swift in Sources */,
 				43E3C4C522D767F4007B843E /* InfobarTestViewController.swift in Sources */,
+				433725F4235F415C001AF959 /* BubbleViewController.swift in Sources */,
 				58A9636E21947D4E001015CC /* RootTableViewController.swift in Sources */,
 				582BBAAB21C4098000846B1B /* SkinTestViewController.swift in Sources */,
 				586437A6219DD25D00C160C2 /* PoiDetailTestViewController.swift in Sources */,
