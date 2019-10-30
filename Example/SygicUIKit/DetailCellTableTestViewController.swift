@@ -26,8 +26,8 @@ import SygicUIKit
 
 private struct CellData: SYUIDetailCellDataSource {
     var height: CGFloat = 60
-    var title: NSMutableAttributedString?
-    var subtitle: NSMutableAttributedString?
+    var detailCellTitle: NSMutableAttributedString?
+    var detailCellSubtitle: NSMutableAttributedString?
     var leftIcon: SYUIDetailCellIconDataSource?
     var rightIcon: SYUIDetailCellIconDataSource?
     var backgroundColor: UIColor?
@@ -48,35 +48,35 @@ class DetailCellTableTestViewController: UIViewController {
         searchResultsVC.data = mockItems()
         
         searchResultsVC.selectionBlock = { selectedItem in
-            print("SELECTION OF \(selectedItem.title!.string)")
+            print("SELECTION OF \(selectedItem.detailCellTitle!.string)")
         }
     }
 
     private func mockItems() -> [CellData] {
         let cell1 = CellData(height: 60,
-                             title: NSMutableAttributedString(string: "Cell with title", attributes: CellData.defaultTitleAttributes),
-                             subtitle: nil,
+                             detailCellTitle: NSMutableAttributedString(string: "Cell with title", attributes: CellData.defaultTitleAttributes),
+                             detailCellSubtitle: nil,
                              leftIcon: nil,
                              rightIcon: nil,
                              backgroundColor: .background)
         
         let cell2 = CellData(height: 60,
-                             title: NSMutableAttributedString(string: "Left icon and title", attributes: CellData.defaultTitleAttributes),
-                             subtitle: nil,
+                             detailCellTitle: NSMutableAttributedString(string: "Left icon and title", attributes: CellData.defaultTitleAttributes),
+                             detailCellSubtitle: nil,
                              leftIcon: SYUIDetailCellIconDataSource(icon: SYUIIcon.apple, color: UIColor.white, backgroundColor: UIColor.red),
                              rightIcon: nil,
                              backgroundColor: .background)
         
         let cell3 = CellData(height: 60,
-                             title: NSMutableAttributedString(string: "Title", attributes: CellData.defaultTitleAttributes),
-                             subtitle: NSMutableAttributedString(string: "and subtitle", attributes: CellData.defaultSubtitleAttributes),
+                             detailCellTitle: NSMutableAttributedString(string: "Title", attributes: CellData.defaultTitleAttributes),
+                             detailCellSubtitle: NSMutableAttributedString(string: "and subtitle", attributes: CellData.defaultSubtitleAttributes),
                              leftIcon: nil,
                              rightIcon: nil,
                              backgroundColor: .background)
         
         let cell4 = CellData(height: 60,
-                             title: NSMutableAttributedString(string: "Right icon", attributes: CellData.defaultTitleAttributes),
-                             subtitle: NSMutableAttributedString(string: "and subtitle", attributes: CellData.defaultSubtitleAttributes),
+                             detailCellTitle: NSMutableAttributedString(string: "Right icon", attributes: CellData.defaultTitleAttributes),
+                             detailCellSubtitle: NSMutableAttributedString(string: "and subtitle", attributes: CellData.defaultSubtitleAttributes),
                              leftIcon: nil,
                              rightIcon: SYUIDetailCellIconDataSource(icon: SYUIIcon.apple, color: UIColor.darkGray, backgroundColor: nil),
                              backgroundColor: .background)
