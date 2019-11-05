@@ -9,7 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Build
-      run: swift build -v
+    - name: Install pods
+      run: |
+      cd Examples
+      pod install
+      xcodebuild clean build
     - name: Run tests
-      run: swift test -v
+      run: xcodebuild test -enableCodeCoverage YES -workspace Example/SygicUIKit.xcworkspace -scheme SygicUIKit-Example -sdk iphonesimulator13.0 -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.0' ONLY_ACTIVE_ARCH=NO
